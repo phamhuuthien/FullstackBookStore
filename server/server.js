@@ -9,10 +9,12 @@ const cors = require('cors');
 
 
 
-app.use(cors({
-    origin: 'http://127.0.0.1:5500', // Đổi lại địa chỉ của trang web của bạn
-    credentials: true // Cho phép sử dụng cookie
-  }));
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Đổi lại địa chỉ của trang web của bạn
+    credentials: true, // Cho phép sử dụng cookie
+  })
+);
 
 // express hiểu được file json
 app.use(express.json());
