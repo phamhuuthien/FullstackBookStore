@@ -1,4 +1,5 @@
 const User = require("../model/user");
+const jwt = require("jsonwebtoken");
 const {
   genderateAccessToken,
   genderateRefreshToken,
@@ -61,7 +62,7 @@ const login = async (req, res) => {
     });
 
     res.cookie("accessToken", newRefreshToken, {
-      maxAge: 5 * 24 * 60 * 60 * 1000
+      maxAge: 5 * 24 * 60 * 60 * 1000,
     });
 
     return res.status(200).json({
@@ -75,6 +76,29 @@ const login = async (req, res) => {
       mes: "login falied",
     });
   }
+};
+
+const logOut = async (req, res) => {
+  const cookie = req.cookies;
+  if (!cookie && !cookie.accessToken && !cookie.refreshToken) {
+    return res.status(400).json({
+      success: false,
+      message: "please login !",
+    });
+  }
+  await User.findOneAndUpdate(
+    { refreshToken: cookie.refreshToken },
+    { refreshToken: " " },
+    { new: true }
+  );
+
+  res.clearCookie("accessToken", { httpOnly: true, secure: true });
+  res.clearCookie("refreshToken", { httpOnly: true, secure: true });
+
+  return res.json({
+    success: true,
+    mess: "logout successfully",
+  });
 };
 
 const getUser = async (req, res) => {
@@ -122,11 +146,66 @@ const deleteUser = async (req, res) => {
   });
 };
 
+const refreshAccessToken = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) {
+    return res.status(400).json({
+      success: false,
+      message: "refreshTokens do not exist",
+    });
+  }
+
+  const rs = await jwt.verify(refreshToken, process.env.JWT_SECRET);
+
+  const user = await User.findOne({ _id: rs._id, refreshToken });
+
+  const accessToken = genderateAccessToken(user._id, user.role);
+
+  res.clearCookie("accessToken", { httpOnly: true, secure: true });
+
+  res.cookie("accessToken", accessToken, {
+    maxAge: 5 * 24 * 60 * 60 * 1000,
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: accessToken,
+  });
+};
+
+const isBlocked = async (req, res) => {
+  const { _id } = req.params;
+  const user = await User.findById(_id);
+  let isBlocked;
+  if (user.isBlocked) {
+    await User.findByIdAndUpdate(
+      _id,
+      { $set: { isBlocked: false } },
+      { new: true }
+    );
+    isBlocked = false;
+  } else {
+    await User.findByIdAndUpdate(
+      _id,
+      { $set: { isBlocked: true } },
+      { new: true }
+    );
+    isBlocked = true;
+  }
+  return res.status(200).json({
+    success: true,
+    message: isBlocked ? "locked user" : "unlocked user",
+  });
+};
+
 module.exports = {
   register,
   login,
+  logOut,
   getUser,
   getAllUsers,
   deleteUser,
   updateUser,
+  refreshAccessToken,
+  isBlocked,
 };

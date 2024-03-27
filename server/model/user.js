@@ -37,6 +37,7 @@ var userSchema = new mongoose.Schema(
         quantity: Number,
       },
     ],
+    isBlocked: { type: Boolean, default: false },
     address: String,
     refreshToken: { type: String },
     passwordChangedAt: { type: String },
