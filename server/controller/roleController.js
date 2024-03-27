@@ -5,7 +5,7 @@ const getAllRole = async (req, res) => {
   const response = await Role.find();
   return res.status(200).json({
     success: true,
-    date: response,
+    data: response,
   });
 };
 
@@ -14,27 +14,26 @@ const createRole = async (req, res) => {
   if (!roleName) {
     return res.status(400).json({
       success: false,
-      mes: "missing inputs",
+      message: "missing inputs",
     });
   }
   const role = await Role.findOne({ roleName: roleName });
   if (role) {
     return res.status(400).json({
       success: false,
-      mes: "role has existed",
+      message: "role has existed",
     });
   } else {
     const newRole = await Role.create(req.body);
     return res.status(200).json({
       success: true,
-      mes: newRole,
+      message: newRole,
     });
   }
 };
 
 const deleteRole = async (req, res) => {
   const { rid } = req.params;
-  console.log(rid);
   const deleteRole = await Role.findByIdAndDelete(rid);
   return res.status(200).json({
     success: deleteRole ? true : false,
@@ -51,6 +50,16 @@ const updateRole = async (req, res) => {
       message: "missing input",
     });
   }
+
+  const role = await Role.findOne({ roleName: data.roleName });
+
+  if (role) {
+    return res.status(400).json({
+      success: false,
+      message: "role has existed",
+    });
+  }
+
   const response = await Role.findByIdAndUpdate(rid, data, { new: true });
   return res.status(200).json({
     success: response ? true : false,
