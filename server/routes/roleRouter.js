@@ -8,6 +8,6 @@ router.post("/", verifyToken, isAdmin, controller.createRole);
 
 router.put("/:rid", verifyToken, isAdmin, controller.updateRole);
 router.delete("/:rid", verifyToken, isAdmin, controller.deleteRole);
-
+    
 
 module.exports = router
