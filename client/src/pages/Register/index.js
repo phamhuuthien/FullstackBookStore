@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { login } from "../../services/userService";
+import { register } from "../../services/userService";
 import { useNavigate } from "react-router-dom";
-function Login() {
-  const [data, setData] = useState({});
+function Register() {
+  const [data, setData] = useState({ role: "65f91a825a5aefc10dd60544" });
   const navigate = useNavigate();
 
   const handleOnChange = (e) => {
@@ -15,7 +15,7 @@ function Login() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await login(data);
+    const result = await register(data);
     if (result.success) {
       navigate("/");
     }
@@ -25,6 +25,18 @@ function Login() {
       <form onSubmit={handleSubmit}>
         <table>
           <tbody>
+            <tr>
+              <td>firstName</td>
+              <td>
+                <input type="text" name="firstname" onChange={handleOnChange} />
+              </td>
+            </tr>
+            <tr>
+              <td>lastName</td>
+              <td>
+                <input type="text" name="lastname" onChange={handleOnChange} />
+              </td>
+            </tr>
             <tr>
               <td>email</td>
               <td>
@@ -42,8 +54,14 @@ function Login() {
               </td>
             </tr>
             <tr>
+              <td>mobile</td>
               <td>
-                <input type="submit" value="Login" />
+                <input type="text" name="mobile" onChange={handleOnChange} />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="submit" value="register" />
               </td>
             </tr>
           </tbody>
@@ -53,4 +71,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

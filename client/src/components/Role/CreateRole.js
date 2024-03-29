@@ -32,7 +32,7 @@ function CreateRole(props) {
     const value = e.target.value;
     setData({
       ...data,
-      roleName: value,
+      [roleName]: value,
     });
   };
 
@@ -40,7 +40,7 @@ function CreateRole(props) {
     e.preventDefault();
     const result = await createRole(data);
     console.log(result);
-    if (result.success == true) {
+    if (result.success === true) {
       closeModal();
       onReload();
       Swal.fire({
