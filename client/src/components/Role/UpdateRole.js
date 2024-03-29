@@ -32,14 +32,14 @@ function UpdateRole(props) {
     const value = e.target.value;
     setData({
       ...data,
-      roleName: value,
+      [roleName]: value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await updateRole(data);
-    if (result.success == true) {
+    if (result.success === true) {
       closeModal();
       onReload();
       Swal.fire({
