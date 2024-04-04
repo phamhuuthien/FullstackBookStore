@@ -18,6 +18,10 @@ router.get("/getUser", verifyToken, controller.getUser);
 // get All User
 router.get("/getAllUser", verifyToken, isAdmin, controller.getAllUsers);
 
+router.get("/forgotPassword", controller.forgotPassword);
+router.get("/resetPassword", controller.resetPassword);
+
+
 // UPDATE
 router.put("/updateUser", verifyToken, controller.updateUser);
 

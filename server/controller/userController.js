@@ -4,6 +4,10 @@ const {
   genderateAccessToken,
   genderateRefreshToken,
 } = require("../middlewares/jwt");
+
+const crypto = require("crypto");
+const sendMail = require("../until/sendMail");
+
 const register = async (req, res) => {
   const { firstname, lastname, password, email, mobile, role } = req.body;
   if (!firstname || !lastname || !password || !email || !mobile || !role) {
@@ -198,6 +202,66 @@ const isBlocked = async (req, res) => {
   });
 };
 
+const resetPassword = async (req, res) => {
+  const { password, token } = req.body;
+  if (!password || !token) {
+    return res.status(400).json({
+      success: false,
+      message: "missing input",
+    });
+  }
+  const passwordResetToken = crypto
+    .createHash("sha256")
+    .update(token)
+    .digest("hex");
+  const user = await User.findOne({ passwordResetToken: passwordResetToken });
+
+  if (!user) {
+    return res.status(400).json({
+      success: false,
+      message: "invalid passwordResetToken",
+    });
+  }
+  user.password = password;
+  user.passwordChangedAt = Date.now();
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+  return res.json({
+    success: true,
+    mess: user ? "updated password" : "something went wrong",
+  });
+};
+
+const forgotPassword = async (req, res) => {
+  const { email } = req.query;
+  if (email == null) {
+    return res.status(400).json({
+      success: false,
+      message: "missing input",
+    });
+  }
+  const user = await User.findOne({ email: email });
+
+  if (user) {
+    const tokenChangePassword = user.createPasswordChangedToken();
+
+    await user.save();
+
+    const html = `xin vui lòng click vào link dưới đây để thay đổi mật khẩu của bạn. link này sẽ hết hạn sau 15 phút kể từ bây giờ <a href=${process.env.URL_SERVER}/api/v1/user/resetPassword/${tokenChangePassword} >click here</a>`;
+
+    const data = {
+      email,
+      html,
+    };
+    const rs = await sendMail(data);
+    return res.status(200).json({
+      success: true,
+      rs,
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -208,4 +272,6 @@ module.exports = {
   updateUser,
   refreshAccessToken,
   isBlocked,
+  resetPassword,
+  forgotPassword,
 };
