@@ -34,7 +34,21 @@ const isAdmin = async (req, res, next) => {
   next();
 };
 
-module.exports ={
-    verifyToken,
-    isAdmin
-}
+const isShipper = async (req, res, next) => {
+  const { role } = req.user;
+  const roleName = await roleModel.findById(role);
+  if (roleName.roleName !== "shipper") {
+    return res.status(401).json({
+      success: false,
+      mes: "required role admin !!",
+    });
+  }
+  // throw new Error('required role admin')
+  next();
+};
+
+module.exports = {
+  verifyToken,
+  isAdmin,
+  isShipper,
+};
