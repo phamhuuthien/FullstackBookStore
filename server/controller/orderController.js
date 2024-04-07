@@ -1,10 +1,18 @@
 const Order = require('../model/order');
 
-const getOrderByUserId = async (req, res) => {
+const getOrder = async (req, res) => {
     try {
-        // const userId = req.query.userId;
-        // console.log(userId);
-        // const orders = await Order.find({ userId });
+        const userId = req.query.userId;
+        console.log(userId);
+        const orders = await Order.find({ userId });
+        res.status(200).json(orders);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+}
+
+const getAllOrder = async (req, res) => {
+    try {
         const orders = await Order.find();
         res.status(200).json(orders);
     } catch (err) {
@@ -43,4 +51,4 @@ const deleteOrder = async (req, res) => {
     }
 }
 
-module.exports = { getOrderByUserId, addOrder, updateOrder, deleteOrder };
+module.exports = { getOrder, getAllOrder, addOrder, updateOrder, deleteOrder };
