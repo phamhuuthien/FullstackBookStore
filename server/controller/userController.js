@@ -262,6 +262,77 @@ const forgotPassword = async (req, res) => {
   }
 };
 
+const addCart = async (req, res) => {
+  const { _id } = req.user;
+  const user = await User.findById(_id).select("cart");
+  const { bid, quantity } = req.body;
+  if (user) {
+    if (!bid || !quantity) {
+      return res.status(400).json({
+        success: false,
+        message: "missing input",
+      });
+    }
+
+    // kiểm tra quyển sách đó có trong cart chưa . Nếu có rồi thì lấy quantity cộng lên
+
+    const checkBookInCart = await user.cart.find(
+      (item) =>
+        // console.log(item.book.toString())
+        item.book.toString() === bid
+    );
+    if (checkBookInCart) {
+      const currentQuantity =
+        checkBookInCart.quantity + Number.parseInt(quantity);
+      const response = await User.updateOne(
+        { cart: { $elemMatch: checkBookInCart } },
+        { $set: { "cart.$.quantity": currentQuantity } },
+        { new: true }
+      );
+      return res.status(200).json({
+        sucess: response ? true : false,
+        rs: response,
+      });
+    } else {
+      // thêm khi chưa có trong giỏ hàng
+      const response = await User.findByIdAndUpdate(
+        _id,
+        {
+          $push: { cart: { book: bid, quantity } },
+        },
+        { new: true }
+      );
+      return res.status(200).json({
+        sucess: response ? true : false,
+        rs: response,
+      });
+    }
+  }
+};
+
+const removeCart = async (req, res) => {
+  const { _id } = req.user;
+  const { bid } = req.params;
+  const user = await User.findById(_id).select("cart");
+  if (user) {
+    const carts = user.cart;
+    carts.find((item) => {
+      if (item.book.toString() === bid) {
+        carts.pop(item);
+      }
+    });
+    const response = await User.updateOne(
+      { _id: user._id },
+      { $set: { cart: carts } },
+      { new: true }
+    );
+    return res.status(200).json({
+      sucess: response ? true : false,
+      rs: response,
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -274,4 +345,6 @@ module.exports = {
   isBlocked,
   resetPassword,
   forgotPassword,
+  addCart,
+  removeCart,
 };
