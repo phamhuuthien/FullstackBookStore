@@ -6,13 +6,13 @@ const controller = require('../controller/bookController');
 router.use(express.json());
 
 // Routes cho việc xử lý sách
-router.get("/", controller.getAllBooks);
-router.get("/:id", controller.getBookById);
-router.post("/", controller.addBook);
-router.put("/:id", controller.updateBook);
-router.delete("/:id", controller.deleteBook);
-router.get("/category/:categoryId", controller.getBooksByIdCategory);
-router.put("/:id/inc-like", controller.increaseLikeBook);
-router.put("/:id/dec-like", controller.decreaseLikeBook);
+router.get("/",verifyToken, controller.getAllBooks);
+router.get("/:id",verifyToken, controller.getBookById);
+router.post("/",verifyToken,isAdmin, controller.addBook);
+router.put("/:id",verifyToken,isAdmin, controller.updateBook);
+router.delete("/:id",verifyToken,isAdmin, controller.deleteBook);
+router.get("/category/:categoryId",verifyToken, controller.getBooksByIdCategory);
+router.put("/:id/inc-like",verifyToken, controller.increaseLikeBook);
+router.put("/:id/dec-like",verifyToken, controller.decreaseLikeBook);
 
 module.exports = router;
