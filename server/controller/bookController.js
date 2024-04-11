@@ -31,6 +31,8 @@ exports.getBookById = async (req, res) => {
 };
 
 exports.addBook = async (req, res) => {
+ 
+
     try {
         const data = await Book.create(req.body);
         res.status(201).json({
@@ -88,14 +90,14 @@ exports.getBooksByIdCategory = async (req, res) => {
         })
     } catch (error) {
         console.error(error);
-        res.status(500).json({message: "internal server Error"});
+        res.status(500).json({ message: "internal server Error" });
     }
 };
 
 exports.increaseLikeBook = async (req, res) => {
     try {
         const bookId = req.params.id;
-        const updateBook = await Book.findByIdAndUpdate(bookId, { $inc: { totalLike: 1 } }, {new: true});
+        const updateBook = await Book.findByIdAndUpdate(bookId, { $inc: { totalLike: 1 } }, { new: true });
         res.status(200).json({
             success: true,
             data: updateBook
@@ -109,7 +111,7 @@ exports.increaseLikeBook = async (req, res) => {
 exports.decreaseLikeBook = async (req, res) => {
     try {
         const bookId = req.params.id;
-        const updateBook = await Book.findByIdAndUpdate(bookId, { $inc: { totalLike: -1 } }, {new: true});
+        const updateBook = await Book.findByIdAndUpdate(bookId, { $inc: { totalLike: -1 } }, { new: true });
         res.status(200).json({
             success: true,
             data: updateBook
