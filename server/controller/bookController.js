@@ -32,17 +32,28 @@ exports.getBookById = async (req, res) => {
 
 exports.addBook = async (req, res) => {
  
-
-    try {
-        const data = await Book.create(req.body);
-        res.status(201).json({
-            success: true,
-            data: data
+    const {name, description, image, price, quantity, totalLike, categoryId, authorId } = req.body;
+    if (!name || !description || !image || !price || !quantity || !totalLike || !categoryId || !authorId  ) {
+        return res.status(400).json({
+        success: false,
+        mes: "missing inputs",
         });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal Server Error" });
     }
+    const book = await Book.findOne({ name });
+    if (book) {
+        return res.status(401).json({
+        success: false,
+        mes: "book has existed",
+        });
+    }else {
+        const newBook = await Book.create(req.body);
+        return res.status(200).json({
+        success: newBook ? true : false,
+        mes: newBook
+            ? "Create book is successfully."
+            : "something went wrong",
+        });
+    }     
 };
 
 exports.deleteBook = async (req, res) => {
