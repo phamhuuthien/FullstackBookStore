@@ -1,4 +1,15 @@
 const Book = require("../model/book");
+//upload file
+const cloudinary = require("../configs/cloudinary");
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  folder: 'BANK',
+  allowedFormats: ['jpg', 'png', 'jpeg'],
+  transformation: [{ width: 500, height: 500, crop: 'limit'}],
+});
+const upload = multer({ storage: storage });
 
 exports.getAllBooks = async (req, res) => {
     try {
@@ -31,29 +42,69 @@ exports.getBookById = async (req, res) => {
 };
 
 exports.addBook = async (req, res) => {
- 
-    const {name, description, image, price, quantity, totalLike, categoryId, authorId } = req.body;
-    if (!name || !description || !image || !price || !quantity || !totalLike || !categoryId || !authorId  ) {
-        return res.status(400).json({
-        success: false,
-        mes: "missing inputs",
+    try {
+        upload.single('image')(req, res, async function (err) {
+            if (err instanceof multer.MulterError) {
+                
+                return res.status(500).json({
+                    success: false,
+                    message: "Error uploading image",
+                    error: err.message
+                });
+            } else if (err) {
+                
+                return res.status(500).json({
+                    success: false,
+                    message: "Unexpected error uploading image",
+                    error: err.message
+                });
+            }
+
+            // Lấy URL của ảnh từ cloudinary
+            const imageUrl = req.file.path; 
+
+            const { name, description, price, quantity, totalLike, categoryId, authorId, slug } = req.body;
+
+            if (!name || !description || !price || !quantity || !totalLike || !categoryId || !authorId || !slug) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Missing inputs",
+                });
+            }
+
+            const book = await Book.findOne({ name });
+            if (book) {
+                return res.status(401).json({
+                    success: false,
+                    message: "Book already exists",
+                });
+            } else {
+                const newBook = await Book.create({
+                    name,
+                    description,
+                    image: imageUrl, 
+                    price,
+                    quantity,
+                    totalLike,
+                    categoryId,
+                    authorId,
+                    slug
+                });
+                return res.status(200).json({
+                    success: true,
+                    message: "Create book successfully.",
+                    book: newBook
+                });
+            }
+        });
+    } catch (error) {
+        console.error("Error adding book:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong",
+            error: error.message
         });
     }
-    const book = await Book.findOne({ name });
-    if (book) {
-        return res.status(401).json({
-        success: false,
-        mes: "book has existed",
-        });
-    }else {
-        const newBook = await Book.create(req.body);
-        return res.status(200).json({
-        success: newBook ? true : false,
-        mes: newBook
-            ? "Create book is successfully."
-            : "something went wrong",
-        });
-    }     
 };
 
 exports.deleteBook = async (req, res) => {
