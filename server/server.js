@@ -8,7 +8,6 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
 
-
 app.use(
   cors({
     origin: "http://localhost:3000", // Đổi lại địa chỉ của trang web của bạn

@@ -5,6 +5,11 @@ export const login = async (options) => {
   return result;
 };
 
+export const forgotPassword = async (email) => {
+  const result = await getNoToken(`user/forgotPassword?email=${email}`);
+  return result;
+};
+
 export const register = async (options) => {
   const result = await postNoToken("user/register", options);
   return result;
