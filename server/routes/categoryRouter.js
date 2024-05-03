@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const categoryController = require('../controller/CategoryController');
+const categoryController = require('../controller/categoryController');
 const { verifyToken } = require('../middlewares/verifyToken');
 
 // Route xử lý các danh mục

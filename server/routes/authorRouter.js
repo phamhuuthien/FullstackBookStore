@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const controller = require('../controller/AuthorController');
+const controller = require('../controller/authorController');
 const { verifyToken, isAdmin } = require('../middlewares/verifyToken');
 
 // Middleware để xác minh token và kiểm tra quyền admin
