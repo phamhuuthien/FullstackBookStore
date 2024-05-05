@@ -8,6 +8,12 @@ const {
 const crypto = require("crypto");
 const sendMail = require("../until/sendMail");
 
+const loginForm = (req, res) => {
+  return res.render("user/login");
+};
+const registerForm = (req, res) => {
+  return res.render("user/register");
+};
 const register = async (req, res) => {
   const { firstname, lastname, password, email, mobile, role } = req.body;
   if (!firstname || !lastname || !password || !email || !mobile || !role) {
@@ -30,12 +36,13 @@ const register = async (req, res) => {
     });
   } else {
     const newUser = await User.create(req.body);
-    return res.status(200).json({
-      success: newUser ? true : false,
-      mes: newUser
-        ? "Register is successfully. Please go login"
-        : "something went wrong",
-    });
+    // return res.status(200).json({
+    //   success: newUser ? true : false,
+    //   mes: newUser
+    //     ? "Register is successfully. Please go login"
+    //     : "something went wrong",
+    // });
+    res.redirect("/");
   }
 };
 
@@ -69,11 +76,12 @@ const login = async (req, res) => {
       maxAge: 5 * 24 * 60 * 60 * 1000,
     });
 
-    return res.status(200).json({
-      success: true,
-      newAccessToken,
-      userdata: user,
-    });
+    // return res.status(200).json({
+    //   success: true,
+    //   newAccessToken,
+    //   userdata: user,
+    // });
+    res.render('index',{user : user});
   } else {
     return res.status(400).json({
       success: false,
@@ -262,7 +270,6 @@ const forgotPassword = async (req, res) => {
   }
 };
 
-
 const sendOtp = async (req, res) => {
   const { email } = req.query;
 
@@ -400,6 +407,8 @@ const removeCart = async (req, res) => {
 };
 
 module.exports = {
+  loginForm,
+  registerForm,
   register,
   login,
   logOut,

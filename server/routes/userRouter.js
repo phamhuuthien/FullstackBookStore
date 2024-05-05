@@ -2,6 +2,9 @@ const router = require("express").Router();
 const controller = require("../controller/userController");
 const { verifyToken, isAdmin } = require("../middlewares/verifyToken");
 
+router.get("/login", controller.loginForm);
+router.get("/register", controller.registerForm);
+
 // CREATE
 router.post("/register", controller.register);
 router.post("/login", controller.login);
