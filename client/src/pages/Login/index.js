@@ -23,7 +23,7 @@ function Login() {
   };
   return (
     <>
-      <div className="container">
+      <div className="login-container">
         <div className="content">
           <div class="bt-form-login-simple-1">
             <h1 class="form-heading">Login</h1>

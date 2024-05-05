@@ -8,12 +8,12 @@ const bookRouter = require("./bookRouter");
 const commentRouter = require("./commentRouter");
 
 const initRouters = (app) => {
-  app.use("/api/v1/role", roleRouters);
-  app.use("/api/v1/user", userRouters);
-  app.use("/api/v1/order", orderRouters);
-  app.use("/api/v1/coupon", couponRouters);
-  app.use("/api/v1/books", bookRouter);
-  app.use("/api/v1/comments", commentRouter);
+  app.use("/role", roleRouters);
+  app.use("/user", userRouters);
+  app.use("/order", orderRouters);
+  app.use("/coupon", couponRouters);
+  app.use("/books", bookRouter);
+  app.use("/comments", commentRouter);
 };
 
 module.exports = initRouters;
