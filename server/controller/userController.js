@@ -262,6 +262,72 @@ const forgotPassword = async (req, res) => {
   }
 };
 
+
+const sendOtp = async (req, res) => {
+  const { email } = req.query;
+
+  // check nó đã được đăng kí
+  // const { _id } = req.user;
+  // const checkUser = User.findById(_id);
+
+  if (email == null) {
+    return res.status(400).json({
+      success: false,
+      message: "missing input",
+    });
+  }
+  const user = await User.findOne({ email: email });
+
+  if (user) {
+    const otp = user.createOtp();
+    await user.save();
+
+    const html = `đây là ${otp} của bạn`;
+
+    const data = {
+      email,
+      html,
+    };
+    const rs = await sendMail(data);
+    return res.status(200).json({
+      success: true,
+      rs,
+    });
+  }
+};
+
+const verifyOtp = async (req, res) => {
+  const { email, verifyOtp } = req.body;
+  if (!email || !verifyOtp) {
+    return res.status(400).json({
+      success: false,
+      message: "missing input",
+    });
+  }
+
+  const user = await User.findOne({ email });
+  if (user) {
+    if (user.otp == verifyOtp && user.otpExpires - Date.now() > 0) {
+      user.isBlocked = false;
+      user.otp = undefined;
+      user.otpExpires = undefined;
+      user.save();
+      return res.status(200).json({
+        success: true,
+        message: "success",
+      });
+    }
+    return res.status(200).json({
+      success: false,
+      message: "gui lai otp",
+    });
+  }
+  return res.status(400).json({
+    success: false,
+    message: "user khong ton tai",
+  });
+};
+
 const addCart = async (req, res) => {
   const { _id } = req.user;
   const user = await User.findById(_id).select("cart");
@@ -347,4 +413,6 @@ module.exports = {
   forgotPassword,
   addCart,
   removeCart,
+  sendOtp,
+  verifyOtp,
 };

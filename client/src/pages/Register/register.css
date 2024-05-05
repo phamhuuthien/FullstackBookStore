@@ -4,14 +4,13 @@
   box-sizing: border-box;
 }
 
-.container {
+.register-container {
   position: relative;
   background-image: url(https://img.freepik.com/premium-photo/opened-book-with-flying-pages-butterflies-dark-backgroundgenerative-ai_391052-12859.jpg);
   background-size: cover;
   background-position: center;
-  /* height: 100vh; */
+  height: 800px;
 }
-
 .content {
   position: absolute;
   top: 0; 

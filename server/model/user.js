@@ -37,12 +37,14 @@ var userSchema = new mongoose.Schema(
         quantity: Number,
       },
     ],
-    isBlocked: { type: Boolean, default: false },
+    isBlocked: { type: Boolean, default: true },
     address: String,
     refreshToken: { type: String },
     passwordChangedAt: { type: String },
     passwordResetToken: { type: String },
     passwordResetExpires: { type: String },
+    otp: { type: String },
+    otpExpires: { type: String },
   },
   {
     timestamps: true,
@@ -71,6 +73,12 @@ userSchema.methods = {
     // set thời gian sống của token
     this.passwordResetExpires = Date.now() + 15 * 60 * 1000;
     return resetToken;
+  },
+  createOtp: function () {
+    const OTP = `${Math.floor(1000 + Math.random() * 9000)}`;
+    this.otp = OTP;
+    this.otpExpires = Date.now() + 5 * 60 * 1000;
+    return OTP;
   },
 };
 
