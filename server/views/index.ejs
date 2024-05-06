@@ -1,257 +1,828 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <!-- basic -->
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <!-- mobile metas -->
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-      <!-- site metas -->
-      <title>memorial books</title>
-      <meta name="keywords" content="">
-      <meta name="description" content="">
-      <meta name="author" content="">
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-      <!-- bootstrap css -->
-      <link rel="stylesheet" href="<%= process.env.URL%>/css/bootstrap.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookoe - Book Store Website</title>
+    <link rel="stylesheet" href="<%= process.env.URL%>/css/style.css" />
+    <!--- google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Fontawesome Link for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <%- include("partials/headerHome") -%>
 
-      <!-- style css -->
-      <link rel="stylesheet" href="<%= process.env.URL%>/css/style.css">
-      <!-- Responsive-->
-      <link rel="stylesheet" href="<%= process.env.URL%>/css/responsive.css">
-      <!-- fevicon -->
-      <link rel="icon" href="<%= process.env.URL%>/images/fevicon.png" type="image/gif" />
-      <!-- Scrollbar Custom CSS -->
-      <link rel="stylesheet" href="<%= process.env.URL%>/css/jquery.mCustomScrollbar.min.css">
-
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-      
-   </head>
-   <!-- body -->
-   <body class="main-layout home_page">
-      <!-- loader  -->
-      <div class="loader_bg">
-         <div class="loader"><img src="<%= process.env.URL%>/images/loading.gif" alt="#" /></div>
+    <section class="hero">
+      <div class="main">
+        <div class="content">
+          <small>back to school</small>
+          <h2>Special 50% Off</h2>
+          <h5>for our student community</h5>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus,
+            maiores? Eius culpa molestias expedita magni incidunt necessitatibus
+            .
+          </p>
+          <div class="btns">
+            <button>Get The Deal<i class="fa-solid fa-arrow-right"></i></button>
+            <button>See other Promos</button>
+          </div>
+        </div>
+        <div class="img">
+          <img
+            src="<%= process.env.URL%>/images/teenager-student-girl-yellow-pointing-finger-side-copy.png"
+            alt=""
+          />
+        </div>
       </div>
-      <!-- end loader -->
-      <!-- header -->
-      <%- include("partials/header") -%>
-      <!-- end header -->
-      <section class="slider_section">
-         <div id="myCarousel" class="carousel slide banner-main" data-ride="carousel">
-            <div class="carousel-inner">
-               <div class="carousel-item active">
-                  <img class="first-slide" src="<%= process.env.URL%>/images/banner.jpg" alt="First slide">
-                  <div class="container">
-                     <div class="carousel-caption relative">
-                        <h1>The Best Libraries That<br> Every Book Lover Must<br> Visit!</h1>
-                        <p>adipiscing elit, sed do eiusmod tempor incididunt ut<br> labore et dolore magna aliqua. Ut enim ad minim<br> veniam, quis nostrud exercitation </p>
-                        <div class="button_section"> <a class="main_bt" href="#">Read More</a>  </div>
-                        <ul class="locat_icon">
-                           <li> <a href="#"><i class="fa-brands fa-facebook"></i></a></li>
-                           <li> <a href="#"><i class="fa-brands fa-twitter"></i></a></li>
-                           <li> <a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
-                           <li> <a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-                        </ul>
-                     </div>
-                  </div>
-               </div>
-               <div class="carousel-item">
-                  <img class="second-slide" src="<%= process.env.URL%>/images/banner.jpg" alt="Second slide">
-                  <div class="container">
-                     <div class="carousel-caption relative">
-                        <h1>The Best Libraries That<br> Every Book Lover Must<br> Visit!</h1>
-                        <p>adipiscing elit, sed do eiusmod tempor incididunt ut<br> labore et dolore magna aliqua. Ut enim ad minim<br> veniam, quis nostrud exercitation </p>
-                        <div class="button_section"> <a class="main_bt" href="#">Read More</a>  </div>
-                        <ul class="locat_icon">
-                           <li> <a href="#"><i class="fa-brands fa-facebook"></i></a></li>
-                           <li> <a href="#"><i class="fa-brands fa-twitter"></i></a></li>
-                           <li> <a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
-                           <li> <a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-                        </ul>
-                     </div>
-                  </div>
-               </div>
-               <div class="carousel-item">
-                  <img class="third-slide" src="<%= process.env.URL%>/images/banner.jpg" alt="Third slide">
-                  <div class="container">
-                     <div class="carousel-caption relative">
-                        <h1>The Best Libraries That<br> Every Book Lover Must<br> Visit!</h1>
-                        <p>adipiscing elit, sed do eiusmod tempor incididunt ut<br> labore et dolore magna aliqua. Ut enim ad minim<br> veniam, quis nostrud exercitation </p>
-                        <div class="button_section"> <a class="main_bt" href="#">Read More</a>  </div>
-                        <ul class="locat_icon">
-                           <li> <a href="#"><i class="fa-brands fa-facebook"></i></a></li>
-                           <li> <a href="#"><i class="fa-brands fa-twitter"></i></a></li>
-                           <li> <a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
-                           <li> <a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-                        </ul>
-                     </div>
-                  </div>
-               </div>
+      <div class="square-dot">
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+      </div>
+      <div class="orange-circle"></div>
+      <div class="blue-circle"></div>
+    </section>
+
+    <section class="service">
+      <div class="service-container">
+        <div class="service-card">
+          <div class="icon">
+            <i class="fa-solid fa-bolt-lightning"></i>
+          </div>
+          <div class="service-content">
+            <h5>Quick Delivery</h5>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+              exercitationem.
+            </p>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="icon">
+            <i class="fa-solid fa-shield"></i>
+          </div>
+          <div class="service-content">
+            <h5>Secure Payment</h5>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+              exercitationem.
+            </p>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="icon">
+            <i class="fa-solid fa-thumbs-up"></i>
+          </div>
+          <div class="service-content">
+            <h5>Best Quality</h5>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+              exercitationem.
+            </p>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="icon">
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <div class="service-content">
+            <h5>Return Guarantee</h5>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+              exercitationem.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="suggestion">
+      <div class="container">
+        <div class="recommend">
+          <h4>Recommended For You</h4>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+            exercitationem.Lorem ipsum dolor sit amet.
+          </p>
+          <div class="book-container">
+            <div class="book">
+              <figure>
+                <a href="Pages/book-detail.html"
+                  ><img src="<%= process.env.URL%>/images/book-1.jpg" alt=""
+                /></a>
+              </figure>
             </div>
-            <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
+            <div class="book">
+              <figure>
+                <a href="Pages/book-detail.html"
+                  ><img src="<%= process.env.URL%>/images/book-2.jpg" alt=""
+                /></a>
+              </figure>
+            </div>
+            <div class="book">
+              <figure>
+                <a href="Pages/book-detail.html"
+                  ><img src="<%= process.env.URL%>/images/book-3.jpg" alt=""
+                /></a>
+              </figure>
+            </div>
+            <div class="book">
+              <figure>
+                <a href="Pages/book-detail.html"
+                  ><img src="<%= process.env.URL%>/images/book-4.jpg" alt=""
+                /></a>
+              </figure>
+            </div>
+          </div>
+          <div class="circle-1"></div>
+          <div class="circle-2"></div>
+          <div class="square-dot">
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+          </div>
+        </div>
+        <div class="popular">
+          <h4>Popular in 2020</h4>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+            exercitationem.
+          </p>
+          <div class="book-container">
+            <div class="book">
+              <figure>
+                <a href="Pages/book-detail.html"
+                  ><img src="<%= process.env.URL%>/images/book-5.jpg" alt=""
+                /></a>
+              </figure>
+            </div>
+            <div class="book">
+              <figure>
+                <a href="Pages/book-detail.html"
+                  ><img src="<%= process.env.URL%>/images/book-6.jpg" alt=""
+                /></a>
+              </figure>
+            </div>
+            <div class="book">
+              <figure>
+                <a href="Pages/book-detail.html"
+                  ><img src="<%= process.env.URL%>/images/book-7.jpg" alt=""
+                /></a>
+              </figure>
+            </div>
+            <div class="book">
+              <figure>
+                <a href="Pages/book-detail.html"
+                  ><img src="<%= process.env.URL%>/images/book-8.jpg" alt=""
+                /></a>
+              </figure>
+            </div>
+          </div>
+          <div class="circle-1"></div>
+          <div class="circle-2"></div>
+          <div class="square-dot">
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="offer">
+      <div class="header">
+        <h4>Special Offers</h4>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+          exercitationem.
+        </p>
+      </div>
+      <div class="offer-container">
+        <div class="offer">
+          <div class="img">
+            <a href="Pages/book-detail.html"
+              ><img src="<%= process.env.URL%>/images/book-1.jpg" alt=""
+            /></a>
+          </div>
+          <div class="offer-content">
+            <h5>The Giver</h5>
+            <div class="genre">
+              <span>biography</span>
+              <span>thriller</span>
+              <span>horror</span>
+            </div>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing
+              elit.Consequatur esse laboriosam nihil sint molestias sit iste
+              laboru
+            </p>
+            <small>Kevin Smiley</small>
+            <div class="offer-bottom">
+              <button class="cartbtn">
+                <i class="fa-solid fa-cart-shopping"></i>Add to cart
+              </button>
+              <div class="price">
+                <strong><span>$</span>18.7</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="offer">
+          <div class="img">
+            <a href="Pages/book-detail.html"
+              ><img src="<%= process.env.URL%>/images/book-3.jpg" alt=""
+            /></a>
+          </div>
+          <div class="offer-content">
+            <h5>Radical Gardening</h5>
+            <div class="genre">
+              <span>biography</span>
+              <span>thriller</span>
+              <span>horror</span>
+            </div>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing
+              elit.Consequatur esse laboriosam nihil sint molestias sit iste
+              laboru
+            </p>
+            <small>Kevin Smiley</small>
+            <div class="offer-bottom">
+              <button class="cartbtn">
+                <i class="fa-solid fa-cart-shopping"></i>Add to cart
+              </button>
+              <div class="price">
+                <strong><span>$</span>18.7</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="offer">
+          <div class="img">
+            <a href="pages/book-detail.html"
+              ><img src="<%= process.env.URL%>/images/book-2.jpg" alt=""
+            /></a>
+          </div>
+          <div class="offer-content">
+            <h5>The Bright Brothers</h5>
+            <div class="genre">
+              <span>biography</span>
+              <span>thriller</span>
+              <span>horror</span>
+            </div>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing
+              elit.Consequatur esse laboriosam nihil sint molestias sit iste
+              laboru
+            </p>
+            <small>Kevin Smiley</small>
+            <div class="offer-bottom">
+              <button class="cartbtn">
+                <i class="fa-solid fa-cart-shopping"></i>Add to cart
+              </button>
+              <div class="price">
+                <strong><span>$</span>18.7</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sale">
+      <div class="header">
+        <h4>Flash Sale</h4>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. <br />
+          Ipsum dignissimos quasi aliquid numquam.
+        </p>
+      </div>
+      <div class="timer">
+        <div class="hours">
+          <span id="hour"></span>
+          <small>Hours</small>
+        </div>
+        <div class="minutes">
+          <span id="minute"></span>
+          <small for="minute">Minutes</small>
+        </div>
+        <div class="seconds">
+          <span id="second"></span>
+          <small for="second">Seconds</small>
+        </div>
+      </div>
+      <div class="book-container">
+        <div class="book">
+          <div class="img">
+            <a href="Pages/book-detail.html"
+              ><img src="<%= process.env.URL%>/images/book-9.jpg" alt="" />
             </a>
-            <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
+          </div>
+          <h5>The Ruins Of Gorlan</h5>
+          <small>Thriller</small>
+          <div class="price">
+            <span>$54.6</span>
+            <span><strike>$70.00</strike></span>
+          </div>
+        </div>
+        <div class="book">
+          <div class="img">
+            <a href="Pages/book-detail.html"
+              ><img src="<%= process.env.URL%>/images/book-10.jpg" alt=""
+            /></a>
+          </div>
+          <h5>Percy Jackson</h5>
+          <small>Thriller</small>
+          <div class="price">
+            <span>$54.6</span>
+            <span><strike>$70.00</strike></span>
+          </div>
+        </div>
+        <div class="book">
+          <div class="img">
+            <a href="Pages/book-detail.html"
+              ><img src="<%= process.env.URL%>/images/book-11.jpg" alt=""
+            /></a>
+          </div>
+          <h5>Clever Lands</h5>
+          <small>Thriller</small>
+          <div class="price">
+            <span>$54.6</span>
+            <span><strike>$70.00</strike></span>
+          </div>
+        </div>
+        <div class="book">
+          <div class="img">
+            <a href="Pages/book-detail.html"
+              ><img src="<%= process.env.URL%>/images/book-12.jpg" alt=""
+            /></a>
+          </div>
+          <h5>Dick Francis</h5>
+          <small>Thriller</small>
+          <div class="price">
+            <span>$54.6</span>
+            <span><strike>$70.00</strike></span>
+          </div>
+        </div>
+        <div class="book">
+          <div class="img">
+            <a href="Pages/book-detail.html"
+              ><img src="<%= process.env.URL%>/images/book-1.jpg" alt="" />
             </a>
-         </div>
-      </section>
-      <!-- about -->
-      <div class="about">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-10 offset-md-1">
-                  <div class="aboutheading">
-                     <h2>About <strong class="black">Us</strong></h2>
-                     <span>adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</span>
-                  </div>
-               </div>
-            </div>
-            <div class="row border">
-               <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
-                  <div class="about-box">
-                     <p> consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
-                     <a href="#">Read More</a>
-                  </div>
-               </div>
-               <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
-                  <div class="about-box">
-                     <figure><img src="<%= process.env.URL%>/images/about.png" alt="img" /></figure>
-                  </div>
-               </div>
-            </div>
-         </div>
+          </div>
+          <h5>The Giver</h5>
+          <small>Thriller</small>
+          <div class="price">
+            <span>$54.6</span>
+            <span><strike>$70.00</strike></span>
+          </div>
+        </div>
       </div>
-      
-      <!-- end about -->
-      <!-- Library -->
-      <div class="Library">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-10 offset-md-1">
-                  <div class="titlepage">
-                     <h2>Our <strong class="black">Library </strong></h2>
-                     <span>adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</span> 
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="bg">
-            <div class="container">
-               <div class="row">
-                  <div class="col-md-10 offset-md-1">
-                     <div class="Library-box">
-                        <figure><img src="<%= process.env.URL%>/images/Library-.jpg" alt="#"/></figure>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="container">
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="read-more">
-                     <a href="#">Read More</a>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- end Library -->
-      <!--Books -->
-      <div class="Books">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-10 offset-md-1">
-                  <div class="titlepage">
-                     <h2>Our <strong class="black">Books </strong></h2>
-                     <span>adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris</span> 
-                  </div>
-               </div>
-            </div>
-            <div class="row box">
-               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                  <div class="book-box">
-                     <figure><img src="<%= process.env.URL%>/images/book-1.jpg" alt="img"/></figure>
-                  </div>
-               </div>
-               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                  <div class="book-box">
-                     <figure><img src="<%= process.env.URL%>/images/book-2.jpg" alt="img"/></figure>
-                  </div>
-               </div>
-               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                  <div class="book-box">
-                     <figure><img src="<%= process.env.URL%>/images/book-1.jpg" alt="img"/></figure>
-                  </div>
-               </div>
-               <div class="col-md-6 offset-md-3">
-                  <p>magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris</p>
-               </div>
-            </div>
-            <div class="container">
-               <div class="row">
-                  <div class="col-md-12">
-                     <div class="read-more">
-                        <a href="#">Read More</a>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- end Books -->
-      <!-- Contact -->
-      <div class="Contact">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="titlepage3">
-                     <h2>Contact</h2>
-                  </div>
-               </div>
-            </div>
-            <div class="row">
-               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                  <form>
-                     <div class="row">
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                           <input class="form-control" placeholder="Name" type="Name">
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                           <input class="form-control" placeholder="Phone Number" type="Phone Number">
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                           <input class="form-control" placeholder="Email" type="Email">
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                           <textarea class="textarea" placeholder="Message">Message</textarea>
-                        </div>
-                     </div>
-                  </form>
-               </div>
-               <button class="send-btn">Send</button>
-            </div>
-         </div>
-      </div>
-      <!-- end Contact -->
-      <!-- footer -->
-      <%- include("partials/footer") -%>
-      <!-- end footer -->
-      <!-- Javascript files-->
-      <script src="<%= process.env.URL%>/js/jquery.min.js"></script>
-      <script src="<%= process.env.URL%>/js/popper.min.js"></script>
-      <script src="<%= process.env.URL%>/js/bootstrap.bundle.min.js"></script>
-      <script src="<%= process.env.URL%>/js/jquery-3.0.0.min.js"></script>
-      <script src="<%= process.env.URL%>/js/plugin.js"></script>
+    </section>
 
-      <!-- sidebar -->
-      <script src="<%= process.env.URL%>/js/jquery.mCustomScrollbar.concat.min.js"></script>
-      <script src="<%= process.env.URL%>/js/custom.js"></script>
-   </body>
+    <section class="book-sale">
+      <div class="heading">
+        <h4>Books On Sale</h4>
+        <div class="arrowbtn">
+          <i id="left" class="fa-solid fa-angle-left"></i>
+          <i id="right" class="fa-solid fa-angle-right"></i>
+        </div>
+      </div>
+      <div class="book-container">
+        <div class="wrapper">
+          <ul class="carousel">
+            <li class="card">
+              <div class="img">
+                <a href="Pages/book-detail.html"
+                  ><img src="<%= process.env.URL%>/images/book-1.jpg" alt=""
+                /></a>
+                <span class="badge">50%</span>
+              </div>
+              <h5>The Giver</h5>
+              <div class="genre">
+                <span>adventure,</span><span>survival</span>
+              </div>
+              <div class="footer">
+                <span class="star"><i class="fa fa-star"></i> 4.7</span>
+                <div class="price">
+                  <span>$45.4</span>
+                  <span><strike>$90.4</strike></span>
+                </div>
+              </div>
+            </li>
+            <li class="card">
+              <div class="img">
+                <a href="Pages/book-detail.html"
+                  ><img src="<%= process.env.URL%>/images/book-2.jpg" alt=""
+                /></a>
+                <span class="badge">50%</span>
+              </div>
+              <h5>The Wright ...</h5>
+              <div class="genre">
+                <span>adventure,</span><span>survival</span>
+              </div>
+              <div class="footer">
+                <span class="star"><i class="fa fa-star"></i> 4.7</span>
+                <div class="price">
+                  <span>$45.4</span>
+                  <span><strike>$90.4</strike></span>
+                </div>
+              </div>
+            </li>
+            <li class="card">
+              <div class="img">
+                <a href="Pages/book-detail.html"
+                  ><img src="<%= process.env.URL%>/images/book-9.jpg" alt=""
+                /></a>
+                <span class="badge">50%</span>
+              </div>
+              <h5>The Ruins Of...</h5>
+              <div class="genre">
+                <span>adventure,</span><span>survival</span>
+              </div>
+              <div class="footer">
+                <span class="star"><i class="fa fa-star"></i> 4.7</span>
+                <div class="price">
+                  <span>$45.4</span>
+                  <span><strike>$90.4</strike></span>
+                </div>
+              </div>
+            </li>
+            <li class="card">
+              <div class="img">
+                <a href="Pages/book-detail.html"
+                  ><img src="<%= process.env.URL%>/images/book-10.jpg" alt=""
+                /></a>
+                <span class="badge">50%</span>
+              </div>
+              <h5>Percy Jackson</h5>
+              <div class="genre">
+                <span>adventure,</span><span>survival</span>
+              </div>
+              <div class="footer">
+                <span class="star"><i class="fa fa-star"></i> 4.7</span>
+                <div class="price">
+                  <span>$45.4</span>
+                  <span><strike>$90.4</strike></span>
+                </div>
+              </div>
+            </li>
+            <li class="card">
+              <div class="img">
+                <a href="Pages/book-detail.html"
+                  ><img src="<%= process.env.URL%>/images/book-5.jpg" alt=""
+                /></a>
+                <span class="badge">50%</span>
+              </div>
+              <h5>To kill a...</h5>
+              <div class="genre">
+                <span>adventure,</span><span>survival</span>
+              </div>
+              <div class="footer">
+                <span class="star"><i class="fa fa-star"></i> 4.7</span>
+                <div class="price">
+                  <span>$45.4</span>
+                  <span><strike>$90.4</strike></span>
+                </div>
+              </div>
+            </li>
+            <li class="card">
+              <div class="img">
+                <a href="Pages/book-detail.html"
+                  ><img src="<%= process.env.URL%>/images/book-6.jpg" alt=""
+                /></a>
+                <span class="badge">50%</span>
+              </div>
+              <h5>Horry Potter</h5>
+              <div class="genre">
+                <span>adventure,</span><span>survival</span>
+              </div>
+              <div class="footer">
+                <span class="star"><i class="fa fa-star"></i> 4.7</span>
+                <div class="price">
+                  <span>$45.4</span>
+                  <span><strike>$90.4</strike></span>
+                </div>
+              </div>
+            </li>
+            <li class="card">
+              <div class="img">
+                <a href="Pages/book-detail.html"
+                  ><img src="<%= process.env.URL%>/images/book-7.jpg" alt=""
+                /></a>
+                <span class="badge">50%</span>
+              </div>
+              <h5>Heroes of ...</h5>
+              <div class="genre">
+                <span>adventure,</span><span>survival</span>
+              </div>
+              <div class="footer">
+                <span class="star"><i class="fa fa-star"></i> 4.7</span>
+                <div class="price">
+                  <span>$45.4</span>
+                  <span><strike>$90.4</strike></span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature">
+      <div class="main">
+        <div class="content">
+          <h4>Featured Books</h4>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. <br />
+            Molestias, illum? Doloremque eius quis officiis rerum pariatur.
+          </p>
+          <div class="featured-book-card">
+            <div class="img">
+              <a href="pages/book-detail.html"
+                ><img src="<%= process.env.URL%>/images/book-2.jpg" alt=""
+              /></a>
+            </div>
+            <div class="card-description">
+              <div class="card-header">
+                <div class="icon">
+                  <i class="fa-regular fa-bookmark"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                <div class="title">
+                  <h5>The Wright Brothers</h5>
+                  <small>biography, adventure</small>
+                </div>
+              </div>
+              <div class="card-body">
+                <h6>Synopsis</h6>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Suscipit, aperiam magnam! Eius voluptas nihil repellendus quam
+                  velit harum vel alias mollitia veritatis omnis. Ut vel, fugiat
+                  obcaecati odio minus molestiae?
+                </p>
+                <div class="author-year">
+                  <div class="author">
+                    <small>Written by</small>
+                    <strong>Kevin Smiley</strong>
+                  </div>
+                  <div class="year">
+                    <small>Year</small>
+                    <strong>2019</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="price">
+                  <span>$84.78</span>
+                  <strike>$90.00</strike>
+                </div>
+                <div class="cartbtn">
+                  <button><i class="fa-solid fa-cart-shopping"></i>Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="book-section">
+          <div class="container">
+            <div class="img">
+              <a href="pages/book-detail.html"
+                ><img src="<%= process.env.URL%>/images/book-2.jpg" alt=""
+              /></a>
+            </div>
+            <div class="img">
+              <a href="pages/book-detail.html"
+                ><img src="<%= process.env.URL%>/images/book-1.jpg" alt=""
+              /></a>
+            </div>
+            <div class="img">
+              <a href="pages/book-detail.html"
+                ><img src="<%= process.env.URL%>/images/book-3.jpg" alt=""
+              /></a>
+            </div>
+            <div class="img">
+              <a href="pages/book-detail.html"
+                ><img src="<%= process.env.URL%>/images/book-4.jpg" alt=""
+              /></a>
+            </div>
+            <div class="img">
+              <a href="pages/book-detail.html"
+                ><img src="<%= process.env.URL%>/images/book-5.jpg" alt=""
+              /></a>
+            </div>
+            <div class="img">
+              <a href="pages/book-detail.html"
+                ><img src="<%= process.env.URL%>/images/book-6.jpg" alt=""
+              /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="circle-1"></div>
+      <div class="circle-2"></div>
+    </section>
+
+    <section class="news">
+      <div class="heading">
+        <div class="title">
+          <h4>Latest News</h4>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. <br />
+            Quia, laborum ad perspiciatis ab, sequi.
+          </p>
+        </div>
+        <div class="btn">
+          <button>View More <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+      <div class="news-container">
+        <div class="post">
+          <div class="img">
+            <img src="<%= process.env.URL%>/images/news-1.avif" alt="" />
+          </div>
+          <h5>Why reading is important for our children?</h5>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Aspernatur, quo temporibus! Tenetur...
+            <a href="">Continue reading</a>
+          </p>
+          <div class="post-footer">
+            <div class="img">
+              <img src="<%= process.env.URL%>/images/man1.png" alt="" />
+            </div>
+            <div class="details">
+              <strong>James Bond</strong>
+              <small>5 August 2020</small>
+            </div>
+          </div>
+        </div>
+        <div class="post">
+          <div class="img">
+            <img src="<%= process.env.URL%>/images/news-2.webp" alt="" />
+          </div>
+          <h5>Why reading is important for our children?</h5>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Aspernatur, quo temporibus! Tenetur...
+            <a href="">Continue reading</a>
+          </p>
+          <div class="post-footer">
+            <div class="img">
+              <img src="<%= process.env.URL%>/images/man1.png" alt="" />
+            </div>
+            <div class="details">
+              <strong>James Bond</strong>
+              <small>5 August 2020</small>
+            </div>
+          </div>
+        </div>
+        <div class="post">
+          <div class="img">
+            <img src="<%= process.env.URL%>/images/news-3.jpg" alt="" />
+          </div>
+          <h5>Why reading is important for our children?</h5>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Aspernatur, quo temporibus! Tenetur...
+            <a href="">Continue reading</a>
+          </p>
+          <div class="post-footer">
+            <div class="img">
+              <img src="<%= process.env.URL%>/images/man1.png" alt="" />
+            </div>
+            <div class="details">
+              <strong>James Bond</strong>
+              <small>5 August 2020</small>
+            </div>
+          </div>
+        </div>
+        <div class="post">
+          <div class="img">
+            <img src="<%= process.env.URL%>/images/news-4.jpg" alt="" />
+          </div>
+          <h5>Why reading is important for our children?</h5>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Aspernatur, quo temporibus! Tenetur...
+            <a href="">Continue reading</a>
+          </p>
+          <div class="post-footer">
+            <div class="img">
+              <img src="<%= process.env.URL%>/images/man1.png" alt="" />
+            </div>
+            <div class="details">
+              <strong>James Bond</strong>
+              <small>5 August 2020</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="countdown">
+      <div class="container">
+        <div class="customer counter">
+          <div class="icon">
+            <i class="fa-solid fa-user-group"></i>
+          </div>
+          <div class="content">
+            <h4 class="count">125,663</h4>
+            <small>Happy Customers</small>
+          </div>
+        </div>
+        <div class="book counter">
+          <div class="icon">
+            <i class="fa-solid fa-book"></i>
+          </div>
+          <div class="content">
+            <h4 class="count">50,672</h4>
+            <small>Book Collections</small>
+          </div>
+        </div>
+        <div class="store counter">
+          <div class="icon">
+            <i class="fa-solid fa-store"></i>
+          </div>
+          <div class="content">
+            <h4 class="count">1,562</h4>
+            <small>Our Stores</small>
+          </div>
+        </div>
+        <div class="writer counter">
+          <div class="icon">
+            <i class="fa-solid fa-feather"></i>
+          </div>
+          <div class="content">
+            <h4 class="count">457</h4>
+            <small>Famous Writer</small>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="subscription">
+      <div class="container">
+        <h4>
+          Subscribe our newsletter for Latest <br />
+          books updates
+        </h4>
+        <div class="input">
+          <input type="text" placeholder="Type your email here" />
+          <button>subscribe</button>
+        </div>
+      </div>
+      <div class="circle-1"></div>
+      <div class="circle-2"></div>
+    </section>
+
+    <%- include("partials/footer") -%>
+
+    <button class="back-to-top"><i class="fa-solid fa-chevron-up"></i></button>
+    <script src="<%= process.env.URL%>/js/back-to-top.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
+    <script src="<%= process.env.URL%>/js/script.js"></script>
+    <script src="<%= process.env.URL%>/js/repeat-js.js"></script>
+    <script src="<%= process.env.URL%>/js/add-to-cart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+  </body>
 </html>

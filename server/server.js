@@ -18,17 +18,39 @@ app.use(methodOverride('_method'));
 app.get("/",(req,res)=>{
   return res.render('index')
 })
-app.get('/about', function(req, res) {
-  res.render('about');
+app.get("/admin", (req, res) => {
+  return res.render("admin/index");
 });
-app.get('/books', function(req, res) {
-  res.render('books');
+
+app.get("/service", function (req, res) {
+  res.render("Pages/service");
 });
-app.get('/library', function(req, res) {
-  res.render('library');
+
+app.get("/contact", function (req, res) {
+  res.render("Pages/contact");
 });
-app.get('/contact', function(req, res) {
-  res.render('contact');
+app.get("/book-filter", function (req, res) {
+  res.render("Pages/book-filter");
+});
+
+app.get("/book-detail", function (req, res) {
+  res.render("Pages/book-detail");
+});
+
+app.get("/cart-item", function (req, res) {
+  res.render("Pages/cart-item");
+});
+
+app.get("/checkout", function (req, res) {
+  res.render("Pages/checkout");
+});
+
+app.get("/login", function (req, res) {
+  res.render("Pages/login");
+});
+
+app.get("/registration", function (req, res) {
+  res.render("Pages/registration");
 });
 // app.use(
 //   cors({

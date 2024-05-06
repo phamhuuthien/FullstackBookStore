@@ -1,31 +1,105 @@
-<footer>
-    <div class="footer">
-       <div class="container">
-          <div class="row pdn-top-30">
-             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                <div class="Follow">
-                   <h3>Follow Us</h3>
-                </div>
-                <ul class="locat_icon">
-                   <li> <a href="#"><i class="fa-brands fa-facebook"></i></a></li>
-                   <li> <a href="#"><i class="fa-brands fa-twitter"></i></a></li>
-                   <li> <a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
-                   <li> <a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-                </ul>
-             </div>
-             <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
-                <div class="Follow">
-                   <h3>Newsletter</h3>
-                </div>
-                <input class="Newsletter" placeholder="Enter your email" type="Enter your email">
-                <button class="Subscribe">Subscribe</button>
-             </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+   <footer>
+      <div class="container">
+        <div class="logo-description">
+          <div class="logo">
+            <div class="img">
+              <img src="<%= process.env.URL%>/images/logo.png" alt="" />
+            </div>
+            <div class="title">
+              <h4>Bookie</h4>
+              <small>Book Store Website</small>
+            </div>
           </div>
-       </div>
-    </div>
-    <div class="copyright">
-       <div class="container">
-          <p>Copyright 2019 All Right Reserved By <a href="https://html.design/">Free html Templates</a></p>
-       </div>
-    </div>
- </footer>
+          <div class="logo-body">
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magnam
+              voluptates eius quasi reiciendis recusandae provident veritatis
+              sequi, dolores architecto dolor possimus quos
+            </p>
+          </div>
+          <div class="social-links">
+            <h4>Follow Us</h4>
+            <ul class="links">
+              <li>
+                <a href=""><i class="fa-brands fa-facebook-f"></i></a>
+              </li>
+              <li>
+                <a href=""><i class="fa-brands fa-youtube"></i></a>
+              </li>
+              <li>
+                <a href=""><i class="fa-brands fa-twitter"></i></a>
+              </li>
+              <li>
+                <a href=""><i class="fa-brands fa-linkedin"></i></a>
+              </li>
+              <li>
+                <a href=""><i class="fa-brands fa-instagram"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="categories list">
+          <h4>Book Categories</h4>
+          <ul>
+            <li><a href="book-filter">Action</a></li>
+            <li><a href="book-filter">Adventure</a></li>
+            <li><a href="book-filter">Comedy</a></li>
+            <li><a href="book-filter">Crime</a></li>
+            <li><a href="book-filter">Drama</a></li>
+            <li><a href="book-filter">Fantasy</a></li>
+            <li><a href="book-filter">Horror</a></li>
+          </ul>
+        </div>
+        <div class="quick-links list">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="/">About Us</a></li>
+            <li><a href="contact">Contact Us</a></li>
+            <li><a href="book-filter">Products</a></li>
+            <li><a href="login">Login</a></li>
+            <li><a href="registration">Sign Up</a></li>
+            <li><a href="cart-item">Cart</a></li>
+            <li><a href="checkout">Checkout</a></li>
+          </ul>
+        </div>
+        <div class="our-store list">
+          <h4>Our Store</h4>
+          <div class="map" style="margin-top: 1rem">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6310.594819201665!2d-122.42768319999999!3d37.73616639999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f7e60a337d5f5%3A0xfa0bb626904e5ab2!2z4KSV4KWJ4KSy4KWH4KScIOCkueCkv-Cksiwg4KS44KS-4KSoIOCkq-CljeCksOCkvuCkguCkuOCkv-CkuOCljeCkleCliywg4KSV4KWI4KSy4KWA4KSr4KWL4KSw4KWN4KSo4KS_4KSv4KS-LCDgpK_gpYLgpKjgpL7gpIfgpJ_gpYfgpKEg4KS44KWN4KSf4KWH4KSf4KWN4oCN4KS4!5e0!3m2!1shi!2sin!4v1686917463994!5m2!1shi!2sin"
+              height="70"
+              style="width: 100%; border: none; border-radius: 5px"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+          <ul>
+            <li>
+              <a href=""
+                ><i class="fa-solid fa-location-dot"></i>832 Thompson Drive,San
+                Fransisco CA 94 107,United States</a
+              >
+            </li>
+            <li>
+              <a href=""><i class="fa-solid fa-phone"></i>+12 1345678991</a>
+            </li>
+            <li>
+              <a href=""
+                ><i class="fa-solid fa-envelope"></i>support@bookoe.id</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <div class="img">
+            <img src="<%= process.env.URL%>/images/logo.png" alt="" />
+          </div>
+          <div class="logo-header">
+            <h4><a href="/">Bookoe</a></h4>
+            <small>Book Store Website</small>
+          </div>
+        </div>
+        <ul class="nav-list">
+          <div class="logo">
+            <div class="title">
+              <div class="img">
+                <img src="<%= process.env.URL%>/images/logo.png" alt="" />
+              </div>
+              <div class="logo-header">
+                <h4><a href="/">Bookoe</a></h4>
+                <small>Book Store Website</small>
+              </div>
+            </div>
+            <button class="close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <li><a href="/">Home</a></li>
+          <li><a href="<%= process.env.URL%>/service">Service</a></li>
+          <li><a href="<%= process.env.URL%>/contact">Contact</a></li>
+          <li><a href="<%= process.env.URL%>/book-filter">Books</a></li>
+          <button class="login"><a href="<%= process.env.URL%>/login">Log In</a></button>
+          <button class="signup">
+            <i class="fa-solid fa-user"></i
+            ><a href="<%= process.env.URL%>/registration">Sign Up</a>
+          </button>
+        </ul>
+        <div class="hamburger">
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </nav>
+    </header>
+  </body>
+</html>
