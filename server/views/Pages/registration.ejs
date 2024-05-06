@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookoe - Online Book Store website</title>
+    <link rel="stylesheet" href="<%= process.env.URL%>/css/style.css" />
+    <link rel="stylesheet" href="<%= process.env.URL%>/css/book-filter.css" />
+    <!-- Fontawesome Link for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!--- google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <%- include("../partials/header") -%>
+
+    <div class="breadcrumb-container">
+      <ul class="breadcrumb">
+        <li><a href="#" style="color: #6c5dd4">Shop</a></li>
+        <li><a href="#">Registration</a></li>
+      </ul>
+    </div>
+
+    <section class="registration">
+      <h3>Registration</h3>
+      <div class="registration-form">
+        <h4>Create New Account</h4>
+        <p>If you don't have an account with us, Please Create new account.</p>
+        <div class="input-form">
+          <div class="input-field">
+            <label for="name">Username *</label>
+            <input type="text" name="" id="name" placeholder="Your Name">
+          </div>
+          <div class="input-field">
+            <label for="email">Email *</label>
+            <input type="email" name="" id="email" placeholder="Your Email">
+          </div>
+          <div class="input-field">
+            <label for="password">Password *</label>
+            <input type="password" name="" id="password" placeholder="Password">
+          </div>
+          <div class="input-field">
+            <label for="cpassword">Confirm Password *</label>
+            <input type="password" name="" id="cpassword" placeholder="Confirm Password">
+          </div>
+          <p>Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our <a href="">privacy policy</a></p>
+          <button>Create Account</button>
+          <p>Already Have an Account ? <a href="login">Login Now</a></p>
+        </div>
+      </div>
+    </section>
+
+    <%- include("../partials/footer") -%>
+    <%- include("../components/backToTop") -%>
+
+  </body>
+</html>
