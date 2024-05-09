@@ -8,8 +8,8 @@ var orderSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true,
-        default: 'Pending',
-        data: ['Pending', 'Delivering', 'Delivered']
+        default: 'pending',
+        data: ['unpaid', 'pending', 'delivering', 'delivered']
     },
     listBooks: [{
         bookId: {
