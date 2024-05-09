@@ -23,11 +23,15 @@ const bookSchema = new mongoose.Schema({
         type: String,
     },
     authorId: {
-        type: String, 
+        type: String,
     },
     slug: {
         type: String,
-    }
+    },
+    comments: [{
+        type: mongoose.Types.ObjectId,
+        ref: "Comment"
+    }]
 });
 
 module.exports = mongoose.model("Book", bookSchema);

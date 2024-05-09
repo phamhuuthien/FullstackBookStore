@@ -23,7 +23,7 @@ function Register() {
   };
   return (
     <>
-      <div className="container">
+      <div className="register-container">
         <div className="content">
           <div class="bt-form-login-simple-1">
             <h1 class="form-heading">register</h1>
