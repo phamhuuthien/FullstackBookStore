@@ -11,6 +11,7 @@ router.get("/:id", controller.getBookById);
 router.get("/category/:categoryId", controller.getBooksByIdCategory);
 router.put("/:id/inc-like", verifyToken, controller.increaseLikeBook);
 router.put("/:id/dec-like", verifyToken, controller.decreaseLikeBook);
+router.get('/search/:searchTerm', controller.searchBookByName);
 
 router.post("/", verifyToken, isAdmin, controller.addBook);
 router.put("/:id", verifyToken, isAdmin, controller.updateBook);

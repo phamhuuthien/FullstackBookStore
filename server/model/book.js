@@ -20,10 +20,12 @@ const bookSchema = new mongoose.Schema({
         type: Number,
     },
     categoryId: {
-        type: String,
+        type: mongoose.Types.ObjectId,
+        ref: "Category"
     },
     authorId: {
-        type: String,
+        type: mongoose.Types.ObjectId,
+        ref: "Author"
     },
     slug: {
         type: String,

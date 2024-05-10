@@ -14,10 +14,10 @@ const initRouters = (app) => {
   app.use("/user", userRouters);
   app.use("/order", orderRouters);
   app.use("/coupon", couponRouters);
-  app.use("/books", bookRouter);
+  app.use("/book", bookRouter);
   app.use("/comments", commentRouter);
-  app.use("/author",authorRouter);
-  app.use("/category",categoryRouter)
+  app.use("/author", authorRouter);
+  app.use("/category", categoryRouter)
 };
 
 module.exports = initRouters;
