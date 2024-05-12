@@ -2,23 +2,26 @@ const jwt = require('jsonwebtoken')
 const roleModel = require('../model/role')
 
 const verifyToken = async (req, res, next) => {
-  if (req?.headers?.authorization?.startsWith("Bearer")) {
-    const token = req.headers.authorization.split(" ")[1];
-    jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
-      if (err)
-        return res.status(401).json({
-          success: false,
-          mes: "invalid access token",
-        });
-      req.user = decode;
-      next();
-    });
-  } else {
+  const token = req.cookies?.accessToken; // Access token from cookie
+
+  if (!token) {
     return res.status(401).json({
       success: false,
-      mes: "require authotication !!",
+      message: "Missing access token in cookie", // More descriptive message
     });
   }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid access token", // More descriptive message
+      });
+    }
+
+    req.user = decoded;
+    next();
+  });
 };
 
 const isAdmin = async (req, res, next) => {

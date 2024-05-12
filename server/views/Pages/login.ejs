@@ -21,8 +21,12 @@
     />
   </head>
   <body>
-    <%- include("../partials/header") -%>
-
+    <%- include("../partials/headerHome") -%>
+    <% if (typeof message !== 'undefined') { %>
+      <script>
+        alert('message: <%= message %>');
+      </script>
+    <% } %>
     <div class="breadcrumb-container">
       <ul class="breadcrumb">
         <li><a href="#" style="color: #6c5dd4">Shop</a></li>
@@ -35,20 +39,35 @@
       <div class="login-form">
         <h4>Login</h4>
         <p>If you have an account with us, please log in.</p>
-        <div class="input-form">
-          <div class="input-field">
-            <label for="email">Email *</label>
-            <input type="email" name="" id="email" placeholder="Your Email">
+        <form class="form" autocomplete="off" action="/user/login" method="post">
+          <div class="input-form">
+            <div class="input-field">
+              <label for="email">Email *</label>
+              <input
+                type="text"
+                name="email"
+                id="email"
+                placeholder="Email"
+                class="form-input"
+              />
+            </div>
+            <div class="input-field">
+              <label for="password">Password *</label>
+              <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="password"
+              class="form-input"
+            />
+            </div>
+            
+            <p>Forgot Password ?<a href=""> Click Here</a></p>
+            <button type="submit" class="form-btn">Login</button>
+            <p>Don't Have an Account ? <a href="registration">Create Account</a></p>
           </div>
-          <div class="input-field">
-            <label for="password">Password *</label>
-            <input type="password" name="" id="password" placeholder="Password">
-          </div>
-          
-          <p>Forgot Password ?<a href=""> Click Here</a></p>
-          <button>Login Account</button>
-          <p>Don't Have an Account ? <a href="registration">Create Account</a></p>
-        </div>
+        </form>
+
       </div>
     </section>
     <%- include("../partials/footer") -%>
