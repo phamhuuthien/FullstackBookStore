@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookoe - Online Book Store website</title>
+    <link rel="stylesheet" href="<%= process.env.URL%>/css/style.css" />
+    <link rel="stylesheet" href="<%= process.env.URL%>/css/book-filter.css" />
+    <!-- Fontawesome Link for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!--- google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <%
+    if(response!=='undefined') {%>
+      <section class="registration">
+        <h3>infomation account</h3>
+        <form action="<%= process.env.URL%>/user/updateUser?_method=put" method="post" style="display: inline;" class="registration-form">
+          <div class="input-form">
+            <div class="input-field">
+              <label for="email">Email *</label>
+              <input type="email" name="email" id="email" placeholder="Your Email" value="<%=response.email%>">
+            </div>
+            <button>update</button>
+          </div>
+        </form>
+      </section>
+    <%}%>
+  </body>
+</html>

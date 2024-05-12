@@ -1,4 +1,5 @@
 const User = require("../model/user");
+const Role = require("../model/role");
 const jwt = require("jsonwebtoken");
 const {
   genderateAccessToken,
@@ -8,12 +9,6 @@ const {
 const crypto = require("crypto");
 const sendMail = require("../until/sendMail");
 
-const loginForm = (req, res) => {
-  return res.render("user/login");
-};
-const registerForm = (req, res) => {
-  return res.render("user/register");
-};
 const register = async (req, res) => {
   const { firstname, lastname, password, email, mobile, role } = req.body;
   if (!firstname || !lastname || !password || !email || !mobile || !role) {
@@ -49,10 +44,11 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   if (!password || !email) {
-    return res.status(400).json({
-      success: false,
-      mes: "missing inputs",
-    });
+    // return res.status(400).json({
+    //   success: false,
+    //   mes: "missing inputs",
+    // });
+    res.render("Pages/login", { message: "missing inputs" });
   }
 
   const dataUser = await User.findOne({ email });
@@ -76,17 +72,16 @@ const login = async (req, res) => {
       maxAge: 5 * 24 * 60 * 60 * 1000,
     });
 
-    // return res.status(200).json({
-    //   success: true,
-    //   newAccessToken,
-    //   userdata: user,
-    // });
-    res.render('index',{user : user});
+    const roleObject = await Role.findById(role);
+
+    if (roleObject.roleName == "user") {
+      // res.render("index", { user: user });
+      res.redirect("/")
+    } else {
+      res.render("admin/index", { user: user });
+    }
   } else {
-    return res.status(400).json({
-      success: false,
-      mes: "login falied",
-    });
+    res.render("Pages/login", { message: "Account does not exist" });
   }
 };
 
@@ -106,28 +101,24 @@ const logOut = async (req, res) => {
 
   res.clearCookie("accessToken", { httpOnly: true, secure: true });
   res.clearCookie("refreshToken", { httpOnly: true, secure: true });
-
-  return res.json({
-    success: true,
-    mess: "logout successfully",
-  });
+  return res.redirect("/");
 };
 
 const getUser = async (req, res) => {
   const { _id } = req.user;
   const response = await User.findById(_id);
-  return res.status(200).json({
-    success: response ? true : false,
-    user: response,
-  });
+  res.render("Pages/infoAccount", { response });
+  // return res.status(200).json({
+  //   success: response ? true : false,
+  //   user: response,
+  // });
 };
 
 const getAllUsers = async (req, res) => {
-  const response = await User.find().select("-refreshToken -password -role");
-  return res.status(200).json({
-    success: response ? true : false,
-    user: response,
-  });
+  const response = await User.find({ role: "65f9145d3a4d4b70e60b67db" }).select(
+    "-refreshToken -password -role"
+  );
+  res.render("admin/customer", { response });
 };
 
 const updateUser = async (req, res) => {
@@ -142,20 +133,14 @@ const updateUser = async (req, res) => {
     const response = await User.findByIdAndUpdate(_id, data, {
       new: true,
     }).select("-refreshToken -password -role");
-    return res.status(200).json({
-      success: response ? true : false,
-      user: response,
-    });
+    res.redirect("/")
   }
 };
 
 const deleteUser = async (req, res) => {
   const { _id } = req.query;
   const response = await User.findByIdAndDelete(_id, { new: true });
-  return res.status(200).json({
-    success: response ? true : false,
-    user: `success delete account with emial ${response.email}`,
-  });
+  res.redirect(process.env.URL + "/admin/customer");
 };
 
 const refreshAccessToken = async (req, res) => {
@@ -204,10 +189,7 @@ const isBlocked = async (req, res) => {
     );
     isBlocked = true;
   }
-  return res.status(200).json({
-    success: true,
-    message: isBlocked ? "locked user" : "unlocked user",
-  });
+  res.redirect(process.env.URL + "/admin/customer");
 };
 
 const resetPassword = async (req, res) => {
@@ -407,8 +389,6 @@ const removeCart = async (req, res) => {
 };
 
 module.exports = {
-  loginForm,
-  registerForm,
   register,
   login,
   logOut,
