@@ -6,10 +6,10 @@ const { verifyToken, isAdmin } = require('../middlewares/verifyToken');
 router.use(verifyToken, isAdmin);
 
 // Routes cho việc xử lý tác giả
-router.get("/", controller.getAllAuthors);
-router.get("/:id", controller.getAuthorById);
+router.get("/", controller.getListAuthor);
+router.get("/:id", controller.getDetailAuthor);
 router.post("/", controller.addAuthor);
-router.put("/:id", controller.updateAuthor);
+router.put("/:id", controller.addAuthor);
 router.delete("/:id", controller.deleteAuthor);
 
 module.exports = router;
