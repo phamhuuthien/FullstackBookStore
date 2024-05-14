@@ -20,23 +20,19 @@ const register = async (req, res) => {
   const user = await User.findOne({ email: email });
   const mobileUser = await User.findOne({ mobile: mobile });
   if (user) {
-    return res.status(401).json({
-      success: false,
-      mes: "user has existed",
-    });
+    var responeMessage = {
+      message: "Email already exists",
+      user: req.body,
+    };
+    res.render("Pages/registration", { responeMessage });
   } else if (mobileUser) {
-    return res.status(401).json({
-      success: false,
-      mes: "mobile has existed",
-    });
+    var responeMessage = {
+      message: "Mobile already exists",
+      user: req.body,
+    };
+    res.render("Pages/registration", { responeMessage });
   } else {
-    const newUser = await User.create(req.body);
-    // return res.status(200).json({
-    //   success: newUser ? true : false,
-    //   mes: newUser
-    //     ? "Register is successfully. Please go login"
-    //     : "something went wrong",
-    // });
+    await User.create(req.body);
     res.redirect("/");
   }
 };
@@ -44,15 +40,15 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   if (!password || !email) {
-    // return res.status(400).json({
-    //   success: false,
-    //   mes: "missing inputs",
-    // });
     res.render("Pages/login", { message: "missing inputs" });
   }
 
   const dataUser = await User.findOne({ email });
-  if (dataUser && (await dataUser.isCorrectPassword(password))) {
+  if (
+    dataUser &&
+    (await dataUser.isCorrectPassword(password)) &&
+    dataUser.isBlocked == false
+  ) {
     const { _id, password, role, refreshToken, ...user } = dataUser.toObject();
 
     const newAccessToken = genderateAccessToken(dataUser._id, role);
@@ -75,13 +71,12 @@ const login = async (req, res) => {
     const roleObject = await Role.findById(role);
 
     if (roleObject.roleName == "user") {
-      // res.render("index", { user: user });
-      res.redirect("/")
+      res.redirect("/");
     } else {
       res.render("admin/index", { user: user });
     }
   } else {
-    res.render("Pages/login", { message: "Account does not exist" });
+    res.render("Pages/login", { message: "login failed" });
   }
 };
 
@@ -106,12 +101,8 @@ const logOut = async (req, res) => {
 
 const getUser = async (req, res) => {
   const { _id } = req.user;
-  const response = await User.findById(_id);
-  res.render("Pages/infoAccount", { response });
-  // return res.status(200).json({
-  //   success: response ? true : false,
-  //   user: response,
-  // });
+  const user = await User.findById(_id);
+  res.render("Pages/infoAccount", { user });
 };
 
 const getAllUsers = async (req, res) => {
@@ -130,10 +121,10 @@ const updateUser = async (req, res) => {
       message: "missing input",
     });
   } else {
-    const response = await User.findByIdAndUpdate(_id, data, {
+    await User.findByIdAndUpdate(_id, data, {
       new: true,
     }).select("-refreshToken -password -role");
-    res.redirect("/")
+    res.redirect("/");
   }
 };
 
@@ -217,10 +208,11 @@ const resetPassword = async (req, res) => {
   user.passwordResetToken = undefined;
   user.passwordResetExpires = undefined;
   await user.save();
-  return res.json({
-    success: true,
-    mess: user ? "updated password" : "something went wrong",
-  });
+  // return res.json({
+  //   success: true,
+  //   mess: user ? "updated password" : "something went wrong",
+  // });
+  res.render("Pages/login");
 };
 
 const forgotPassword = async (req, res) => {
@@ -238,27 +230,23 @@ const forgotPassword = async (req, res) => {
 
     await user.save();
 
-    const html = `xin vui lòng click vào link dưới đây để thay đổi mật khẩu của bạn. link này sẽ hết hạn sau 15 phút kể từ bây giờ <a href=${process.env.URL_SERVER}/api/v1/user/resetPassword/${tokenChangePassword} >click here</a>`;
+    const html = `xin vui lòng click vào link dưới đây để thay đổi mật khẩu của bạn. link này sẽ hết hạn sau 15 phút kể từ bây giờ <a href=${process.env.URL_SERVER}/resetPassword/${tokenChangePassword} >click here</a>`;
 
     const data = {
       email,
       html,
     };
     const rs = await sendMail(data);
-    return res.status(200).json({
-      success: true,
-      rs,
-    });
+    // return res.status(200).json({
+    //   success: true,
+    //   rs,
+    // });
+    res.render("Pages/login", { message: " vui long kiem tra email" });
   }
 };
 
 const sendOtp = async (req, res) => {
   const { email } = req.query;
-
-  // check nó đã được đăng kí
-  // const { _id } = req.user;
-  // const checkUser = User.findById(_id);
-
   if (email == null) {
     return res.status(400).json({
       success: false,

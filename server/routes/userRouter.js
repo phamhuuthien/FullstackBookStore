@@ -21,7 +21,7 @@ router.get("/getUser", verifyToken, controller.getUser);
 router.get("/getAllUser", verifyToken, isAdmin, controller.getAllUsers);
 
 router.get("/forgotPassword", controller.forgotPassword);
-router.get("/resetPassword", controller.resetPassword);
+router.post("/resetPassword", controller.resetPassword);
 
 router.get("/sendOtp", controller.sendOtp);
 router.get("/verifyOtp", controller.verifyOtp);
