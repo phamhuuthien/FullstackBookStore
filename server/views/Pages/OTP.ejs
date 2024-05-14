@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhập OTP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 50px;
+            text-align: center;
+            margin: 0 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Nhập mã OTP</h2>
+        <p>Vui lòng nhập mã OTP được gửi đến điện thoại của bạn.</p>
+        <form action="/verify_otp" method="post">
+            <input type="text" id="digit1" maxlength="1">
+            <input type="text" id="digit2" maxlength="1">
+            <input type="text" id="digit3" maxlength="1">
+            <input type="text" id="digit4" maxlength="1">
+            <br>
+            <button type="submit">Xác nhận</button>
+        </form>
+    </div>
+</body>
+</html>

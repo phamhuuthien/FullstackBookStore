@@ -21,15 +21,19 @@
     />
   </head>
   <body>
-    <%- include("../partials/header") -%>
 
     <div class="breadcrumb-container">
       <ul class="breadcrumb">
-        <li><a href="#" style="color: #6c5dd4">Shop</a></li>
+        <li><a href="<%= process.env.URL%>" style="color: #6c5dd4">Home</a></li>
         <li><a href="#">Registration</a></li>
       </ul>
     </div>
 
+    <% if(typeof responeMessage == 'object'){%>
+      <script>
+        alert("<%= responeMessage.message%>")
+      </script>
+    <%}%>
     <section class="registration">
       <h3>Registration</h3>
       <div class="registration-form">
@@ -45,6 +49,8 @@
                 id="firstname"
                 placeholder="firstname"
                 class="form-input"
+                required
+                value="<%= typeof responeMessage == 'object' ? responeMessage?.user?.firstname : '' %>"
               />
             </div>
             <div class="input-field">
@@ -55,6 +61,8 @@
                 id="lastname"
                 placeholder="lastname"
                 class="form-input"
+                required
+                value="<%= typeof responeMessage == 'object' ? responeMessage?.user?.lastname : '' %>"
               />
             </div>
             <div class="input-field">
@@ -65,16 +73,19 @@
                 id="password"
                 placeholder="password"
                 class="form-input"
+                required
               />
             </div>
             <div class="input-field">
               <label for="email">Email *</label>
               <input
-                type="text"
+                type="email"
                 name="email"
                 id="email"
                 placeholder="Email"
                 class="form-input"
+                required
+                value="<%= typeof responeMessage == 'object' ? responeMessage?.user?.email : '' %>"
               />
             </div>
             <div class="input-field">
@@ -85,12 +96,14 @@
                 id="mobile"
                 placeholder="mobile"
                 class="form-input"
+                required
+                value="<%= typeof responeMessage == 'object' ? responeMessage?.user?.mobile : '' %>"
               />
             </div>
             <input type="hidden" name="role" value="65f9145d3a4d4b70e60b67db">
             <p>Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our <a href="">privacy policy</a></p>
             <button>Create Account</button>
-            <p>Already Have an Account ? <a href="login">Login Now</a></p>
+            <p>Already Have an Account ? <a href="<%= process.env.URL%>/login">Login Now</a></p>
           </div>
         </form>
       </div>

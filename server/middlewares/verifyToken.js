@@ -2,12 +2,11 @@ const jwt = require('jsonwebtoken')
 const roleModel = require('../model/role')
 
 const verifyToken = async (req, res, next) => {
-  const token = req.cookies?.accessToken; // Access token from cookie
-
+  const token = req.cookies?.accessToken;
   if (!token) {
     return res.status(401).json({
       success: false,
-      message: "Missing access token in cookie", // More descriptive message
+      message: "Missing access token in cookie",
     });
   }
 
@@ -15,7 +14,7 @@ const verifyToken = async (req, res, next) => {
     if (err) {
       return res.status(401).json({
         success: false,
-        message: "Invalid access token", // More descriptive message
+        message: "Invalid access token",
       });
     }
 
@@ -33,7 +32,6 @@ const isAdmin = async (req, res, next) => {
       mes: "required role admin !!",
     });
   }
-  // throw new Error('required role admin')
   next();
 };
 
@@ -46,7 +44,6 @@ const isShipper = async (req, res, next) => {
       mes: "required role admin !!",
     });
   }
-  // throw new Error('required role admin')
   next();
 };
 

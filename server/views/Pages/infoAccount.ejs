@@ -21,15 +21,33 @@
     />
   </head>
   <body>
+    <div class="breadcrumb-container">
+      <ul class="breadcrumb">
+        <li><a href="<%= process.env.URL%>" style="color: #6c5dd4">Home</a></li>
+        <li><a href="#">infoAccount</a></li>
+      </ul>
+    </div>
     <%
-    if(response!=='undefined') {%>
+    if(user!=='undefined') {%>
       <section class="registration">
         <h3>infomation account</h3>
         <form action="<%= process.env.URL%>/user/updateUser?_method=put" method="post" style="display: inline;" class="registration-form">
           <div class="input-form">
             <div class="input-field">
+              <label for="firstname">firstname *</label>
+              <input type="firstname" name="firstname" id="firstname" placeholder="Your firstname" value="<%=user.firstname%>">
+            </div>
+            <div class="input-field">
+              <label for="lastname">lastname *</label>
+              <input type="lastname" name="lastname" id="lastname" placeholder="Your lastname" value="<%=user.lastname%>">
+            </div>
+            <div class="input-field">
               <label for="email">Email *</label>
-              <input type="email" name="email" id="email" placeholder="Your Email" value="<%=response.email%>">
+              <input type="email" name="email" id="email" placeholder="Your Email" value="<%=user.email%>">
+            </div>
+            <div class="input-field">
+              <label for="mobile">mobile *</label>
+              <input type="mobile" name="mobile" id="mobile" placeholder="Your mobile" value="<%=user.mobile%>">
             </div>
             <button>update</button>
           </div>

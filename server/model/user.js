@@ -37,7 +37,7 @@ var userSchema = new mongoose.Schema(
         quantity: Number,
       },
     ],
-    isBlocked: { type: Boolean, default: true },
+    isBlocked: { type: Boolean, default: false },
     address: String,
     refreshToken: { type: String },
     passwordChangedAt: { type: String },
@@ -77,7 +77,7 @@ userSchema.methods = {
   createOtp: function () {
     const OTP = `${Math.floor(1000 + Math.random() * 9000)}`;
     this.otp = OTP;
-    this.otpExpires = Date.now() + 5 * 60 * 1000;
+    this.otpExpires = Date.now() + 8 * 60 * 1000;
     return OTP;
   },
 };
