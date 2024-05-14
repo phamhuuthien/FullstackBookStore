@@ -2,8 +2,6 @@ const router = require("express").Router();
 const controller = require("../controller/userController");
 const { verifyToken, isAdmin } = require("../middlewares/verifyToken");
 
-router.get("/login", controller.loginForm);
-router.get("/register", controller.registerForm);
 
 // CREATE
 router.post("/register", controller.register);
@@ -17,12 +15,13 @@ router.get("/logout", controller.logOut);
 router.get("/refreshAccessToken", controller.refreshAccessToken);
 
 //  get user detail
+
 router.get("/getUser", verifyToken, controller.getUser);
 // get All User
 router.get("/getAllUser", verifyToken, isAdmin, controller.getAllUsers);
 
 router.get("/forgotPassword", controller.forgotPassword);
-router.get("/resetPassword", controller.resetPassword);
+router.post("/resetPassword", controller.resetPassword);
 
 router.get("/sendOtp", controller.sendOtp);
 router.get("/verifyOtp", controller.verifyOtp);

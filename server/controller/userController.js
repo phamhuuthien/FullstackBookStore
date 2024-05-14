@@ -1,4 +1,5 @@
 const User = require("../model/user");
+const Role = require("../model/role");
 const jwt = require("jsonwebtoken");
 const {
   genderateAccessToken,
@@ -8,12 +9,6 @@ const {
 const crypto = require("crypto");
 const sendMail = require("../until/sendMail");
 
-const loginForm = (req, res) => {
-  return res.render("user/login");
-};
-const registerForm = (req, res) => {
-  return res.render("user/register");
-};
 const register = async (req, res) => {
   const { firstname, lastname, password, email, mobile, role } = req.body;
   if (!firstname || !lastname || !password || !email || !mobile || !role) {
@@ -25,23 +20,19 @@ const register = async (req, res) => {
   const user = await User.findOne({ email: email });
   const mobileUser = await User.findOne({ mobile: mobile });
   if (user) {
-    return res.status(401).json({
-      success: false,
-      mes: "user has existed",
-    });
+    var responeMessage = {
+      message: "Email already exists",
+      user: req.body,
+    };
+    res.render("Pages/registration", { responeMessage });
   } else if (mobileUser) {
-    return res.status(401).json({
-      success: false,
-      mes: "mobile has existed",
-    });
+    var responeMessage = {
+      message: "Mobile already exists",
+      user: req.body,
+    };
+    res.render("Pages/registration", { responeMessage });
   } else {
-    const newUser = await User.create(req.body);
-    // return res.status(200).json({
-    //   success: newUser ? true : false,
-    //   mes: newUser
-    //     ? "Register is successfully. Please go login"
-    //     : "something went wrong",
-    // });
+    await User.create(req.body);
     res.redirect("/");
   }
 };
@@ -49,14 +40,15 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   if (!password || !email) {
-    return res.status(400).json({
-      success: false,
-      mes: "missing inputs",
-    });
+    res.render("Pages/login", { message: "missing inputs" });
   }
 
   const dataUser = await User.findOne({ email });
-  if (dataUser && (await dataUser.isCorrectPassword(password))) {
+  if (
+    dataUser &&
+    (await dataUser.isCorrectPassword(password)) &&
+    dataUser.isBlocked == false
+  ) {
     const { _id, password, role, refreshToken, ...user } = dataUser.toObject();
 
     const newAccessToken = genderateAccessToken(dataUser._id, role);
@@ -76,17 +68,15 @@ const login = async (req, res) => {
       maxAge: 5 * 24 * 60 * 60 * 1000,
     });
 
-    // return res.status(200).json({
-    //   success: true,
-    //   newAccessToken,
-    //   userdata: user,
-    // });
-    res.render('index',{user : user});
+    const roleObject = await Role.findById(role);
+
+    if (roleObject.roleName == "user") {
+      res.redirect("/");
+    } else {
+      res.render("admin/index", { user: user });
+    }
   } else {
-    return res.status(400).json({
-      success: false,
-      mes: "login falied",
-    });
+    res.render("Pages/login", { message: "login failed" });
   }
 };
 
@@ -106,28 +96,20 @@ const logOut = async (req, res) => {
 
   res.clearCookie("accessToken", { httpOnly: true, secure: true });
   res.clearCookie("refreshToken", { httpOnly: true, secure: true });
-
-  return res.json({
-    success: true,
-    mess: "logout successfully",
-  });
+  return res.redirect("/");
 };
 
 const getUser = async (req, res) => {
   const { _id } = req.user;
-  const response = await User.findById(_id);
-  return res.status(200).json({
-    success: response ? true : false,
-    user: response,
-  });
+  const user = await User.findById(_id);
+  res.render("Pages/infoAccount", { user });
 };
 
 const getAllUsers = async (req, res) => {
-  const response = await User.find().select("-refreshToken -password -role");
-  return res.status(200).json({
-    success: response ? true : false,
-    user: response,
-  });
+  const response = await User.find({ role: "65f9145d3a4d4b70e60b67db" }).select(
+    "-refreshToken -password -role"
+  );
+  res.render("admin/customer", { response });
 };
 
 const updateUser = async (req, res) => {
@@ -139,23 +121,17 @@ const updateUser = async (req, res) => {
       message: "missing input",
     });
   } else {
-    const response = await User.findByIdAndUpdate(_id, data, {
+    await User.findByIdAndUpdate(_id, data, {
       new: true,
     }).select("-refreshToken -password -role");
-    return res.status(200).json({
-      success: response ? true : false,
-      user: response,
-    });
+    res.redirect("/");
   }
 };
 
 const deleteUser = async (req, res) => {
   const { _id } = req.query;
   const response = await User.findByIdAndDelete(_id, { new: true });
-  return res.status(200).json({
-    success: response ? true : false,
-    user: `success delete account with emial ${response.email}`,
-  });
+  res.redirect(process.env.URL + "/admin/customer");
 };
 
 const refreshAccessToken = async (req, res) => {
@@ -204,10 +180,7 @@ const isBlocked = async (req, res) => {
     );
     isBlocked = true;
   }
-  return res.status(200).json({
-    success: true,
-    message: isBlocked ? "locked user" : "unlocked user",
-  });
+  res.redirect(process.env.URL + "/admin/customer");
 };
 
 const resetPassword = async (req, res) => {
@@ -235,10 +208,11 @@ const resetPassword = async (req, res) => {
   user.passwordResetToken = undefined;
   user.passwordResetExpires = undefined;
   await user.save();
-  return res.json({
-    success: true,
-    mess: user ? "updated password" : "something went wrong",
-  });
+  // return res.json({
+  //   success: true,
+  //   mess: user ? "updated password" : "something went wrong",
+  // });
+  res.render("Pages/login");
 };
 
 const forgotPassword = async (req, res) => {
@@ -256,27 +230,23 @@ const forgotPassword = async (req, res) => {
 
     await user.save();
 
-    const html = `xin vui lòng click vào link dưới đây để thay đổi mật khẩu của bạn. link này sẽ hết hạn sau 15 phút kể từ bây giờ <a href=${process.env.URL_SERVER}/api/v1/user/resetPassword/${tokenChangePassword} >click here</a>`;
+    const html = `xin vui lòng click vào link dưới đây để thay đổi mật khẩu của bạn. link này sẽ hết hạn sau 15 phút kể từ bây giờ <a href=${process.env.URL_SERVER}/resetPassword/${tokenChangePassword} >click here</a>`;
 
     const data = {
       email,
       html,
     };
     const rs = await sendMail(data);
-    return res.status(200).json({
-      success: true,
-      rs,
-    });
+    // return res.status(200).json({
+    //   success: true,
+    //   rs,
+    // });
+    res.render("Pages/login", { message: " vui long kiem tra email" });
   }
 };
 
 const sendOtp = async (req, res) => {
   const { email } = req.query;
-
-  // check nó đã được đăng kí
-  // const { _id } = req.user;
-  // const checkUser = User.findById(_id);
-
   if (email == null) {
     return res.status(400).json({
       success: false,
@@ -407,8 +377,6 @@ const removeCart = async (req, res) => {
 };
 
 module.exports = {
-  loginForm,
-  registerForm,
   register,
   login,
   logOut,

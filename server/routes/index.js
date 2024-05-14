@@ -6,6 +6,7 @@ const orderRouters = require("./orderRouter");
 const couponRouters = require("./couponRouter");
 const bookRouter = require("./bookRouter");
 const commentRouter = require("./commentRouter");
+const getViewRouter = require("./getViewRouter");
 const authorRouter = require("./authorRouter");
 const categoryRouter = require("./categoryRouter")
 
@@ -17,7 +18,8 @@ const initRouters = (app) => {
   app.use("/book", bookRouter);
   app.use("/comments", commentRouter);
   app.use("/author", authorRouter);
-  app.use("/category", categoryRouter)
+  app.use("/category", categoryRouter);
+  app.use("", getViewRouter);
 };
 
 module.exports = initRouters;
