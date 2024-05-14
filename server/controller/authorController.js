@@ -1,5 +1,5 @@
 const Author = require('../model/author');
- 
+
 const getDetailAuthor = async (req, res) => {
     try {
         const Author = await Author.findById(req.params.cid);
@@ -9,7 +9,7 @@ const getDetailAuthor = async (req, res) => {
     }
 }
 
-const getListAuthor = async (req,res) => {
+const getListAuthor = async (req, res) => {
     try {
         const author = await Author.find();
         res.status(200).json(author);
@@ -18,7 +18,7 @@ const getListAuthor = async (req,res) => {
     }
 }
 
-const addAuthor = async (req,res) => {
+const addAuthor = async (req, res) => {
     try {
         const newAuthor = new Author(req.body);
         const saveAuthor = await newAuthor.save();
@@ -28,21 +28,21 @@ const addAuthor = async (req,res) => {
     }
 }
 
-const updateAuthor =  async (req,res) => {
+const updateAuthor = async (req, res) => {
     try {
         const updateAuthor = await Author.findByIdAndUpdate(req.params.cid, {
-            $set : req.body
-        }, 
-          {
-             new : true
-        });
+            $set: req.body
+        },
+            {
+                new: true
+            });
         res.status(200).json(updateAuthor);
     } catch (err) {
         res.status(500).json(err);
     }
 }
 
-const deleteAuthor = async (req,res) => {
+const deleteAuthor = async (req, res) => {
     try {
         await Author.findByIdAndDelete(req.params.cid);
         res.status(200).json(" Author has been deleted...");
@@ -51,4 +51,4 @@ const deleteAuthor = async (req,res) => {
     }
 }
 
-module.exports = {getDetailAuthor, getListAuthor, addAuthor, updateAuthor, deleteAuthor} ;
+module.exports = { getDetailAuthor, getListAuthor, addAuthor, updateAuthor, deleteAuthor };

@@ -259,3 +259,55 @@ exports.decreaseLikeBook = async (req, res) => {
         res.status(500).json({ message: "update that bai" });
     }
 }
+
+exports.searchBookByName = async (req, res) => {
+    try {
+        const { searchTerm } = req.params;
+
+        // Tách các từ trong searchTerm và tạo thành một mảng
+        const searchTerms = searchTerm.split(" ").filter(term => term.trim() !== "");
+
+        // Tạo một mảng các biểu thức chính quy cho mỗi từ trong searchTerm
+        const regexTerms = searchTerms.map(term => new RegExp(term, "i"));
+
+        // Tìm kiếm sách trong cơ sở dữ liệu có tên chứa từ khóa tìm kiếm
+        const books = await Book.find({
+            $and: regexTerms.map(term => ({ name: { $regex: term } }))
+        });
+
+        if (books.length === 0) {
+            return res.status(404).json({ success: false, message: "No books found matching the search criteria" });
+        }
+
+        // Lặp qua mỗi cuốn sách và truy vấn danh sách comment của từng cuốn sách
+        const booksWithComments = await Promise.all(books.map(async (book) => {
+            const comments = await Comment.find({ book: book._id }).select('user content date');
+
+            // Tạo một đối tượng sách mới bao gồm cả danh sách comment
+            const bookWithComments = {
+                _id: book._id,
+                name: book.name,
+                description: book.description,
+                image: book.image,
+                price: book.price,
+                quantity: book.quantity,
+                totalLike: book.totalLike,
+                categoryId: book.categoryId,
+                authorId: book.authorId,
+                slug: book.slug,
+                comments: comments
+            };
+
+            return bookWithComments;
+        }));
+
+        res.status(200).json({
+            success: true,
+            data: booksWithComments
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
