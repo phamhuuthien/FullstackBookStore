@@ -115,6 +115,19 @@ const getAllUsers = async (req, res) => {
 const updateUser = async (req, res) => {
   const { _id } = req.user;
   const data = req.body;
+  const email = data.email;
+  if (email) {
+    const emailSearch = await User.findOne({
+      email,
+      _id: { $ne: _id },
+    });
+    if (emailSearch) {
+      return res.status(400).json({
+        success: false,
+        message: "email already exist",
+      });
+    }
+  }
   if (Object.keys(data).length === 0) {
     return res.status(400).json({
       success: false,

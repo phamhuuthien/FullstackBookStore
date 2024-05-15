@@ -3,25 +3,17 @@ const mongoose = require('mongoose');
 const authorSchema = new mongoose.Schema({
     name: {
         type: String,
-    },
-    biography: {
-        type: String,
-    },
-    image: {
-        type: String,
-    },
-    nationality: {
-        type: String,
+        required: true
     },
     birthDate: {
         type: Date,
     },
-    books: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Book'
-    }],
-    slug: {
-        type: String,
+    email: {
+        type : String,
+        unique: true,
+    },
+    description : {
+        type : String
     }
 });
 

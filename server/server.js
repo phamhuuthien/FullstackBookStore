@@ -26,7 +26,7 @@ app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(cookieParser());
 // đọc được file từ client gửi lên
-// app.use(express.urlencoded({extended : true}))
+// app.use(express.urlencoded({ extended: true }));
 
 dbconnect()
 
