@@ -16,9 +16,6 @@ const bookSchema = new mongoose.Schema({
     quantity: {
         type: Number,
     },
-    totalLike: {
-        type: Number,
-    },
     categoryId: {
         type: mongoose.Types.ObjectId,
         ref: "Category"
@@ -30,9 +27,22 @@ const bookSchema = new mongoose.Schema({
     slug: {
         type: String,
     },
-    comments: [{
-        type: mongoose.Types.ObjectId,
-        ref: "Comment"
+    ratings: [{
+        orderId: {
+            type: mongoose.Types.ObjectId,
+            ref: "Order"
+        },
+        userName: {
+            type: String,
+        },
+        rating: [{
+            content: {
+                type: String,
+            },
+            stars: {
+                type: Number,
+            }
+        }]
     }]
 });
 
