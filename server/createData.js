@@ -5,6 +5,7 @@ const fsPromises = require("fs/promises");
 const { isObjectIdOrHexString } = require("mongoose");
 const app = express();
 const Category = require("./model/category");
+const Author = require("./model/author");
 const mongoose = require("mongoose");
 const dbconnect = require("./dbConnect/connectMongo");
 dbconnect();
@@ -27,7 +28,10 @@ app.get("/", async (req, res) => {
     // res.send("Data processed successfully!");
 
     const transformedArrayBook = [];
+    var i = 0;
     for (const category in dataObject) {
+      const resAuthor = await Author.findOne({ name: `Peter James${i}` });
+      i++;
       const respone = await Category.findOne({ name: category });
       dataObject[category].forEach((item) => {
         transformedArrayBook.push({
@@ -35,8 +39,10 @@ app.get("/", async (req, res) => {
           description: item.bookDescription,
           image: item.imagesUrl,
           price: item.price,
+          totalRating: 5,
           quantity: item.available,
           categoryId: respone._id,
+          authorId: resAuthor._id,
         });
       });
     }

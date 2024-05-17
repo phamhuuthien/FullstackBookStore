@@ -67,12 +67,12 @@ const login = async (req, res) => {
       maxAge: 5 * 24 * 60 * 60 * 1000,
     });
 
-    return res.status(200).json({
-      success: true,
-      newAccessToken,
-      userdata: user,
-    });
-    // res.render('index',{user : user});
+    // return res.status(200).json({
+    //   success: true,
+    //   newAccessToken,
+    //   userdata: user,
+    // });
+    res.render("index", { user: user });
   } else {
     return res.status(400).json({
       success: false,
