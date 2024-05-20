@@ -335,6 +335,9 @@ body {
   font-size: 14px;
   font-weight: 500;
 }
+.status.delivered:hover{
+  cursor: pointer;
+}
 .status.pending {
   padding: 2px 4px;
   background: #e9b10a;
