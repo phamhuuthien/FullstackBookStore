@@ -9,7 +9,6 @@ const verifyToken = async (req, res, next) => {
       message: "Missing access token in cookie",
     });
   }
-
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       return res.status(401).json({

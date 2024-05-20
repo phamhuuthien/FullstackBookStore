@@ -469,3 +469,16 @@ body {
     left: initial;
   }
 }
+
+.create_item{
+  padding: 30px;
+}
+.btn-create-item{
+  display: flex;
+  align-items: center;
+  padding: 14px;
+  color: white;
+  font-size: 24px;
+  background: rgb(170, 232, 98);
+  border-radius: 4px;
+}
