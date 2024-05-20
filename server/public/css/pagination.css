@@ -1,0 +1,25 @@
+#paging{
+    padding : 20px;
+}
+#paging ul{
+    list-style: none;
+    display: flex ;
+}
+#paging .paginationjs-page, .paginationjs-ellipsis, .paginationjs-prev, .paginationjs-next {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border:  1px solid black;
+    text-align: center;
+}
+
+#paging .paginationjs-page:hover, .paginationjs-ellipsis:hover, .paginationjs-prev:hover, .paginationjs-next:hover {
+    cursor: pointer;
+}
+
+#paging .active{
+    background-color:black;
+    color : white;
+}
+
+
