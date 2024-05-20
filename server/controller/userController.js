@@ -66,13 +66,18 @@ const login = async (req, res) => {
     res.cookie("accessToken", newAccessToken, {
       maxAge: 5 * 24 * 60 * 60 * 1000,
     });
-
+    const roleObject = await Role.findById(role);
+    if (roleObject.roleName == "user") {
+      res.redirect("/");
+    }else{
+      res.render("admin/index", { user: user });
+    }
     // return res.status(200).json({
     //   success: true,
     //   newAccessToken,
     //   userdata: user,
     // });
-    res.render("index", { user: user });
+    // res.render("index", { user: user });
   } else {
     return res.status(400).json({
       success: false,

@@ -1,5 +1,6 @@
 const express = require("express");
 const userController = require("../controller/userController");
+const authorController = require("../controller/authorController");
 const router = express.Router();
 const User = require("../model/user");
 const Role = require("../model/role");
@@ -29,6 +30,10 @@ router.get("/", async (req, res) => {
 
 router.get("/admin/customer", (req, res) => {
   userController.getAllUsers(req, res);
+});
+
+router.get("/admin/author", (req, res) => {
+  authorController.getListAuthor(req, res);
 });
 
 router.get("/admin", (req, res) => {
