@@ -5,20 +5,20 @@ const userRouters = require("./userRouter");
 const orderRouters = require("./orderRouter");
 const couponRouters = require("./couponRouter");
 const bookRouter = require("./bookRouter");
-const commentRouter = require("./commentRouter");
 const getViewRouter = require("./getViewRouter");
 const authorRouter = require("./authorRouter");
 const categoryRouter = require("./categoryRouter")
+const ratingRouter = require("./ratingRouter");
 
 const initRouters = (app) => {
-  app.use("/role", roleRouters);
-  app.use("/user", userRouters);
-  app.use("/order", orderRouters);
-  app.use("/coupon", couponRouters);
-  app.use("/books", bookRouter);
-  app.use("/comments", commentRouter);
-  app.use("/author", authorRouter);
-  app.use("/category", categoryRouter);
+  app.use("/api/v1/role", roleRouters);
+  app.use("/api/v1/user", userRouters);
+  app.use("/api/v1/order", orderRouters);
+  app.use("/api/v1/coupon", couponRouters);
+  app.use("/api/v1/book", bookRouter);
+  app.use("/api/v1/rating", ratingRouter);
+  app.use("/api/v1/author", authorRouter);
+  app.use("/api/v1/category", categoryRouter);
   app.use("", getViewRouter);
 };
 

@@ -8,11 +8,19 @@ var orderSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true,
-        default: 'Pending'
+        default: 'pending',
+        data: ['unpaid', 'pending', 'delivering', 'delivered']
     },
-    total: {
-        type: Number
-    },
+    listBooks: [{
+        bookId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Book'
+        },
+        quantity: {
+            type: Number,
+            required: true
+        }
+    }],
     couponId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Coupon'

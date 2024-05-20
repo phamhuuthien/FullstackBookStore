@@ -1,12 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const categoryController = require('../controller/categoryController');
-const { verifyToken } = require('../middlewares/verifyToken');
+const router = require("express").Router();
+const categoryController = require("../controller/categoryController");
+const { verifyToken, isAdmin } = require("../middlewares/verifyToken");
 
-// Route xử lý các danh mục
-router.get('/', verifyToken, categoryController.getListCategory);
-router.post('/', verifyToken, categoryController.addCategory);
-router.put('/:cid', verifyToken, categoryController.updateCategory);
-router.delete('/:cid', verifyToken, categoryController.deleteCategory);
+router.get("/", verifyToken, categoryController.getListCategory);
+router.post("/", verifyToken, isAdmin, categoryController.addCategory);
+router.put("/:id", verifyToken, isAdmin, categoryController.updateCategory);
+router.delete("/:id", verifyToken, isAdmin, categoryController.deleteCategory);
 
 module.exports = router;

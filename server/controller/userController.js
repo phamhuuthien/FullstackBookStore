@@ -40,15 +40,14 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   if (!password || !email) {
-    res.render("Pages/login", { message: "missing inputs" });
+    return res.status(400).json({
+      success: false,
+      mes: "missing inputs",
+    });
   }
 
   const dataUser = await User.findOne({ email });
-  if (
-    dataUser &&
-    (await dataUser.isCorrectPassword(password)) &&
-    dataUser.isBlocked == false
-  ) {
+  if (dataUser && (await dataUser.isCorrectPassword(password))) {
     const { _id, password, role, refreshToken, ...user } = dataUser.toObject();
 
     const newAccessToken = genderateAccessToken(dataUser._id, role);
@@ -68,17 +67,20 @@ const login = async (req, res) => {
       maxAge: 5 * 24 * 60 * 60 * 1000,
     });
 
-    const roleObject = await Role.findById(role);
-
-    if (roleObject.roleName == "user") {
-      res.redirect("/");
-    } else {
-      res.render("admin/index", { user: user });
-    }
+    // return res.status(200).json({
+    //   success: true,
+    //   newAccessToken,
+    //   userdata: user,
+    // });
+    res.render("index", { user: user });
   } else {
-    res.render("Pages/login", { message: "login failed" });
+    return res.status(400).json({
+      success: false,
+      mes: "login falied",
+    });
   }
 };
+
 
 const logOut = async (req, res) => {
   const cookie = req.cookies;
@@ -115,6 +117,19 @@ const getAllUsers = async (req, res) => {
 const updateUser = async (req, res) => {
   const { _id } = req.user;
   const data = req.body;
+  const email = data.email;
+  if (email) {
+    const emailSearch = await User.findOne({
+      email,
+      _id: { $ne: _id },
+    });
+    if (emailSearch) {
+      return res.status(400).json({
+        success: false,
+        message: "email already exist",
+      });
+    }
+  }
   if (Object.keys(data).length === 0) {
     return res.status(400).json({
       success: false,

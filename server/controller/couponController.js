@@ -20,7 +20,7 @@ const getDetailCoupon = async (req, res) => {
 
 const addCoupon = async (req, res) => {
     try {
-        const newCoupon = new Coupon(req.body);
+        const newCoupon = new Coupon({ code: req.body.code, discount: req.body.discount, expiry: req.body.expiry });
         const savedCoupon = await newCoupon.save();
         res.status(201).json(savedCoupon);
     } catch (err) {
@@ -39,8 +39,9 @@ const deleteCoupon = async (req, res) => {
 
 const updateCoupon = async (req, res) => {
     try {
+        const coupon = await Coupon.findById(req.params.cid);
         const updatedCoupon = await Coupon.findByIdAndUpdate(req.params.cid, {
-            $set: req.body
+            $set: { code: req.body.code || coupon.code, discount: req.body.discount || coupon.discount, expiry: req.body.expiry || coupon.expiry }
         }, { new: true });
         res.status(200).json(updatedCoupon);
     } catch (err) {

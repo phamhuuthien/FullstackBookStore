@@ -8,10 +8,10 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
 const methodOverride = require('method-override');
-app.set('view engine','ejs')
+app.set('view engine', 'ejs')
 app.use(express.static(__dirname + '/public'));
 
-app.use(express.urlencoded({ extended : true}))
+app.use(express.urlencoded({ extended: true }))
 
 app.use(methodOverride('_method'));
 
@@ -26,13 +26,13 @@ app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(cookieParser());
 // đọc được file từ client gửi lên
-// app.use(express.urlencoded({extended : true}))
+// app.use(express.urlencoded({ extended: true }));
 
 dbconnect()
 
 initRoute(app)
 
 
-app.listen(port,()=>{
-    console.log("listening on port 8000")
+app.listen(port, () => {
+  console.log("listening on port 8000")
 })
