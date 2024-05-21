@@ -2,7 +2,7 @@ const Category = require("../model/category");
 
 const getListCategory = async (req, res) => {
   try {
-    const response = await Category.find();
+    const response = (await Category.find()).reverse();
     res.render("admin/category", { response });
     // res.status(200).json({
     //   success: true,

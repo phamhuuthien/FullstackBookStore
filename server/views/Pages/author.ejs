@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>author</title>
+    <link rel="stylesheet" href="<%= process.env.URL%>/css/pagination.css">    
+    <style>
+      .main{
+        padding : 40px;
+      }
+        .details {
+            display: block;
+        }
+        .link-btn{
+            text-decoration: none;
+        }
+        .active {
+          transform: rotate(-360deg) !important;
+        }
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="<%= process.env.URL%>/js/pagination.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <%- include("../partials/header") -%>
+        <div class="main">
+            <div class="details">
+                <div class="recentOrders">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>index</td>
+                                <td>Name</td>
+                                <td>email</td>
+                                <td>BirthDate</td>
+                                <td>Description</td>
+                                <td>Action</td>
+                            </tr>
+                        </thead>
+                        <tbody id="content">
+                            <!-- content table -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="paging"></div>
+        </div>
+    </div>
+    <% if (response !== "undefined") { %>
+        <script>
+
+            const response = <%- JSON.stringify(response) %>;
+            $(document).ready(function() {
+
+              const pageSize = 4;
+              
+              $('#paging').pagination({
+                dataSource: response,
+                pageSize: pageSize,
+                afterPageOnClick: function(event, pageNumber) {
+                  loadPage(pageNumber, pageSize, response);
+                },
+                afterPreviousOnClick: function(event, pageNumber) {
+                  loadPage(pageNumber, pageSize, response);
+                },
+                afterNextOnClick: function(event, pageNumber) {
+                  loadPage(pageNumber, pageSize, response);
+                }
+              });
+              loadPage(1, pageSize, response);
+            });
+          
+            function loadPage(pageNumber, pageSize, dataSource) {
+              const startIndex = (pageNumber - 1) * pageSize;
+              const endIndex = Math.min(startIndex + pageSize, dataSource.length);
+              const pageData = dataSource.slice(startIndex, endIndex);
+              const contentDiv = document.getElementById('content');
+              let content = '';
+              pageData.forEach(function(item, index) {
+                content += `
+                  <tr>
+                    <td>${startIndex + index + 1}</td>
+                    <td>${item.name}</td>
+                    <td>${item.email}</td>
+                    <td>${item.birthDate}</td>
+                    <td>${item.description}</td>
+                    <td>detail</td>
+                  </tr>`;
+              });
+              contentDiv.innerHTML = content;
+            }
+          </script>
+          
+    <% } %>
+   
+
+  <script src="<%= process.env.URL%>/js/admin.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

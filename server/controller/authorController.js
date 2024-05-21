@@ -16,7 +16,7 @@ const getDetailAuthor = async (req, res) => {
 
 const getListAuthor = async (req, res) => {
   try {
-    const response = await Author.find();
+    const response = (await Author.find()).reverse();
     res.render("admin/author", { response });
     // res.status(200).json(author);
   } catch (err) {
