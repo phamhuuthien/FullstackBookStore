@@ -51,6 +51,18 @@
         background-color: #6C5DD4;
         color: white;
       }
+      .author-link,
+      .category-link{
+        text-decoration: none;
+      }
+      .author span,
+      .category span
+      {
+        border: 1px solid #ccc;
+        padding: 10px 20px;
+        font-weight: 700;
+        border-radius: 8px;
+      }
     </style>
 </head>
 <body>
@@ -77,6 +89,16 @@
               </button>
             </div>
           </div>
+          <a class="author-link" href="<%= process.env.URL%>/user/author">
+            <div class="author">
+              <span>Author</span>
+            </div>
+          </a>
+          <a class="category-link" href="<%= process.env.URL%>/user/category">
+            <div class="category">
+              <span>Category</span>
+            </div>
+          </a>
           <div class="nav-end">
             <button class="likebtn">
               <i class="fa-regular fa-heart"></i> <span>35</span>

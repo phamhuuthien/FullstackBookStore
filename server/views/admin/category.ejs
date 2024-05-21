@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>customer</title>
+    <title>category</title>
     <link rel="stylesheet" href="<%= process.env.URL%>/css/admin.css">
     <link rel="stylesheet" href="<%= process.env.URL%>/css/pagination.css">    
     <link rel="stylesheet" href="<%= process.env.URL%>/css/modal.css">    
@@ -44,21 +44,16 @@
             <div class="create_item">
               <button class="btn-create-item">
                 <ion-icon name="add-circle"></ion-icon>
-                add author
+                add category
               </button>
             </div>
             <div class="details">
-              <% if(typeof message !== 'undefined') {%>
-                <h6><%=message%></h6>
-              <%}%>
                 <div class="recentOrders">
                     <table>
                         <thead>
                             <tr>
                                 <td>index</td>
-                                <td>Name</td>
-                                <td>email</td>
-                                <td>BirthDate</td>
+                                <td>name</td>
                                 <td>description</td>
                                 <td>update</td>
                                 <td>delete</td>
@@ -108,21 +103,17 @@
                   <tr>
                     <td>${startIndex + index + 1}</td>
                     <td>${item.name}</td>
-                    <td>${item.email}</td>
-                    <td>${item.birthDate}</td>
                     <td>${item.description}</td>
                     <td>
                       <button class="status delivered btn-update" type="button" 
                         data-id="${item._id}"
                         data-name="${item.name}" 
-                        data-email="${item.email}" 
-                        data-birthdate="${item.birthDate}" 
                         data-description="${item.description}">
                         Update
                       </button>
                     </td>
                     <td>
-                      <form action="http://localhost:8000/author/${item._id}?_method=delete" method="post" style="display: inline;">
+                      <form action="http://localhost:8000/category/${item._id}?_method=delete" method="post" style="display: inline;">
                         <button class="status delivered" type="submit">Delete</button>
                       </form>
                     </td>
@@ -138,17 +129,13 @@
     <div id="modalCreate" class="modal">
       <div class="modal-content">
           <span class="close-modal-create">&times;</span>
-          <form id="modalForm" action="http://localhost:8000/author" method="post" >
+          <form id="modalForm" action="http://localhost:8000/category" method="post" >
               <h2>create author</h2>
               <label for="name">name:</label>
               <input type="text" name="name" required>
-              <label for="email">Email:</label>
-              <input type="email" name="email" required>
-              <label for="birthDate">birthDate:</label>
-              <input type="Date" name="birthDate" required>
               <label for="description">Description:</label>
               <input type="description" name="description" required>
-              <button type="submit">Gửi</button>
+              <button type="submit">add</button>
           </form>
       </div>
     </div>
@@ -157,17 +144,13 @@
     <div id="myModal" class="modal">
       <div class="modal-content">
           <span class="close-modal-update">&times;</span>
-          <form id="modalForm_update" method="post" >
+          <form id="modalForm_update" method="post">
               <h2>update</h2>
               <label for="name">name:</label>
               <input type="text" id="name" name="name" required>
-              <label for="email">Email:</label>
-              <input type="email" id="email" name="email" required>
-              <label for="birthDate">birthDate:</label>
-              <input type="text" id="birthDate" name="birthDate" required>
               <label for="description">Description:</label>
               <input type="description" id="description" name="description" required>
-              <button type="submit">Gửi</button>
+              <button type="submit">update</button>
           </form>
       </div>
     </div>
@@ -186,15 +169,11 @@
         var button = event.target;
         var id = button.getAttribute("data-id")
         var name = button.getAttribute("data-name");
-        var email = button.getAttribute("data-email");
-        var birthDate = button.getAttribute("data-birthdate");
         var description = button.getAttribute("data-description");
 
-        modalForm.setAttribute("action",`http://localhost:8000/author/${id}?_method=put`)
+        modalForm.setAttribute("action",`http://localhost:8000/category/${id}?_method=put`)
         
         document.getElementById("name").value = name;
-        document.getElementById("email").value = email;
-        document.getElementById("birthDate").value = birthDate; 
         document.getElementById("description").value = description; 
   
         modal.style.display = "block";
