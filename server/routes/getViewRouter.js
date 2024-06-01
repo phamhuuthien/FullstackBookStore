@@ -11,7 +11,7 @@ const author = require("../model/author");
 const category = require("../model/category");
 
 router.get("/", async (req, res) => {
-  // autoLogin
+  // autoLogin // chuyển hướng tránh vào r f5 lại nó sẽ mất dữ liệu do chưa định nghĩa router get/user/login
   const accessToken = req.cookies.accessToken;
   if (accessToken) {
     try {
@@ -30,8 +30,8 @@ router.get("/", async (req, res) => {
       });
     }
   } else {
-    return res.render("index");
   }
+  return res.render("index");
 });
 
 router.get("/admin/customer", verifyToken, isAdmin, (req, res) => {

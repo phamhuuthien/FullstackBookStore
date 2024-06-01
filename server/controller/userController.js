@@ -328,9 +328,9 @@ const verifyOtp = async (req, res) => {
 const addCart = async (req, res) => {
   const { _id } = req.user;
   const user = await User.findById(_id).select("cart");
-  const { bid, quantity } = req.body;
+  const { bid } = req.params;
   if (user) {
-    if (!bid || !quantity) {
+    if (!bid) {
       return res.status(400).json({
         success: false,
         message: "missing input",
@@ -345,8 +345,7 @@ const addCart = async (req, res) => {
         item.book.toString() === bid
     );
     if (checkBookInCart) {
-      const currentQuantity =
-        checkBookInCart.quantity + Number.parseInt(quantity);
+      const currentQuantity = checkBookInCart.quantity + 1;
       const response = await User.updateOne(
         { cart: { $elemMatch: checkBookInCart } },
         { $set: { "cart.$.quantity": currentQuantity } },
@@ -361,7 +360,7 @@ const addCart = async (req, res) => {
       const response = await User.findByIdAndUpdate(
         _id,
         {
-          $push: { cart: { book: bid, quantity } },
+          $push: { cart: { book: bid, quantity: 1 } },
         },
         { new: true }
       );
@@ -396,6 +395,18 @@ const removeCart = async (req, res) => {
   }
 };
 
+const getCarts = async (req, res) => {
+  const { _id } = req.user;
+  const user = await User.findById(_id).select("cart");
+  if (user) {
+    const carts = user.cart;
+    return res.status(200).json({
+      sucess: carts ? true : false,
+      rs: carts,
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -410,6 +421,7 @@ module.exports = {
   forgotPassword,
   addCart,
   removeCart,
+  getCarts,
   sendOtp,
   verifyOtp,
 };
