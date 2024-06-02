@@ -8,6 +8,7 @@ const {
 
 const crypto = require("crypto");
 const sendMail = require("../until/sendMail");
+const { captureRejectionSymbol } = require("nodemailer/lib/xoauth2");
 
 const register = async (req, res) => {
   const { firstname, lastname, password, email, mobile, role } = req.body;
@@ -69,7 +70,7 @@ const login = async (req, res) => {
     const roleObject = await Role.findById(role);
     if (roleObject.roleName == "user") {
       res.redirect("/");
-    }else{
+    } else {
       res.render("admin/index", { user: user });
     }
     // return res.status(200).json({
@@ -85,7 +86,6 @@ const login = async (req, res) => {
     });
   }
 };
-
 
 const logOut = async (req, res) => {
   const cookie = req.cookies;
@@ -351,10 +351,11 @@ const addCart = async (req, res) => {
         { $set: { "cart.$.quantity": currentQuantity } },
         { new: true }
       );
-      return res.status(200).json({
-        sucess: response ? true : false,
-        rs: response,
-      });
+      // return res.status(200).json({
+      //   sucess: response ? true : false,
+      //   rs: response,
+      // });
+      res.redirect("/");
     } else {
       // thêm khi chưa có trong giỏ hàng
       const response = await User.findByIdAndUpdate(
@@ -364,10 +365,11 @@ const addCart = async (req, res) => {
         },
         { new: true }
       );
-      return res.status(200).json({
-        sucess: response ? true : false,
-        rs: response,
-      });
+      // return res.status(200).json({
+      //   sucess: response ? true : false,
+      //   rs: response,
+      // });
+      res.redirect("/");
     }
   }
 };
@@ -378,32 +380,24 @@ const removeCart = async (req, res) => {
   const user = await User.findById(_id).select("cart");
   if (user) {
     const carts = user.cart;
-    carts.find((item) => {
-      if (item.book.toString() === bid) {
-        carts.pop(item);
-      }
-    });
+    // for (let i = 0; i < carts.length; i++) {
+    //   if (carts[i].book.toString() === bid) {
+    //     carts.pop(carts[i]);
+    //     break;
+    //   }
+    // }
+    // carts.find((item) => {
+    //   if (item.book.toString() === bid) {
+    //     carts.pop(item);
+    //   }
+    // });
+    const filteredCarts = carts.filter((item) => item.book.toString() !== bid);
     const response = await User.updateOne(
       { _id: user._id },
-      { $set: { cart: carts } },
+      { $set: { cart: filteredCarts } },
       { new: true }
     );
-    return res.status(200).json({
-      sucess: response ? true : false,
-      rs: response,
-    });
-  }
-};
-
-const getCarts = async (req, res) => {
-  const { _id } = req.user;
-  const user = await User.findById(_id).select("cart");
-  if (user) {
-    const carts = user.cart;
-    return res.status(200).json({
-      sucess: carts ? true : false,
-      rs: carts,
-    });
+    res.redirect("/cart-item");
   }
 };
 
@@ -421,7 +415,6 @@ module.exports = {
   forgotPassword,
   addCart,
   removeCart,
-  getCarts,
   sendOtp,
   verifyOtp,
 };

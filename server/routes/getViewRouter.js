@@ -83,8 +83,14 @@ router.get("/book-detail", async (req, res) => {
   res.render("Pages/book-detail");
 });
 
-router.get("/cart-item", async (req, res) => {
-  res.render("Pages/cart-item");
+router.get("/cart-item", verifyToken, async (req, res) => {
+  const { _id } = req.user;
+  const user = await User.findById(_id)
+    .select("cart")
+    .populate({ path: "cart.book", select: "_id name image price" });
+  if (user) {
+    res.render("Pages/cart-item", { user });
+  }
 });
 
 router.get("/checkout", async (req, res) => {
