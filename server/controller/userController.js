@@ -72,7 +72,8 @@ const login = async (req, res) => {
     //   newAccessToken,
     //   userdata: user,
     // });
-    res.render("index", { user: user });
+    // res.render("index", { user: user });
+    res.redirect('/')
   } else {
     return res.status(400).json({
       success: false,

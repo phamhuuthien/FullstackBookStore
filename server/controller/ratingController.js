@@ -14,7 +14,7 @@ exports.addRating = async (req, res) => {
             return res.status(404).json({ success: false, message: "Book not found" });
         }
 
-        // Kiểm tra xem người dùng đã mua sách này chưa
+
         const userOrders = await Order.find({ userId: userId });
         let hasPurchased = false;
 
@@ -33,7 +33,6 @@ exports.addRating = async (req, res) => {
         const user = await User.findById(userId);
         const userName = user.lastname;
 
-        // Tạo một đối tượng rating mới
         const newRating = {
             orderId: userOrders.find(order => order.listBooks.some(item => item.bookId.toString() === bookId))._id,
             userName: userName,
@@ -43,10 +42,8 @@ exports.addRating = async (req, res) => {
             }
         };
 
-        // Thêm rating vào mảng "ratings" trong sách
         book.ratings.push(newRating);
 
-        // Lưu lại sách đã được cập nhật
         await book.save();
 
         res.status(200).json({
@@ -75,7 +72,6 @@ exports.updateRating = async (req, res) => {
             return res.status(404).json({ success: false, message: "Book not found" });
         }
 
-        // Tìm rating cần cập nhật
         const ratingIndex = book.ratings.findIndex(rating => rating._id.toString() === ratingId);
         if (ratingIndex === -1) {
             return res.status(404).json({ success: false, message: "Rating not found" });
@@ -84,16 +80,13 @@ exports.updateRating = async (req, res) => {
         const user = await User.findById(userId);
         const userName = user.lastname;
 
-        // Kiểm tra xem người dùng hiện tại có phải là người đã đánh giá không
         if (book.ratings[ratingIndex].userName !== userName) {
             return res.status(403).json({ success: false, message: "You are not allowed to update this rating" });
         }
 
-        // Cập nhật nội dung và sao của rating
         book.ratings[ratingIndex].rating.content = content;
         book.ratings[ratingIndex].rating.stars = stars;
 
-        // Lưu lại sách đã được cập nhật
         await book.save();
 
         res.status(200).json({
@@ -122,7 +115,7 @@ exports.deleteRating = async (req, res) => {
             return res.status(404).json({ success: false, message: "Book not found" });
         }
 
-        // Tìm rating cần xóa
+
         const ratingIndex = book.ratings.findIndex(rating => rating._id.toString() === ratingId);
         if (ratingIndex === -1) {
             return res.status(404).json({ success: false, message: "Rating not found" });
@@ -130,15 +123,15 @@ exports.deleteRating = async (req, res) => {
 
         const user = await User.findById(userId);
         const userName = user.lastname;
-        // Kiểm tra xem người dùng hiện tại có phải là người đã đánh giá không
+
         if (book.ratings[ratingIndex].userName !== userName) {
             return res.status(403).json({ success: false, message: "You are not allowed to delete this rating" });
         }
 
-        // Xóa rating khỏi mảng "ratings" trong sách
+
         book.ratings.splice(ratingIndex, 1);
 
-        // Lưu lại sách đã được cập nhật
+
         await book.save();
 
         res.status(200).json({

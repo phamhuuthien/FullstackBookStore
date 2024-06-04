@@ -4,6 +4,33 @@
     font-family: 'Poppins', sans-serif;
 }
 
+.search-container {
+    display: inline-block;
+    margin-left: 10px;
+    /* Điều chỉnh khoảng cách với phần tử trước đó */
+}
+
+.search-container input[type=text] {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-container button {
+    padding: 8px 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.search-container button:hover {
+    background-color: #45a049;
+}
+
+
 .navbar-2 {
     display: flex;
     align-items: center;
@@ -1232,10 +1259,11 @@ table .heading {
     margin-top: 1rem;
 }
 
-.discount-summary .summary-section button a{
+.discount-summary .summary-section button a {
     text-decoration: none;
     color: #fff;
 }
+
 .summary-section {
     width: 40%;
 }
@@ -1428,7 +1456,8 @@ table .heading {
 .detail-payment .payment-form .card-meta input {
     width: 20%;
 }
-.payment-form button{
+
+.payment-form button {
     background-color: #6c5dd4;
     color: #fff;
     width: fit-content;
@@ -1439,20 +1468,25 @@ table .heading {
     font-size: 15px;
 }
 
-.registration,.login{
+.registration,
+.login {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 2rem;
 }
-.registration h3,.login h3{
+
+.registration h3,
+.login h3 {
     text-align: center;
     color: #6c5dd4;
     font-weight: 600;
     font-size: 30px;
 }
-.registration .registration-form,.login .login-form{
+
+.registration .registration-form,
+.login .login-form {
     width: 350px;
     margin-top: 2rem;
     border: 1px solid #f0f0f0;
@@ -1460,20 +1494,26 @@ table .heading {
     border-radius: 10px;
     box-shadow: 0px 0px 11px 8px #000;
 }
-.registration-form h4,.login-form h4{
+
+.registration-form h4,
+.login-form h4 {
     font-size: 18px;
     color: #131428;
     border-left: 4px solid #6c5dd4;
     padding-left: 10px;
     text-transform: uppercase;
 }
-.registration-form p,.login-form p{
+
+.registration-form p,
+.login-form p {
     font-size: 14px;
     /* font-weight: 500; */
     color: #838282;
     margin-top: 0.5rem;
 }
-.registration-form .input-form,.login-form .input-form{
+
+.registration-form .input-form,
+.login-form .input-form {
     display: flex;
     flex-direction: column;
     /* justify-content: center; */
@@ -1481,13 +1521,17 @@ table .heading {
     gap: 1rem;
     margin-top: 1rem;
 }
-.registration-form label,.login-form label{
+
+.registration-form label,
+.login-form label {
     /* margin-bottom: 1rem; */
     color: #131428;
     font-size: 14px;
     font-weight: 500;
 }
-.registration-form .input-form input,.login-form .input-form input{
+
+.registration-form .input-form input,
+.login-form .input-form input {
     width: -webkit-fill-available;
     margin-top: 0.5rem;
     border: 1px solid #f0f0f0;
@@ -1497,7 +1541,9 @@ table .heading {
     border-radius: 5px;
     outline: none;
 }
-.registration-form .input-form button,.login-form .input-form button{
+
+.registration-form .input-form button,
+.login-form .input-form button {
     background-color: #6c5dd4;
     border: none;
     border-radius: 5px;
@@ -1508,76 +1554,90 @@ table .heading {
     margin-top: 1rem;
     cursor: pointer;
 }
-.registration .registration-form p a,.login-form p a{
+
+.registration .registration-form p a,
+.login-form p a {
     text-decoration: none;
     color: #6c5dd4;
     font-weight: 500;
 }
 
-.contact{
+.contact {
     margin-top: 2rem;
 }
-.contact h3{
+
+.contact h3 {
     text-align: center;
     color: #6c5dd4;
     font-size: 30px;
     font-weight: 600;
 }
-.contact .main{
+
+.contact .main {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 2rem;
 }
-.contact .main .map{
+
+.contact .main .map {
     width: 90%;
     padding: 0px 30px;
     margin-top: 1rem;
 }
-.contact .main .map iframe{
+
+.contact .main .map iframe {
     height: 300px;
 }
-.contact .main .contact-form{
+
+.contact .main .contact-form {
     border: 1px solid #f0f0f0;
     border-radius: 10px;
     padding: 30px;
     width: 350px;
 }
-.contact .contact-form h4{
+
+.contact .contact-form h4 {
     color: #131428;
     border-left: 4px solid #6c5dd4;
     padding-left: 10px;
     text-transform: uppercase;
 }
-.contact .contact-form p{
+
+.contact .contact-form p {
     color: #838282;
     font-size: 14px;
     margin-top: 0.5rem;
 }
-.contact .contact-form .input-form{
+
+.contact .contact-form .input-form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     margin-top: 1rem;
 }
-.contact .contact-form .input-form .input-field{
+
+.contact .contact-form .input-form .input-field {
     display: flex;
     flex-direction: column;
 }
-.contact .contact-form .input-form input{
+
+.contact .contact-form .input-form input {
     height: 40px;
     padding: 5px 10px;
     border: 1px solid #f0f0f0;
     border-radius: 5px;
     margin-top: 0.5rem;
 }
-.contact .contact-form .input-form label{
+
+.contact .contact-form .input-form label {
     font-size: 15px;
     color: #131428;
     font-weight: 500;
 }
-.contact-form .input-form .message textarea{
+
+.contact-form .input-form .message textarea {
     width: 100%;
     height: 100px;
     resize: none;
@@ -1588,7 +1648,8 @@ table .heading {
     margin-top: 0.5rem;
     /* padding: 15px 10px; */
 }
-.contact-form .input-form button{
+
+.contact-form .input-form button {
     background-color: #6c5dd4;
     color: #fff;
     border-radius: 5px;
@@ -1599,7 +1660,8 @@ table .heading {
     text-transform: uppercase;
     cursor: pointer;
 }
-.service-title h3{
+
+.service-title h3 {
     text-align: center;
     color: #6c5dd4;
     font-size: 30px;
@@ -1629,7 +1691,9 @@ table .heading {
     .filter .book-grid-container .book-collections .books {
         grid-template-columns: 100%;
     }
-    .registration .registration-form,.login .login-form{
+
+    .registration .registration-form,
+    .login .login-form {
         width: 300px;
     }
 }
@@ -1678,7 +1742,8 @@ table .heading {
     .summary-section {
         width: 100% !important;
     }
-    .contact .main .contact-form{
+
+    .contact .main .contact-form {
         width: 300px;
     }
 }
@@ -1713,36 +1778,45 @@ table .heading {
     .discount-summary .summary-section {
         width: 80%;
     }
-    .checkout-section .main{
+
+    .checkout-section .main {
         flex-direction: column;
         align-items: center;
         gap: 3rem;
     }
-    .checkout-section .checkout-form{
+
+    .checkout-section .checkout-form {
         width: 100%;
     }
-    .checkout-section .your-order{
+
+    .checkout-section .your-order {
         width: 100%;
     }
-    .detail-payment{
+
+    .detail-payment {
         flex-direction: column;
         gap: 3rem;
         align-items: center;
         max-width: 100%;
     }
-    .detail-payment .summary-section{
+
+    .detail-payment .summary-section {
         width: 100%;
     }
-    .detail-payment .payment-section{
+
+    .detail-payment .payment-section {
         width: 100%;
     }
-    .detail-payment .payment-form{
-        width: 100%!important;
+
+    .detail-payment .payment-form {
+        width: 100% !important;
     }
-    .detail-payment .payment-form .card-meta{
+
+    .detail-payment .payment-form .card-meta {
         flex-direction: column;
     }
-    .detail-payment .payment-form .card-meta input{
+
+    .detail-payment .payment-form .card-meta input {
         width: 80%;
     }
 }

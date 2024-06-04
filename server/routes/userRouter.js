@@ -30,12 +30,12 @@ router.get("/verifyOtp", controller.verifyOtp);
 // UPDATE
 router.put("/updateUser", verifyToken, controller.updateUser);
 
-router.put("/isBlocked/:_id", verifyToken, isAdmin,controller.isBlocked);
+router.put("/isBlocked/:_id", verifyToken, isAdmin, controller.isBlocked);
 
 
 // add cart 
-router.put("/addCart",verifyToken, controller.addCart);
-router.put("/removeCart/:bid",verifyToken, controller.removeCart);
+router.put("/addCart", verifyToken, controller.addCart);
+router.put("/removeCart/:bid", verifyToken, controller.removeCart);
 
 
 // DELETE

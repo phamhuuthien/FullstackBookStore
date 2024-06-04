@@ -12,10 +12,10 @@ const ratingRouter = require("./ratingRouter");
 
 const initRouters = (app) => {
   app.use("/api/v1/role", roleRouters);
-  app.use("/api/v1/user", userRouters);
+  app.use("/user", userRouters);
   app.use("/api/v1/order", orderRouters);
   app.use("/api/v1/coupon", couponRouters);
-  app.use("/api/v1/book", bookRouter);
+  app.use("", bookRouter);
   app.use("/api/v1/rating", ratingRouter);
   app.use("/api/v1/author", authorRouter);
   app.use("/api/v1/category", categoryRouter);

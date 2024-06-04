@@ -2,102 +2,103 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>customer</title>
-    <link rel="stylesheet" href="<%= process.env.URL%>/css/admin.css">
-    <link rel="stylesheet" href="<%= process.env.URL%>/css/pagination.css">    
-    <style>
-        .details {
-            display: block;
-        }
-        .link-btn{
-            text-decoration: none;
-        }
-    </style>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="<%= process.env.URL%>/js/pagination.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>customer</title>
+  <link rel="stylesheet" href="<%= process.env.URL%>/css/admin.css">
+  <link rel="stylesheet" href="<%= process.env.URL%>/css/pagination.css">
+  <style>
+    .details {
+      display: block;
+    }
+
+    .link-btn {
+      text-decoration: none;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="<%= process.env.URL%>/js/pagination.js"></script>
 </head>
 
 <body>
-    <div class="container">
-        <%- include("../partials/navigation") -%>
-        <div class="main">
-            <div class="topbar">
-                <div class="toggle">
-                    <ion-icon name="menu-outline"></ion-icon>
-                </div>
+  <div class="container">
+    <%- include("../partials/navigation") -%>
+      <div class="main">
+        <div class="topbar">
+          <div class="toggle">
+            <ion-icon name="menu-outline"></ion-icon>
+          </div>
 
-                <div class="search">
-                    <label>
-                        <input type="text" placeholder="Search here">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </label>
-                </div>
+          <div class="search">
+            <label>
+              <input type="text" placeholder="Search here">
+              <ion-icon name="search-outline"></ion-icon>
+            </label>
+          </div>
 
-                <div class="user">
-                    <img src="<%= process.env.URL%>/images/customer01.jpg" alt="">
-                </div>
-            </div>
-            <div class="details">
-                <div class="recentOrders">
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>index</td>
-                                <td>Name</td>
-                                <td>email</td>
-                                <td>phone</td>
-                                <td>isBlocked</td>
-                                <td>update</td>
-                                <td>delete</td>
-                            </tr>
-                        </thead>
-
-                        <tbody id="content">
-                            <!-- content table -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div id="paging"></div>
+          <div class="user">
+            <img src="<%= process.env.URL%>/images/customer01.jpg" alt="">
+          </div>
         </div>
-    </div>
-    <% if (response) { %>
-        <script>
+        <div class="details">
+          <div class="recentOrders">
+            <table>
+              <thead>
+                <tr>
+                  <td>index</td>
+                  <td>Name</td>
+                  <td>email</td>
+                  <td>phone</td>
+                  <td>isBlocked</td>
+                  <td>update</td>
+                  <td>delete</td>
+                </tr>
+              </thead>
 
-            const response = <%- JSON.stringify(response) %>;
-          
-            $(document).ready(function() {
+              <tbody id="content">
+                <!-- content table -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div id="paging"></div>
+      </div>
+  </div>
+  <% if (response) { %>
+    <script>
 
-              const pageSize = 2;
-              
-              $('#paging').pagination({
-                dataSource: response,
-                pageSize: pageSize,
-                afterPageOnClick: function(event, pageNumber) {
-                  loadPage(pageNumber, pageSize, response);
-                },
-                afterPreviousOnClick: function(event, pageNumber) {
-                  loadPage(pageNumber, pageSize, response);
-                },
-                afterNextOnClick: function(event, pageNumber) {
-                  loadPage(pageNumber, pageSize, response);
-                }
-              });
-              loadPage(1, pageSize, response);
-            });
-          
-            function loadPage(pageNumber, pageSize, dataSource) {
-              const startIndex = (pageNumber - 1) * pageSize;
-              const endIndex = Math.min(startIndex + pageSize, dataSource.length);
-              const pageData = dataSource.slice(startIndex, endIndex);
-              const contentDiv = document.getElementById('content');
-              
-              let content = '';
-              pageData.forEach(function(item, index) {
-                content += `
+      const response = <% - JSON.stringify(response) %>;
+
+      $(document).ready(function () {
+
+        const pageSize = 2;
+
+        $('#paging').pagination({
+          dataSource: response,
+          pageSize: pageSize,
+          afterPageOnClick: function (event, pageNumber) {
+            loadPage(pageNumber, pageSize, response);
+          },
+          afterPreviousOnClick: function (event, pageNumber) {
+            loadPage(pageNumber, pageSize, response);
+          },
+          afterNextOnClick: function (event, pageNumber) {
+            loadPage(pageNumber, pageSize, response);
+          }
+        });
+        loadPage(1, pageSize, response);
+      });
+
+      function loadPage(pageNumber, pageSize, dataSource) {
+        const startIndex = (pageNumber - 1) * pageSize;
+        const endIndex = Math.min(startIndex + pageSize, dataSource.length);
+        const pageData = dataSource.slice(startIndex, endIndex);
+        const contentDiv = document.getElementById('content');
+
+        let content = '';
+        pageData.forEach(function (item, index) {
+          content += `
                   <tr>
                     <td>${startIndex + index + 1}</td>
                     <td>${item.firstname}</td>
@@ -115,16 +116,16 @@
                       </form>
                     </td>
                   </tr>`;
-              });
-              contentDiv.innerHTML = content;
-            }
-          </script>
-          
+        });
+        contentDiv.innerHTML = content;
+      }
+    </script>
+
     <% } %>
 
-    <script src="<%= process.env.URL%>/js/admin.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+      <script src="<%= process.env.URL%>/js/admin.js"></script>
+      <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+      <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 
 </html>

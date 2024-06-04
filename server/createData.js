@@ -38,7 +38,7 @@ app.get("/", async (req, res) => {
           name: item.bookTitle,
           description: item.bookDescription,
           image: item.imagesUrl,
-          price: item.price,
+          price: item.bookPrice,
           totalRating: 5,
           quantity: item.available,
           categoryId: respone._id,
