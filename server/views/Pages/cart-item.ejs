@@ -32,19 +32,19 @@
     <section class="cart-item page">
         <h2>Book Cart</h2>
         <div class="product-table">
-            <table cellspacing=0>
-                <tr class="heading">
-                    <th>Product Img</th>
-                    <th>Product Name</th>
-                    <th>Unit Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Delete</th>
-                </tr>
-                <% if (user !== 'null') { 
-                  if(user.cart[0] !==null) {
-                  %>
-                  <% if (user.cart && user.cart.length > 0) { %>
+          <% if (user !== 'null') { 
+            if(user.cart[0] !==null) {
+              %>
+              <% if (user.cart && user.cart.length > 0) { %>
+                <table cellspacing=0>
+                    <tr class="heading">
+                        <th>Product Img</th>
+                        <th>Product Name</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Delete</th>
+                    </tr>
                     <% user.cart.forEach((item, index) => { %>
                       <tr class="data">
                         <td>
@@ -55,12 +55,15 @@
                         <td>
                             <div class="input-group">
                                 <div class="quantity">
-                                    <input
-                                      type="button"
-                                      value="-"
-                                      class="button-minus"
-                                      data-field="quantity"
-                                    />
+                                  <% if(item.quantity === 1){ %>
+                                      <a href="<%= process.env.URL%>/user/removeCart/<%=item.book._id%>">
+                                        <i class="fas fa-minus"></i>
+                                      </a>
+                                  <%}else{%>
+                                    <a href="<%= process.env.URL%>/user/quantity/<%=item.book._id%>?quantity=desc">
+                                      <i class="fas fa-minus"></i>
+                                    </a>
+                                  <%}%>
                                     <input
                                       type="text"
                                       step="1"
@@ -70,12 +73,9 @@
                                       class="quantity-field"
                                       style="width: 4.5rem"
                                     />
-                                    <input
-                                      type="button"
-                                      value="+"
-                                      class="button-plus"
-                                      data-field="quantity"
-                                    />
+                                    <a href="<%= process.env.URL%>/user/quantity/<%=item.book._id%>?quantity=asc">
+                                      <i class="fas fa-plus"></i>
+                                    </a>
                                   </div>
                                 </div>
                             </td>
@@ -86,12 +86,14 @@
                               </a>
                             </td>
                         </tr>
-                    <% }); %>
+                        <% }); %>
+                      </table>
                   <% } else { %>
-                    <p>No items in cart.</p>
+                    <div>
+                      <h1>No items in cart.</h1>
+                    </div>
                   <% } %>
                 <% }} %>
-            </table>
         </div>
     </section>
 

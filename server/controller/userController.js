@@ -374,6 +374,38 @@ const addCart = async (req, res) => {
   }
 };
 
+const addQuantity = async (req, res) => {
+  const { _id } = req.user;
+  const { quantity } = req.query;
+  const user = await User.findById(_id).select("cart");
+  const { bid } = req.params;
+  if (user) {
+    if (!bid) {
+      return res.status(400).json({
+        success: false,
+        message: "missing input",
+      });
+    }
+    const checkBookInCart = await user.cart.find(
+      (item) => item.book.toString() === bid
+    );
+    if (checkBookInCart) {
+      var currentQuantity;
+      if (quantity === "desc") {
+        currentQuantity = checkBookInCart.quantity - 1;
+      } else {
+        currentQuantity = checkBookInCart.quantity + 1;
+      }
+      const response = await User.updateOne(
+        { cart: { $elemMatch: checkBookInCart } },
+        { $set: { "cart.$.quantity": currentQuantity } },
+        { new: true }
+      );
+      res.redirect("/cart-item");
+    }
+  }
+};
+
 const removeCart = async (req, res) => {
   const { _id } = req.user;
   const { bid } = req.params;
@@ -415,6 +447,7 @@ module.exports = {
   forgotPassword,
   addCart,
   removeCart,
+  addQuantity,
   sendOtp,
   verifyOtp,
 };
