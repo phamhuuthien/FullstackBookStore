@@ -34,9 +34,9 @@ router.put("/isBlocked/:_id", verifyToken, isAdmin,controller.isBlocked);
 
 
 // add cart 
-router.put("/addCart",verifyToken, controller.addCart);
-router.put("/removeCart/:bid",verifyToken, controller.removeCart);
-
+router.get("/addCart/:bid", verifyToken, controller.addCart);
+router.get("/quantity/:bid", verifyToken, controller.addQuantity);
+router.get("/removeCart/:bid", verifyToken, controller.removeCart);
 
 // DELETE
 router.delete("/deleteUser", verifyToken, isAdmin, controller.deleteUser);
