@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>navigation</title>
-    <link rel="stylesheet" href="<%= process.env.URL%>/css/admin.css">    
+    <link rel="stylesheet" href="<%= process.env.URL%>/css/admin.css">
     <style>
         .details {
             display: block;
         }
-        .link-btn{
+
+        .link-btn {
             text-decoration: none;
         }
     </style>
 </head>
+
 <body>
     <div class="navigation">
         <ul>
@@ -50,6 +53,15 @@
                         <ion-icon name="person"></ion-icon>
                     </span>
                     <span class="title">Author</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="<%= process.env.URL%>/admin/book">
+                    <span class="icon">
+                        <ion-icon name="book"></ion-icon>
+                    </span>
+                    <span class="title">Book</span>
                 </a>
             </li>
 
@@ -109,4 +121,5 @@
         </ul>
     </div>
 </body>
+
 </html>

@@ -11,7 +11,6 @@ router.get("/book-detail/:id", controller.getBookById);
 router.get("/category/:categoryId", controller.getBooksByIdCategory);
 router.get("/search", controller.searchBookByName);
 
-
 router.post("/", verifyToken, isAdmin, controller.addBook);
 router.put("/:id", verifyToken, isAdmin, controller.updateBook);
 router.delete("/:id", verifyToken, isAdmin, controller.deleteBook);
