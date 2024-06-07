@@ -1,126 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<%= process.env.URL%>/css/book-filter.css" />
-    <title>Document</title>
-    <style>
-      .dropbtn {
-        background-color: #4CAF50;
-        width: 120px;
-        color: #000;
-        padding: 16px;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-      }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="<%= process.env.URL%>/css/book-filter.css" />
+  <title>Document</title>
+  <style>
+    .dropbtn {
+      background-color: #4CAF50;
+      width: 120px;
+      color: #000;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
 
-      .dropdown {
-        position: relative;
-        display: inline-block;
-      }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
 
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background-color: #f9f9f9;
-        min-width: 200px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 10000;
-      }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: #f9f9f9;
+      min-width: 200px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 10000;
+    }
 
-      .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-      }
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
 
-      .dropdown-content a:hover {background-color: #f1f1f1}
+    .dropdown-content a:hover {
+      background-color: #f1f1f1
+    }
 
-      /* Show the dropdown menu on hover */
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
 
-      /* Change the background color of the dropdown button when the dropdown content is shown */
-      .dropdown:hover .dropbtn {
-        background-color: #6C5DD4;
-        color: white;
-      }
-      .author-link,
-      .category-link{
-        text-decoration: none;
-      }
-      .author span,
-      .category span
-      {
-        border: 1px solid #ccc;
-        padding: 10px 20px;
-        font-weight: 700;
-        border-radius: 8px;
-      }
-    </style>
+    /* Change the background color of the dropdown button when the dropdown content is shown */
+    .dropdown:hover .dropbtn {
+      background-color: #6C5DD4;
+      color: white;
+    }
+
+    .book-link,
+    .author-link,
+    .category-link {
+      text-decoration: none;
+    }
+
+    .book span,
+    .author span,
+    .category span {
+      border: 1px solid #ccc;
+      padding: 10px 20px;
+      font-weight: 700;
+      border-radius: 8px;
+    }
+  </style>
 </head>
+
 <body>
-  <% if(typeof user !== 'undefined'){%>
+  <% if(typeof user !=='undefined' ){%>
     <header>
-        <nav class="navbar-2">
-          <div class="logo">
-            <div class="img">
-              <img src="<%= process.env.URL%>/images/logo.png" alt="" />
-            </div>
-            <div class="title">
-              <h4>Bookoe<i class="fa-solid fa-grid"></i></h4>
-              <small>Book Store Website</small>
-            </div>
+      <nav class="navbar-2">
+        <div class="logo">
+          <div class="img">
+            <img src="<%= process.env.URL%>/images/logo.png" alt="" />
           </div>
-          <div class="search-box">
-            <div class="search-field">
-              <input
-                type="text"
-                placeholder="Search over 30 million Book titles"
-              />
-              <button class="search-icon">
-                <i class="fa-solid fa-magnifying-glass"></i>
-              </button>
-            </div>
+          <div class="title">
+            <h4>Bookoe<i class="fa-solid fa-grid"></i></h4>
+            <small>Book Store Website</small>
           </div>
-          <a class="author-link" href="<%= process.env.URL%>/user/author">
-            <div class="author">
-              <span>Author</span>
-            </div>
-          </a>
-          <a class="category-link" href="<%= process.env.URL%>/user/category">
-            <div class="category">
-              <span>Category</span>
-            </div>
-          </a>
-          <div class="nav-end">
-            <button class="likebtn">
-              <i class="fa-regular fa-heart"></i> <span>35</span>
+        </div>
+        <div class="search-box">
+          <div class="search-field">
+            <input type="text" placeholder="Search over 30 million Book titles" />
+            <button class="search-icon">
+              <i class="fa-solid fa-magnifying-glass"></i>
             </button>
-            <button class="cart">
-              <a href="<%= process.env.URL%>/cart-item"
-                ><i class="fa-solid fa-cart-shopping"></i> <span>4</span></a
-              >
-            </button>
-            <!-- <div class="profile-img">
+          </div>
+        </div>
+        <a class="author-link" href="<%= process.env.URL%>/user/author">
+          <div class="author">
+            <span>Author</span>
+          </div>
+        </a>
+        <a class="category-link" href="<%= process.env.URL%>/book/book-filter">
+          <div class="book">
+            <span>Book</span>
+          </div>
+        </a>
+        <a class="category-link" href="<%= process.env.URL%>/user/category">
+          <div class="category">
+            <span>Category</span>
+          </div>
+        </a>
+        <div class="nav-end">
+          <button class="likebtn">
+            <i class="fa-regular fa-heart"></i> <span>35</span>
+          </button>
+          <button class="cart">
+            <a href="<%= process.env.URL%>/cart-item"><i class="fa-solid fa-cart-shopping"></i> <span>4</span></a>
+          </button>
+          <!-- <div class="profile-img">
               <span><%=user.firstname%></span>
             </div> -->
-            <div class="dropdown">
-              <button class="dropbtn"><%=user.lastname%></button>
-              <div class="dropdown-content">
-                <a href="<%= process.env.URL%>/user/getUser">infoAccount</a>
-                <a href="<%= process.env.URL%>/user/logout">Logout</a>
-              </div>
+          <div class="dropdown">
+            <button class="dropbtn">
+              <%=user.lastname%>
+            </button>
+            <div class="dropdown-content">
+              <a href="<%= process.env.URL%>/user/getUser">infoAccount</a>
+              <a href="<%= process.env.URL%>/user/logout">Logout</a>
             </div>
           </div>
-        </nav>
-      </header>
-  <%}%>
+        </div>
+      </nav>
+    </header>
+    <%}%>
 </body>
+
 </html>

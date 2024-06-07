@@ -2,6 +2,7 @@ const express = require("express");
 const userController = require("../controller/userController");
 const authorController = require("../controller/authorController");
 const categoryController = require("../controller/categoryController");
+const bookController = require("../controller/bookController");
 const router = express.Router();
 const User = require("../model/user");
 const Role = require("../model/role");
@@ -9,6 +10,7 @@ const jwt = require("jsonwebtoken");
 const { verifyToken, isAdmin } = require("../middlewares/verifyToken");
 const author = require("../model/author");
 const category = require("../model/category");
+const book = require("../model/book");
 
 router.get("/", async (req, res) => {
   // autoLogin // chuyển hướng tránh vào r f5 lại nó sẽ mất dữ liệu do chưa định nghĩa router get/user/login
@@ -46,6 +48,10 @@ router.get("/admin/category", verifyToken, isAdmin, (req, res) => {
   categoryController.getListCategory(req, res);
 });
 
+router.get("/admin/book", verifyToken, isAdmin, (req, res) => {
+  bookController.getAllBooksByAdmin(req, res);
+});
+
 router.get("/admin", verifyToken, isAdmin, (req, res) => {
   return res.render("admin/index");
 });
@@ -61,6 +67,11 @@ router.get("/user/author", verifyToken, async (req, res) => {
   const user = await User.findById(_id);
   const response = await author.find();
   res.render("Pages/author", { user, response });
+});
+
+router.get("/book/book-filter", verifyToken, async (req, res) => {
+  const books = await book.find();
+  res.render("Pages/book-filter", { books });
 });
 
 router.get("/user/category", verifyToken, async (req, res) => {
@@ -82,6 +93,10 @@ router.get("/book-filter", async (req, res) => {
 router.get("/book-detail", async (req, res) => {
   res.render("Pages/book-detail");
 });
+
+
+
+
 
 router.get("/cart-item", verifyToken, async (req, res) => {
   const { _id } = req.user;
