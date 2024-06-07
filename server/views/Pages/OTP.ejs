@@ -31,14 +31,15 @@
     </style>
 </head>
 <body>
+    <% if(typeof message !== 'undefined'){%>
+        <script>alert("<%=message %>");</script>
+    <%}%>
     <div class="container">
         <h2>Nhập mã OTP</h2>
-        <p>Vui lòng nhập mã OTP được gửi đến điện thoại của bạn.</p>
-        <form action="/verify_otp" method="post">
-            <input type="text" id="digit1" maxlength="1">
-            <input type="text" id="digit2" maxlength="1">
-            <input type="text" id="digit3" maxlength="1">
-            <input type="text" id="digit4" maxlength="1">
+        <p>Vui lòng nhập mã OTP được gửi đến email của bạn.</p>
+        <form action="/user/verifyOtp" method="post">
+            <input type="email" id="email" value="<%=email%>" name="email" hidden>
+            <input type="text" id="digit2" name="verifyOtp" >
             <br>
             <button type="submit">Xác nhận</button>
         </form>

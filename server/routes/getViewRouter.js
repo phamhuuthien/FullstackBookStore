@@ -86,7 +86,7 @@ router.get("/book-detail", async (req, res) => {
 router.get("/cart-item", verifyToken, async (req, res) => {
   const { _id } = req.user;
   const user = await User.findById(_id)
-    .select("cart")
+    .select("cart lastname")
     .populate({ path: "cart.book", select: "_id name image price" });
   if (user) {
     res.render("Pages/cart-item", { user });

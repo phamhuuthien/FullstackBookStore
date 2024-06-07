@@ -37,7 +37,7 @@ var userSchema = new mongoose.Schema(
         quantity: Number,
       },
     ],
-    isBlocked: { type: Boolean, default: false },
+    isBlocked: { type: Boolean, default: true },
     address: String,
     refreshToken: { type: String },
     passwordChangedAt: { type: String },
@@ -57,12 +57,15 @@ userSchema.pre("save", async function (next) {
     next();
   }
   const salt = bcrypt.genSaltSync(10);
-  this.password = await bcrypt.hash(this.password, salt);
+  // do trường hợp save trong otp hắn cx lấy password đã mã hóa đi mã hóa tiếp r lưu lại
+  if (this.password.length < 20) {
+    this.password = await bcrypt.hash(this.password, salt);
+  }
 });
 
 userSchema.methods = {
   isCorrectPassword: async function (password) {
-    return bcrypt.compare(password, this.password);
+    return bcrypt.compareSync(password, this.password);
   },
   createPasswordChangedToken: function () {
     const resetToken = crypto.randomBytes(32).toString("hex");

@@ -34,7 +34,8 @@ const register = async (req, res) => {
     res.render("Pages/registration", { responeMessage });
   } else {
     await User.create(req.body);
-    res.redirect("/");
+    res.redirect(`/user/sendOtp?email=${email}`);
+    // res.redirect("/");
   }
 };
 
@@ -48,6 +49,12 @@ const login = async (req, res) => {
   }
 
   const dataUser = await User.findOne({ email });
+  if (dataUser.isBlocked) {
+    return res.status(400).json({
+      success: false,
+      mes: "login falied : account is blocked",
+    });
+  }
   if (dataUser && (await dataUser.isCorrectPassword(password))) {
     const { _id, password, role, refreshToken, ...user } = dataUser.toObject();
 
@@ -286,10 +293,11 @@ const sendOtp = async (req, res) => {
       html,
     };
     const rs = await sendMail(data);
-    return res.status(200).json({
-      success: true,
-      rs,
-    });
+    // return res.status(200).json({
+    //   success: true,
+    //   rs,
+    // });
+    res.render("Pages/OTP", { email });
   }
 };
 
@@ -309,15 +317,17 @@ const verifyOtp = async (req, res) => {
       user.otp = undefined;
       user.otpExpires = undefined;
       user.save();
-      return res.status(200).json({
-        success: true,
-        message: "success",
-      });
+      // return res.status(200).json({
+      //   success: true,
+      //   message: "success",
+      // });
+      return res.redirect("/");
     }
-    return res.status(200).json({
-      success: false,
-      message: "gui lai otp",
-    });
+    // return res.status(200).json({
+    //   success: false,
+    //   message: "gui lai otp",
+    // });
+    return res.render("Pages/OTP", { email, message: "otp is not correct" });
   }
   return res.status(400).json({
     success: false,

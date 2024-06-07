@@ -24,7 +24,7 @@ router.get("/forgotPassword", controller.forgotPassword);
 router.post("/resetPassword", controller.resetPassword);
 
 router.get("/sendOtp", controller.sendOtp);
-router.get("/verifyOtp", controller.verifyOtp);
+router.post("/verifyOtp", controller.verifyOtp);
 
 
 // UPDATE
