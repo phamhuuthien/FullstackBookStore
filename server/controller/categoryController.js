@@ -2,11 +2,12 @@ const Category = require("../model/category");
 
 const getListCategory = async (req, res) => {
   try {
-    const response = await Category.find();
-    res.status(200).json({
-      success: true,
-      data: response,
-    });
+    const response = (await Category.find()).reverse();
+    res.render("admin/category", { response });
+    // res.status(200).json({
+    //   success: true,
+    //   data: response,
+    // });
   } catch (err) {
     res.status(500).json({
       message: err.message,
@@ -31,11 +32,12 @@ const addCategory = async (req, res) => {
       });
     }
     const response = await Category.create(req.body);
-    res.status(200).json({
-      success: true,
-      message: "category added successfully",
-      data: response,
-    });
+    res.redirect("/admin/category");
+    // res.status(200).json({
+    //   success: true,
+    //   message: "category added successfully",
+    //   data: response,
+    // });
   } catch (err) {
     res.status(500).json({
       message: err.message,
@@ -68,11 +70,12 @@ const updateCategory = async (req, res) => {
         new: true,
       }
     );
-    res.status(200).json({
-      success: true,
-      message: "update successfully",
-      data: updateCategory,
-    });
+    res.redirect("/admin/category");
+    // res.status(200).json({
+    //   success: true,
+    //   message: "update successfully",
+    //   data: updateCategory,
+    // });
   } catch (err) {
     res.status(500).json({
       message: err.message,
@@ -83,10 +86,11 @@ const updateCategory = async (req, res) => {
 const deleteCategory = async (req, res) => {
   try {
     await Category.findByIdAndDelete(req.params.id);
-    res.status(200).json({
-      success: true,
-      message :"delete successfully"
-    });
+    res.redirect("/admin/category");
+    // res.status(200).json({
+    //   success: true,
+    //   message :"delete successfully"
+    // });
   } catch (err) {
     res.status(500).json({
       message: err.message,

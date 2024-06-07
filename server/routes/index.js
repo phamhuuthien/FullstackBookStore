@@ -11,14 +11,15 @@ const categoryRouter = require("./categoryRouter")
 const ratingRouter = require("./ratingRouter");
 
 const initRouters = (app) => {
-  app.use("/api/v1/role", roleRouters);
+
+  app.use("/role", roleRouters);
   app.use("/user", userRouters);
-  app.use("/api/v1/order", orderRouters);
-  app.use("/api/v1/coupon", couponRouters);
-  app.use("", bookRouter);
-  app.use("/api/v1/rating", ratingRouter);
-  app.use("/api/v1/author", authorRouter);
-  app.use("/api/v1/category", categoryRouter);
+  app.use("/order", orderRouters);
+  app.use("/coupon", couponRouters);
+  app.use("/book", bookRouter);
+  app.use("/rating", ratingRouter);
+  app.use("/author", authorRouter);
+  app.use("/category", categoryRouter);
   app.use("", getViewRouter);
 };
 

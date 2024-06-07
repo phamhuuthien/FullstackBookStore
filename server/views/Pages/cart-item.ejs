@@ -22,7 +22,6 @@
   </head>
   <body>
     <%- include("../partials/header") -%>
-
     <div class="breadcrumb-container">
         <ul class="breadcrumb">
           <li><a href="/" style="color: #6c5dd4">Shop</a></li>
@@ -33,167 +32,69 @@
     <section class="cart-item page">
         <h2>Book Cart</h2>
         <div class="product-table">
-            <table cellspacing=0>
-                <tr class="heading">
-                    <th>Product Img</th>
-                    <th>Product Name</th>
-                    <th>Unit Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Delete</th>
-                </tr>
-                <tr class="data">
-                    <td>
-                        <img src="../images/book-2.jpg" alt="">
-                    </td>
-                    <td>The Wright Brothers</td>
-                    <td>$45</td>
-                    <td>
-                        <div class="input-group">
-                            <div class="quantity">
-                                <input
-                                  type="button"
-                                  value="-"
-                                  class="button-minus"
-                                  data-field="quantity"
-                                />
-                                <input
-                                  type="text"
-                                  step="1"
-                                  min="1"
-                                  value="1"
-                                  name="quantity"
-                                  class="quantity-field"
-                                  style="width: 4.5rem"
-                                />
-                                <input
-                                  type="button"
-                                  value="+"
-                                  class="button-plus"
-                                  data-field="quantity"
-                                />
-                              </div>
-                        </div>
-                    </td>
-                    <td>$45</td>
-                    <td><i class="fa-solid fa-trash"></i></td>
-                </tr>
-                <tr class="data">
-                    <td>
-                        <img src="../images/book-6.jpg" alt="">
-                    </td>
-                    <td>Harry Potter</td>
-                    <td>$28</td>
-                    <td>
-                        <div class="input-group">
-                            <div class="quantity">
-                                <input
-                                  type="button"
-                                  value="-"
-                                  class="button-minus"
-                                  data-field="quantity"
-                                />
-                                <input
-                                  type="text"
-                                  step="1"
-                                  min="1"
-                                  value="1"
-                                  name="quantity"
-                                  class="quantity-field"
-                                  style="width: 4.5rem"
-                                />
-                                <input
-                                  type="button"
-                                  value="+"
-                                  class="button-plus"
-                                  data-field="quantity"
-                                />
-                              </div>
-                        </div>
-                    </td>
-                    <td>$28</td>
-                    <td><i class="fa-solid fa-trash"></i></td>
-                </tr>
-                <tr class="data">
-                    <td>
-                        <img src="../images/book-7.jpg" alt="">
-                    </td>
-                    <td>Heroes Of Olympus</td>
-                    <td>$25</td>
-                    <td>
-                        <div class="input-group">
-                            <div class="quantity">
-                                <input
-                                  type="button"
-                                  value="-"
-                                  class="button-minus"
-                                  data-field="quantity"
-                                />
-                                <input
-                                  type="text"
-                                  step="1"
-                                  min="1"
-                                  value="1"
-                                  name="quantity"
-                                  class="quantity-field"
-                                  style="width: 4.5rem"
-                                />
-                                <input
-                                  type="button"
-                                  value="+"
-                                  class="button-plus"
-                                  data-field="quantity"
-                                />
-                              </div>
-                        </div>
-                    </td>
-                    <td>$25</td>
-                    <td><i class="fa-solid fa-trash"></i></td>
-                </tr>
-                <tr class="data">
-                    <td>
-                        <img src="../images/book-9.jpg" alt="">
-                    </td>
-                    <td>The Ruins Of Gorlan</td>
-                    <td>$40</td>
-                    <td>
-                        <div class="input-group">
-                            <div class="quantity">
-                                <input
-                                  type="button"
-                                  value="-"
-                                  class="button-minus"
-                                  data-field="quantity"
-                                />
-                                <input
-                                  type="text"
-                                  step="1"
-                                  min="1"
-                                  value="1"
-                                  name="quantity"
-                                  class="quantity-field"
-                                  style="width: 4.5rem"
-                                />
-                                <input
-                                  type="button"
-                                  value="+"
-                                  class="button-plus"
-                                  data-field="quantity"
-                                />
-                              </div>
-                        </div>
-                    </td>
-                    <td>$40</td>
-                    <td><i class="fa-solid fa-trash"></i></td>
-                </tr>
-                
-                          
-            </table>
+          <% if (user !== 'null') { 
+            if(user.cart[0] !==null) {
+              %>
+              <% if (user.cart && user.cart.length > 0) { %>
+                <table cellspacing=0>
+                    <tr class="heading">
+                        <th>Product Img</th>
+                        <th>Product Name</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Delete</th>
+                    </tr>
+                    <% user.cart.forEach((item, index) => { %>
+                      <tr class="data">
+                        <td>
+                            <img src="<%= item.book.image %>" alt="">
+                        </td>
+                        <td><%= item.book.name %></td>
+                        <td>$<%= item.book.price %></td>
+                        <td>
+                            <div class="input-group">
+                                <div class="quantity">
+                                  <% if(item.quantity === 1){ %>
+                                      <a href="<%= process.env.URL%>/user/removeCart/<%=item.book._id%>">
+                                        <i class="fas fa-minus"></i>
+                                      </a>
+                                  <%}else{%>
+                                    <a href="<%= process.env.URL%>/user/quantity/<%=item.book._id%>?quantity=desc">
+                                      <i class="fas fa-minus"></i>
+                                    </a>
+                                  <%}%>
+                                    <input
+                                      type="text"
+                                      step="1"
+                                      min="1"
+                                      value="<%= item.quantity%>"
+                                      name="quantity"
+                                      class="quantity-field"
+                                      style="width: 4.5rem"
+                                    />
+                                    <a href="<%= process.env.URL%>/user/quantity/<%=item.book._id%>?quantity=asc">
+                                      <i class="fas fa-plus"></i>
+                                    </a>
+                                  </div>
+                                </div>
+                            </td>
+                            <td><%= item.book.price * item.quantity%></td>
+                            <td>
+                              <a href="<%= process.env.URL%>/user/removeCart/<%=item.book._id%>" >
+                                <i class="fa-solid fa-trash"></i>
+                              </a>
+                            </td>
+                        </tr>
+                        <% }); %>
+                      </table>
+                  <% } else { %>
+                    <div>
+                      <h1>No items in cart.</h1>
+                    </div>
+                  <% } %>
+                <% }} %>
         </div>
-                <!-- <tr></tr>
-                <tr></tr>
-                <tr></tr>
-                <tr></tr> -->
     </section>
 
     <section class="discount-summary">

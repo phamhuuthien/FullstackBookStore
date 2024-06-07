@@ -16,8 +16,9 @@ const getDetailAuthor = async (req, res) => {
 
 const getListAuthor = async (req, res) => {
   try {
-    const author = await Author.find();
-    res.status(200).json(author);
+    const response = (await Author.find()).reverse();
+    res.render("admin/author", { response });
+    // res.status(200).json(author);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -40,11 +41,12 @@ const addAuthor = async (req, res) => {
       });
     }
     const response = await Author.create(req.body);
-    res.status(200).json({
-      success: true,
-      message: "Author added successfully",
-      data: response,
-    });
+    res.redirect("/admin/author");
+    // res.status(200).json({
+    //   success: true,
+    //   message: "Author added successfully",
+    //   data: response,
+    // });
   } catch (err) {
     res.status(500).json({
       message: err.message,
@@ -62,10 +64,11 @@ const updateAuthor = async (req, res) => {
         _id: { $ne: id },
       });
       if (emailSearch) {
-        return res.status(400).json({
-          success: false,
-          message: "email already exist",
-        });
+        return res.redirect("/admin/author");
+        // return res.status(400).json({
+        //   success: false,
+        //   message: "email already exist",
+        // });
       }
     }
     const updateAuthor = await Author.findByIdAndUpdate(
@@ -77,7 +80,7 @@ const updateAuthor = async (req, res) => {
         new: true,
       }
     );
-    res.status(200).json(updateAuthor);
+    res.redirect("/admin/author");
   } catch (err) {
     res.status(500).json(err);
   }
@@ -86,7 +89,7 @@ const updateAuthor = async (req, res) => {
 const deleteAuthor = async (req, res) => {
   try {
     await Author.findByIdAndDelete(req.params.id);
-    res.status(200).json(" Author has been deleted...");
+    res.redirect("/admin/author");
   } catch (err) {
     res.status(500).json(err);
   }

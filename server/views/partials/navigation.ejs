@@ -18,11 +18,11 @@
     <div class="navigation">
         <ul>
             <li>
-                <a href="#">
+                <a href="/">
                     <span class="icon">
                         <ion-icon name="logo-apple"></ion-icon>
                     </span>
-                    <span class="title">Brand Name</span>
+                    <span class="title">Admin</span>
                 </a>
             </li>
 
@@ -41,6 +41,24 @@
                         <ion-icon name="people-outline"></ion-icon>
                     </span>
                     <span class="title">Customers</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="<%= process.env.URL%>/admin/author">
+                    <span class="icon">
+                        <ion-icon name="person"></ion-icon>
+                    </span>
+                    <span class="title">Author</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="<%= process.env.URL%>/admin/category">
+                    <span class="icon">
+                        <ion-icon name="keypad"></ion-icon>
+                    </span>
+                    <span class="title">Category</span>
                 </a>
             </li>
 
