@@ -6,10 +6,11 @@ const { verifyToken, isAdmin } = require('../middlewares/verifyToken')
 router.use(express.json());
 
 // Routes cho việc xử lý sách
-router.get("/", controller.getAllBooks);
-router.get("/:id", controller.getBookById);
+router.get("/book-filter", controller.getAllBooks);
+router.get("/book-detail/:id", controller.getBookById);
 router.get("/category/:categoryId", controller.getBooksByIdCategory);
-router.get('/search/:searchTerm', controller.searchBookByName);
+router.get("/search", controller.searchBookByName);
+
 
 router.post("/", verifyToken, isAdmin, controller.addBook);
 router.put("/:id", verifyToken, isAdmin, controller.updateBook);

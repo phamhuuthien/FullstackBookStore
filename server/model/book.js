@@ -27,6 +27,9 @@ const bookSchema = new mongoose.Schema({
     slug: {
         type: String,
     },
+    totalRating: {
+        type: Number,
+    },
     ratings: [{
         orderId: {
             type: mongoose.Types.ObjectId,
@@ -34,6 +37,10 @@ const bookSchema = new mongoose.Schema({
         },
         userName: {
             type: String,
+        },
+        date: {
+            type: Date,
+            default: Date.now
         },
         rating: [{
             content: {

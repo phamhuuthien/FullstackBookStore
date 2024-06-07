@@ -16,14 +16,11 @@ const upload = multer({ storage: storage });
 exports.getAllBooks = async (req, res) => {
     try {
         const books = await Book.find();
-
-        res.status(200).json({
-            success: true,
-            data: books
-        });
+        console.log(books); // Kiểm tra xem books có chứa dữ liệu không
+        res.render('Pages/book-filter', { books });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: "Lỗi Server Nội Bộ" });
     }
 };
 
@@ -31,15 +28,12 @@ exports.getAllBooks = async (req, res) => {
 exports.getBookById = async (req, res) => {
     const { id } = req.params;
     try {
-        const book = await Book.findById(id);
+        const book = await Book.findById(id).populate(['authorId', 'categoryId']);
         if (!book) {
             return res.status(404).json({ success: false, message: "Book not found" });
         }
 
-        res.status(200).json({
-            success: true,
-            data: book
-        });
+        res.render('Pages/book-detail', { book });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
@@ -171,9 +165,9 @@ exports.getBooksByIdCategory = async (req, res) => {
 
 exports.searchBookByName = async (req, res) => {
     try {
-        const { searchTerm } = req.params;
+        const { key } = req.query;
 
-        const searchTerms = searchTerm.split(" ").filter(term => term.trim() !== "");
+        const searchTerms = key.split(" ").filter(term => term.trim() !== "");
         const regexTerms = searchTerms.map(term => new RegExp(term, "i"));
 
         const books = await Book.find({
@@ -183,11 +177,14 @@ exports.searchBookByName = async (req, res) => {
         if (books.length === 0) {
             return res.status(404).json({ success: false, message: "No books found matching the search criteria" });
         }
+        res.render('Pages/book-filter', { books, key });
+        // res.status(200).json({
+        //     success: true,
+        //     data: books
+        // });
 
-        res.status(200).json({
-            success: true,
-            data: books
-        });
+        // http://localhost:8000/search/see
+        // http://localhost:8000/?search=see
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });

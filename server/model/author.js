@@ -9,11 +9,11 @@ const authorSchema = new mongoose.Schema({
         type: Date,
     },
     email: {
-        type : String,
+        type: String,
         unique: true,
     },
-    description : {
-        type : String
+    description: {
+        type: String
     }
 });
 
