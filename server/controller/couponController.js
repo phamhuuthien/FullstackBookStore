@@ -26,7 +26,11 @@ const getCouponByCode = async (req, res) => {
       .select("cart lastname")
       .populate({ path: "cart.book", select: "_id name image price" });
     const coupon = await Coupon.findOne({ code });
-    res.render("Pages/checkout", { coupon, user });
+    if (coupon) {
+      res.render("Pages/checkout", { coupon, user });
+    } else {
+      res.render("Pages/checkout", { message: "coupon khong ton tai", user });
+    }
     // res.status(200).json(coupon);
   } catch (err) {
     res.status(500).json(err);

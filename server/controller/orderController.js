@@ -32,7 +32,7 @@ const getAllOrderByUser = async (req, res) => {
 
 const addOrder = async (req, res) => {
   const { _id } = req.user;
-  const { coupon } = req.body;
+  const { coupon, total, address } = req.body;
   const userCart = await User.findById(_id)
     .select("cart")
     .populate("cart.book", "name price");
@@ -46,17 +46,23 @@ const addOrder = async (req, res) => {
     quantity: el.quantity,
   }));
 
-  if (Coupon.findById(coupon) == null) {
-    return res.status(203).json({
-      success: false,
-      message: "coupon khong ton tai",
-    });
+  if (!coupon) {
+    coupon = null;
   }
-  const dataOrder = { userId: _id, listBooks: books, couponId: coupon };
+  const dataOrder = {
+    userId: _id,
+    listBooks: books,
+    couponId: coupon,
+    total: total,
+    address: address,
+  };
 
   const saveOrder = await Order.create(dataOrder);
   await User.findByIdAndUpdate(_id, { $set: { cart: [] } });
-  res.status(200).json({ success: saveOrder ? true : false });
+  // res.status(200).json({ success: saveOrder ? true : false });
+  if (saveOrder) {
+    res.redirect("/");
+  }
 };
 
 const updateOrder = async (req, res) => {

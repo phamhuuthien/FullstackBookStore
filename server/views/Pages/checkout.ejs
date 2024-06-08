@@ -19,15 +19,33 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
+    <style>
+      .checkout-form a {
+        background-color: #6c5dd4;
+        color: #fff;
+        padding: 12px 15px;
+        border: none;
+        width: 160px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    </style>
 </head>
 <body>
     <%- include("../partials/header") -%>
       <div class="breadcrumb-container">
         <ul class="breadcrumb">
-          <li><a href="#" style="color: #6c5dd4">Shop</a></li>
+          <li><a href="/" style="color: #6c5dd4">Shop</a></li>
           <li><a href="#">Checkout</a></li>
         </ul>
       </div>
+      <%if(typeof message !== 'undefined'){%>
+        <script>
+          alert("<%=message%>")
+        </script>
+      <%}%>
+
       <% if(user !== 'null'){
         let orderSubTotal = 0;  
       %>
@@ -36,22 +54,19 @@
         <h2>Checkout</h2>
         <div class="main">
           <div class="checkout-form">
-            <h4>Billing & Shipping Address</h4>
+            <h4>coupon order</h4>
             <div class="form-container">
-              <div class="address-field">
-                <textarea rows="3" placeholder="Address"></textarea>
-              </div>
               <form action="/coupon/checkCoupon" method="post">
                 <div class="input-field">
                   <label for="">couponCode</label>
                   <% if (typeof coupon !== 'undefined') { %>
                     <input type="text" placeholder="please enter coupon" value="<%= coupon.discount %> %" name="code" readonly>
-                  <% } else { %>
+                    <a href="/checkout">reset</a>
+                    <% } else { %>
                     <input type="text" placeholder="please enter coupon" name="code">
+                    <button>coupon</button>
                   <% } %>
                 </div>
-                <button>coupon</button>
-                <a href=""></a>
               </form>
             </div>
           </div>
@@ -85,30 +100,39 @@
         <div class="summary-section">
           <h4>Order Total</h4>
           <div class="order-detail-table">
-            <table>
-              <tr>
-                <td>Order Subtotal</td>
-                <td>$<%=orderSubTotal%></td>
-              </tr>
-              <tr>
-                <td>Shipping</td>
-                <td>Free Shipping</td>
-              </tr>
-              <tr>
-                <td>Coupon</td>
-                <% if (typeof coupon !== 'undefined') { 
-                  orderSubTotal =orderSubTotal - (orderSubTotal*coupon.discount)/100
-                  %>
-                  <td>$<%=coupon.discount%></td>
-                <% } else { %>
-                  <td>$0</td>
-                <% } %>
-              </tr>
-              <tr>
-                <td>Total</td>
-                <td>$<%=orderSubTotal%></td>
-              </tr>
-            </table>
+            <form action="/order" method="post">
+              <table>
+                <tr>
+                  <td>Order Subtotal</td>
+                  <td>$<%=orderSubTotal%></td>
+                </tr>
+                <tr>
+                  <td>Order Subtotal</td>
+                  <td>
+                      <textarea rows="3" placeholder="Address" style="width: 100%" name="address" required></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Shipping</td>
+                  <td>Free Shipping</td>
+                </tr>
+                <tr>
+                  <td>Coupon</td>
+                  <% if (typeof coupon !== 'undefined') { 
+                    orderSubTotal =orderSubTotal - (orderSubTotal*coupon.discount)/100
+                    %>
+                    <td><input type="text" value="<%=coupon._id%>" name="coupon" hidden><%=coupon.discount%>%</td>
+                  <% } else { %>
+                    <td>0%</td>
+                  <% } %>
+                </tr>
+                <tr>
+                  <td>Total</td>
+                  <td><input type="text" value="<%=orderSubTotal%>" name="total" hidden>$<%=orderSubTotal%></td>
+                </tr>
+              </table>
+              <button>Place Order Now</button>
+            </form>
           </div>
         </div>
         <%}%>
