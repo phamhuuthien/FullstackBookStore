@@ -108,8 +108,14 @@ router.get("/cart-item", verifyToken, async (req, res) => {
   }
 });
 
-router.get("/checkout", async (req, res) => {
-  res.render("Pages/checkout");
+router.get("/checkout", verifyToken, async (req, res) => {
+  const { _id } = req.user;
+  const user = await User.findById(_id)
+    .select("cart lastname")
+    .populate({ path: "cart.book", select: "_id name image price" });
+  if (user) {
+    res.render("Pages/checkout", { user });
+  }
 });
 
 router.get("/login", async (req, res) => {

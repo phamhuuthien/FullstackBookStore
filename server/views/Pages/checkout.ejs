@@ -28,6 +28,9 @@
           <li><a href="#">Checkout</a></li>
         </ul>
       </div>
+      <% if(user !== 'null'){
+        let orderSubTotal = 0;  
+      %>
 
       <section class="checkout-section page">
         <h2>Checkout</h2>
@@ -35,84 +38,44 @@
           <div class="checkout-form">
             <h4>Billing & Shipping Address</h4>
             <div class="form-container">
-              <div class="form-control Country-field">
-                <select class="select-box" style="border: 1px solid #f0f0f0;padding: 5px 10px;height: 45px;border-radius: 5px;width: 100%;    appearance: none;
-                background-image: url(../images/chevron-down.svg);
-                background-repeat: no-repeat;
-                background-size: 16px 20px;
-                background-position: right 0.75rem center;font-size: 15px;outline: none;">
-                  <option>USA</option>
-                  <option>India</option>
-                  <option>Australia</option>
-                  <option>New Zealand</option>
-                  <option>russia</option>
-                  <option>United Kingdom</option>
-                  <option>Africa</option>
-                  <option>Sri Lanka</option>
-                  <option>Pakistan</option>
-                  <option>USA</option>
-                  <option>USA</option>
-                </select>
-              </div>
-              <div class="name-field input-field">
-                <input type="text" placeholder="First Name">
-                <input type="text" placeholder="Last Name">
-              </div>
               <div class="address-field">
                 <textarea rows="3" placeholder="Address"></textarea>
               </div>
-              <div class="input-field">
-                <input type="text" placeholder="City / Town">
-                <input type="text" placeholder="State">
-              </div>
-              <div class="input-field">
-                <input type="text" placeholder="Company Name">
-                <input type="email" placeholder="Email">
-              </div>
-              <div class="input-field">
-                <input type="text" placeholder="Phone no." maxlength="10">
-                <input type="text" placeholder="Postcode/Zip">
-              </div>
-              <button>Add Address</button>
+              <form action="/coupon/checkCoupon" method="post">
+                <div class="input-field">
+                  <label for="">couponCode</label>
+                  <% if (typeof coupon !== 'undefined') { %>
+                    <input type="text" placeholder="please enter coupon" value="<%= coupon.discount %> %" name="code" readonly>
+                  <% } else { %>
+                    <input type="text" placeholder="please enter coupon" name="code">
+                  <% } %>
+                </div>
+                <button>coupon</button>
+                <a href=""></a>
+              </form>
             </div>
           </div>
           <div class="your-order">
             <h4>Your Order</h4>
             <div class="order-table">
               <table cellspacing="0">
-                <tr class="heading">
-                  <th>Image</th>
-                  <th>Product Name</th>
-                  <th>Total</th>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="../images/book-4.jpg" alt="">
-                  </td>
-                  <td>Red Queen</td>
-                  <td>$25</td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="../images/book-7.jpg" alt="">
-                  </td>
-                  <td>Heroes Of Olympus</td>
-                  <td>$20</td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="../images/book-9.jpg" alt="">
-                  </td>
-                  <td>The Ruins Of Gorlan</td>
-                  <td>$15</td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="../images/book-10.jpg" alt="">
-                  </td>
-                  <td>Percy Jackson</td>
-                  <td>$30</td>
-                </tr>
+                  <%
+                    user.cart.forEach((item,index)=>{
+                      orderSubTotal+= item.book.price * item.quantity
+                  %>
+                  <tr class="heading">
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Total</th>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img src="<%= item.book.image %>" alt="">
+                    </td>
+                    <td><%= item.book.name %></td>
+                    <td>$<%= item.book.price * item.quantity %></td>
+                  </tr>
+                <%})%>
               </table>
             </div>
           </div>
@@ -125,7 +88,7 @@
             <table>
               <tr>
                 <td>Order Subtotal</td>
-                <td>$125</td>
+                <td>$<%=orderSubTotal%></td>
               </tr>
               <tr>
                 <td>Shipping</td>
@@ -133,16 +96,23 @@
               </tr>
               <tr>
                 <td>Coupon</td>
-                <td>$5</td>
+                <% if (typeof coupon !== 'undefined') { 
+                  orderSubTotal =orderSubTotal - (orderSubTotal*coupon.discount)/100
+                  %>
+                  <td>$<%=coupon.discount%></td>
+                <% } else { %>
+                  <td>$0</td>
+                <% } %>
               </tr>
               <tr>
                 <td>Total</td>
-                <td>$506</td>
+                <td>$<%=orderSubTotal%></td>
               </tr>
             </table>
           </div>
         </div>
-        <div class="payment-section">
+        <%}%>
+        <!-- <div class="payment-section">
           <h4>Payment Method</h4>
           <div class="payment-form">
             <div class="payment-option">
@@ -166,7 +136,7 @@
             </div>
             <button>Place Order Now</button>
           </div>
-        </div>
+        </div> -->
       </section>
       <%- include("../partials/footer") -%>
     <%- include("../components/backToTop") -%>
