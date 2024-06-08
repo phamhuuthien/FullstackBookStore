@@ -26,9 +26,9 @@ exports.getAllBooks = async (req, res) => {
 
 exports.getAllBooksByAdmin = async (req, res) => {
     try {
-        const books = await Book.find();
-        console.log(books); // Kiểm tra xem books có chứa dữ liệu không
-        res.render('admin/book', { books });
+        const response = await Book.find();
+        console.log(response); // Kiểm tra xem books có chứa dữ liệu không
+        res.render('admin/book', { response });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Lỗi Server Nội Bộ" });
@@ -104,11 +104,7 @@ exports.addBook = async (req, res) => {
                     slug,  // Lưu slug vào trường slug của đối tượng sách
                     ratings: [] // Khởi tạo ratings là một mảng trống khi thêm sách mới
                 });
-                return res.status(200).json({
-                    success: true,
-                    message: "Create book successfully.",
-                    book: newBook
-                });
+                res.redirect("/admin/book");
             }
         });
     } catch (error) {
