@@ -6,6 +6,7 @@ const bookController = require("../controller/bookController");
 const router = express.Router();
 const User = require("../model/user");
 const Role = require("../model/role");
+const Order = require("../model/order");
 const jwt = require("jsonwebtoken");
 const { verifyToken, isAdmin } = require("../middlewares/verifyToken");
 const author = require("../model/author");
@@ -94,6 +95,21 @@ router.get("/book-detail", async (req, res) => {
   res.render("Pages/book-detail");
 });
 
+router.get("/orderSuccess", verifyToken, async (req, res) => {
+  res.render("Pages/orderSuccess");
+});
+
+router.get("/getAllOrderByUser", verifyToken, async (req, res) => {
+  const { _id } = req.user;
+  const user = User.findById(_id);
+  const orders = await Order.find({ userId: _id }).populate(
+    "listBooks.bookId",
+    "name image"
+  );
+  // res.status(200).json(orders);
+  return res.render("Pages/orderByUser", { orders, user });
+  // res.render("Pages/orderByUser");
+});
 
 
 

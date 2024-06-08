@@ -20,19 +20,25 @@ const getAllOrder = async (req, res) => {
   }
 };
 
-const getAllOrderByUser = async (req, res) => {
-  try {
-    const { _id } = req.user;
-    const orders = await Order.find({ userId: _id });
-    res.status(200).json(orders);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-};
+// const getAllOrderByUser = async (req, res) => {
+//   try {
+//     const { _id } = req.user;
+//     const user = User.findById(_id);
+//     const orders = await Order.find({ userId: _id }).populate(
+//       "listBooks.bookId",
+//       "name image"
+//     );
+//     // res.status(200).json(orders);
+//     return res.render("Pages/orderByUser", { orders, user });
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// };
 
 const addOrder = async (req, res) => {
   const { _id } = req.user;
-  const { coupon, total, address } = req.body;
+  var { coupon, total, address } = req.body;
+
   const userCart = await User.findById(_id)
     .select("cart")
     .populate("cart.book", "name price");
@@ -61,8 +67,25 @@ const addOrder = async (req, res) => {
   await User.findByIdAndUpdate(_id, { $set: { cart: [] } });
   // res.status(200).json({ success: saveOrder ? true : false });
   if (saveOrder) {
-    res.redirect("/");
+    res.redirect("/orderSuccess");
   }
+};
+
+const cancelOrder = async (req, res) => {
+  const { oid } = req.params;
+  const order = await Order.findById(oid);
+  if (order.status == "pending") {
+    await Order.findByIdAndUpdate(oid, { $set: { status: "cancle" } });
+  }
+  // const { _id } = req.user;
+  // const user = User.findById(_id);
+  // const orders = await Order.find({ userId: _id }).populate(
+  //   "listBooks.bookId",
+  //   "name image"
+  // );
+  // // res.status(200).json(orders);
+  // return res.render("Pages/orderByUser", { orders, user });
+  res.redirect("/getAllOrderByUser");
 };
 
 const updateOrder = async (req, res) => {
@@ -85,5 +108,6 @@ module.exports = {
   getAllOrder,
   addOrder,
   updateOrder,
-  getAllOrderByUser,
+  // getAllOrderByUser,
+  cancelOrder,
 };
