@@ -24,6 +24,17 @@ const getListAuthor = async (req, res) => {
   }
 };
 
+const getListAuthorJson = async (req, res) => {
+  try {
+    const response = (await Author.find()).reverse();
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+getListAuthorJson
+
 const addAuthor = async (req, res) => {
   try {
     const { name, email } = req.body;
@@ -95,4 +106,4 @@ const deleteAuthor = async (req, res) => {
   }
 };
 
-module.exports = { getDetailAuthor, getListAuthor, addAuthor, updateAuthor, deleteAuthor };
+module.exports = { getDetailAuthor, getListAuthor, getListAuthorJson, addAuthor, updateAuthor, deleteAuthor };
