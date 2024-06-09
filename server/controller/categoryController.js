@@ -15,6 +15,19 @@ const getListCategory = async (req, res) => {
   }
 };
 
+const getListCategoryJson = async (req, res) => {
+  try {
+    const response = (await Category.find()).reverse();
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+};
+
+
+
 const addCategory = async (req, res) => {
   try {
     const { name, description } = req.body;
@@ -100,6 +113,7 @@ const deleteCategory = async (req, res) => {
 
 module.exports = {
   getListCategory,
+  getListCategoryJson,
   addCategory,
   updateCategory,
   deleteCategory,

@@ -102,11 +102,7 @@ exports.addBook = async (req, res) => {
                     slug,  // Lưu slug vào trường slug của đối tượng sách
                     ratings: [] // Khởi tạo ratings là một mảng trống khi thêm sách mới
                 });
-                return res.status(200).json({
-                    success: true,
-                    message: "Create book successfully.",
-                    book: newBook
-                });
+                res.redirect("/admin/book");
             }
         });
     } catch (error) {
