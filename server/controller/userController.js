@@ -11,13 +11,14 @@ const sendMail = require("../until/sendMail");
 const { captureRejectionSymbol } = require("nodemailer/lib/xoauth2");
 
 const register = async (req, res) => {
-  const { firstname, lastname, password, email, mobile, role } = req.body;
-  if (!firstname || !lastname || !password || !email || !mobile || !role) {
+  const { firstname, lastname, password, email, mobile } = req.body;
+  if (!firstname || !lastname || !password || !email || !mobile) {
     return res.status(400).json({
       success: false,
       mes: "missing inputs",
     });
   }
+  const role = await Role.findOne({ roleName: "user" });
   const user = await User.findOne({ email: email });
   const mobileUser = await User.findOne({ mobile: mobile });
   if (user) {
@@ -25,15 +26,15 @@ const register = async (req, res) => {
       message: "Email already exists",
       user: req.body,
     };
-    res.render("Pages/registration", { responeMessage });
+    return res.render("Pages/registration", { responeMessage });
   } else if (mobileUser) {
     var responeMessage = {
       message: "Mobile already exists",
       user: req.body,
     };
-    res.render("Pages/registration", { responeMessage });
+    return res.render("Pages/registration", { responeMessage });
   } else {
-    await User.create(req.body);
+    await User.create({ ...req.body, role: role._id });
     res.redirect(`/user/sendOtp?email=${email}`);
     // res.redirect("/");
   }
