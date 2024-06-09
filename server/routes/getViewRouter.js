@@ -71,7 +71,8 @@ router.get("/user/author", verifyToken, async (req, res) => {
 
 router.get("/book/book-filter", verifyToken, async (req, res) => {
   const books = await book.find();
-  res.render("Pages/book-filter", { books });
+  const categories = await category.find();
+  res.render("Pages/book-filter", { books, categories });
 });
 
 router.get("/user/category", verifyToken, async (req, res) => {

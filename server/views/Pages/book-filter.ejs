@@ -33,6 +33,12 @@
         <div class="search-container">
           <form action="/book/search" method="GET">
             <input type="text" placeholder="Search books..." name="key">
+            <select style="height: 40px; margin: 20px;" name="category">
+              <option  value="">Categories</option>
+              <% categories.forEach(category => { %>
+                <option value="<%= category._id %>"><%= category.name %></option>
+              <% }); %>
+            </select>
             <button type="submit"><i class="fa fa-search"></i></button>
           </form>
         </div>

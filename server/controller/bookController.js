@@ -1,4 +1,5 @@
 const Book = require("../model/book");
+const Category = require("../model/category")
 const Order = require('../model/order');
 //upload file
 const cloudinary = require("../configs/cloudinary");
@@ -37,13 +38,14 @@ exports.getAllBooks = async (req, res) => {
 
         // Lấy danh sách sách với phân trang
         const books = await Book.find().skip(skip).limit(limit);
-
+        const categories = await Category.find();
         // Tính toán số lượng trang
         const totalPages = Math.ceil(totalBooks / limit);
 
         // Chuyển thông tin sách và phân trang vào trang ejs
         res.render('Pages/book-filter', {
             books,
+            categories,
             currentPage: page,
             totalPages,
             totalBooks,
