@@ -14,25 +14,23 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage: storage });
 
 exports.getAllBooks = async (req, res) => {
-    try {
-        const books = await Book.find();
-        console.log(books); // Kiểm tra xem books có chứa dữ liệu không
-        res.render('Pages/book-filter', { books });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Lỗi Server Nội Bộ" });
-    }
+  try {
+    const books = await Book.find();
+    res.render("Pages/book-filter", { books });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Lỗi Server Nội Bộ" });
+  }
 };
 
 exports.getAllBooksByAdmin = async (req, res) => {
-    try {
-        const response = await Book.find();
-        console.log(response); // Kiểm tra xem books có chứa dữ liệu không
-        res.render('admin/book', { response });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Lỗi Server Nội Bộ" });
-    }
+  try {
+    const books = await Book.find();
+    res.render("admin/book", { books });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Lỗi Server Nội Bộ" });
+  }
 };
 
 exports.getBookById = async (req, res) => {

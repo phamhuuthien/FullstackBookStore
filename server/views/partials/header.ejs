@@ -76,15 +76,17 @@
   <% if(typeof user !=='undefined' ){%>
     <header>
       <nav class="navbar-2">
-        <div class="logo">
-          <div class="img">
-            <img src="<%= process.env.URL%>/images/logo.png" alt="" />
+        <a href="/" style="text-decoration: none;">
+          <div class="logo">
+            <div class="img">
+              <img src="<%= process.env.URL%>/images/logo.png" alt="" />
+            </div>
+            <div class="title">
+              <h4>Bookoe<i class="fa-solid fa-grid"></i></h4>
+              <small>Book Store Website</small>
+            </div>
           </div>
-          <div class="title">
-            <h4>Bookoe<i class="fa-solid fa-grid"></i></h4>
-            <small>Book Store Website</small>
-          </div>
-        </div>
+        </a>
         <div class="search-box">
           <div class="search-field">
             <input type="text" placeholder="Search over 30 million Book titles" />
@@ -124,6 +126,7 @@
             </button>
             <div class="dropdown-content">
               <a href="<%= process.env.URL%>/user/getUser">infoAccount</a>
+              <a href="<%= process.env.URL%>/getAllOrderByUser">My order</a>
               <a href="<%= process.env.URL%>/user/logout">Logout</a>
             </div>
           </div>

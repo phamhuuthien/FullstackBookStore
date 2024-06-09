@@ -2,7 +2,8 @@ const router = require('express').Router();
 const controller = require('../controller/orderController')
 const { verifyToken, isAdmin } = require('../middlewares/verifyToken')
 
-router.get("/getAllOrderByUser", verifyToken, controller.getAllOrderByUser);
+// router.get("/getAllOrderByUser", verifyToken, controller.getAllOrderByUser);
+router.get("/cancleOrder/:oid", verifyToken, controller.cancelOrder);
 
 router.get("/:oid", verifyToken, controller.getOrder);
 

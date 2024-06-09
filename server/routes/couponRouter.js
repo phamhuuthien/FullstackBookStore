@@ -2,6 +2,7 @@ const router = require('express').Router();
 const controller = require('../controller/couponController')
 const { verifyToken, isAdmin } = require('../middlewares/verifyToken')
 
+router.post("/checkCoupon", verifyToken, controller.getCouponByCode);
 router.get("/", verifyToken, controller.getListCoupon);
 router.get("/:cid", verifyToken, controller.getDetailCoupon);
 
