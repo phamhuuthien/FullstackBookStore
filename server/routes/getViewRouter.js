@@ -2,7 +2,9 @@ const express = require("express");
 const userController = require("../controller/userController");
 const authorController = require("../controller/authorController");
 const categoryController = require("../controller/categoryController");
+const orderController = require("../controller/orderController");
 const bookController = require("../controller/bookController");
+const couponController = require("../controller/couponController");
 const router = express.Router();
 const User = require("../model/user");
 const Role = require("../model/role");
@@ -45,6 +47,14 @@ router.get("/admin/author", verifyToken, isAdmin, (req, res) => {
   authorController.getListAuthor(req, res);
 });
 
+router.get("/admin/coupon", verifyToken, isAdmin, (req, res) => {
+  couponController.getListCoupon(req, res);
+});
+
+router.get("/admin/order", verifyToken, isAdmin, (req, res) => {
+  orderController.getAllOrder(req, res);
+});
+
 router.get("/admin/category", verifyToken, isAdmin, (req, res) => {
   categoryController.getListCategory(req, res);
 });
@@ -65,7 +75,7 @@ router.get("/service", verifyToken, async (req, res) => {
 
 router.get("/user/author", verifyToken, async (req, res) => {
   const { _id } = req.user;
-  const user = await User.findById(_id);
+  const user = await User.findById(_id).select("lastname");
   const response = await author.find();
   res.render("Pages/author", { user, response });
 });
@@ -77,7 +87,7 @@ router.get("/book/book-filter", verifyToken, async (req, res) => {
 
 router.get("/user/category", verifyToken, async (req, res) => {
   const { _id } = req.user;
-  const user = await User.findById(_id);
+  const user = await User.findById(_id).select("lastname");
   const response = await category.find();
   res.render("Pages/category", { user, response });
 });
@@ -101,7 +111,7 @@ router.get("/orderSuccess", verifyToken, async (req, res) => {
 
 router.get("/getAllOrderByUser", verifyToken, async (req, res) => {
   const { _id } = req.user;
-  const user = User.findById(_id);
+  const user = User.findById(_id).select("lastname");
   const orders = await Order.find({ userId: _id }).populate(
     "listBooks.bookId",
     "name image"

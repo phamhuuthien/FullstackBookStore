@@ -13,8 +13,12 @@ const getOrder = async (req, res) => {
 
 const getAllOrder = async (req, res) => {
   try {
-    const orders = await Order.find();
-    res.status(200).json(orders);
+    const response = await Order.find().populate(
+      "listBooks.bookId",
+      "name image price"
+    );
+    // res.status(200).json(response);
+    return res.render("admin/order", { response });
   } catch (err) {
     res.status(500).json(err);
   }
