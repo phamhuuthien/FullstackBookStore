@@ -157,6 +157,7 @@
             <div class="rating-info">
               <h5>Rating Information</h5>
             </div>
+
             <div class="star">
               <small><span>
                   <%= book.totalRating%>.0
@@ -168,44 +169,67 @@
               </div>
             </div>
           </div>
-          <strong>Showing <%=book.ratings.length %> of <%=book.ratings.length %> reviews></strong>
 
-          <% book.ratings.forEach(rating=> { %>
-            <div class="reviewer-container">
-              <div class="review">
-                <div class="img-detail">
-                  <img src="../images/man1.png" alt=""> <!-- Bạn có thể thay đổi đường dẫn ảnh nếu cần -->
-                  <div class="name">
-                    <h5>
-                      <%= rating.userName %>
-                    </h5>
-                    <small>
-                      <%= new Date(rating.date).toLocaleDateString() %>
-                    </small> <!-- Bạn có thể thêm ngày tháng từ dữ liệu nếu có -->
-                  </div>
+          <h3>Bình luận:</h3>
+          <% if (typeof error !=='undefined' && error) { %>
+            <div style="color: red;">
+              <%= error %>
+            </div>
+            <% } %>
+              <% if (typeof success !=='undefined' && success) { %>
+                <div style="color: green;">
+                  <%= success %>
                 </div>
-                <div class="review-footer">
-                  <% rating.rating.forEach(r=> { %>
-                    <p>
-                      <%= r.content %>
-                    </p>
-                    <div class="rating-star">
-                      <% for (let i=0; i < r.stars; i++) { %>
-                        <i class="fa-solid fa-star"></i>
-                        <% } %>
-                          <% for (let i=r.stars; i < 5; i++) { %>
-                            <i class="fa-solid fa-star" style="color: #ccc;"></i>
-                            <% } %>
-                              <span>
-                                <%= r.stars %>.0
-                              </span>
+                <% } %>
+                  <form method="post" action="/rating/<%= book._id%>">
+                    <input type="text" id="content" name="content">
+                    <br>
+                    <h5>Đánh giá sao:</h5>
+                    <input type="number" id="stars" name="stars" min="1" max="5">
+                    <input type="submit" value="Submit">
+                  </form>
+
+                  <strong>Showing <%=book.ratings.length %> of <%=book.ratings.length %> reviews></strong>
+
+                  <% book.ratings.forEach(rating=> { %>
+                    <div class="reviewer-container">
+                      <div class="review">
+                        <div class="img-detail">
+                          <img src="../images/man1.png" alt=""> <!-- Bạn có thể thay đổi đường dẫn ảnh nếu cần -->
+                          <div class="name">
+                            <h5>
+                              <%= rating.userName %>
+                            </h5>
+                            <small>
+                              <%= new Date(rating.date).toLocaleDateString() %>
+                            </small> <!-- Bạn có thể thêm ngày tháng từ dữ liệu nếu có -->
+                          </div>
+                        </div>
+                        <div class="review-footer">
+                          <% rating.rating.forEach(r=> { %>
+                            <p>
+                              <%= r.content %>
+                            </p>
+                            <div class="rating-star">
+                              <% for (let i=0; i < r.stars; i++) { %>
+                                <i class="fa-solid fa-star"></i>
+                                <% } %>
+                                  <% for (let i=r.stars; i < 5; i++) { %>
+                                    <i class="fa-solid fa-star" style="color: #ccc;"></i>
+                                    <% } %>
+                                      <span>
+                                        <%= r.stars %>.0
+                                      </span>
+                            </div>
+                            <% }) %>
+                        </div>
+                      </div>
+                      <form method="post" action="/rating/<%= book._id %>/<%= rating._id %>" style="display:inline;">
+                        <button onclick="return confirm('Are you sure?')" type="submit"
+                          style="max-height: 30px; font-size: 10px;">Xóa</button>
+                      </form>
                     </div>
                     <% }) %>
-                </div>
-              </div>
-              <button>View More</button>
-            </div>
-            <% }) %>
         </div>
       </div>
       <div class="related-book">
