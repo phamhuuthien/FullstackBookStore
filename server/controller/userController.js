@@ -26,13 +26,13 @@ const register = async (req, res) => {
       message: "Email already exists",
       user: req.body,
     };
-    res.render("Pages/registration", { responeMessage });
+    return res.render("Pages/registration", { responeMessage });
   } else if (mobileUser) {
     var responeMessage = {
       message: "Mobile already exists",
       user: req.body,
     };
-    res.render("Pages/registration", { responeMessage });
+    return res.render("Pages/registration", { responeMessage });
   } else {
     await User.create({ ...req.body, role: role._id });
     res.redirect(`/user/sendOtp?email=${email}`);
