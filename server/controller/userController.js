@@ -8,7 +8,6 @@ const {
 
 const crypto = require("crypto");
 const sendMail = require("../until/sendMail");
-const { captureRejectionSymbol } = require("nodemailer/lib/xoauth2");
 
 const register = async (req, res) => {
   const { firstname, lastname, password, email, mobile } = req.body;
