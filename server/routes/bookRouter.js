@@ -13,6 +13,7 @@ router.get("/search", controller.searchBookByName);
 
 router.post("/", verifyToken, isAdmin, controller.addBook);
 router.put("/:id", verifyToken, isAdmin, controller.updateBook);
+router.post("/update/:id", verifyToken, isAdmin, controller.updateBook);
 router.delete("/:id", verifyToken, isAdmin, controller.deleteBook);
 
 module.exports = router;
