@@ -21,6 +21,11 @@
     />
   </head>
   <body>
+    <% if (typeof message !=='undefined' ) { %>
+      <script>
+        alert('message: <%= message %>');
+      </script>
+    <% } %>
     <div class="breadcrumb-container">
       <ul class="breadcrumb">
         <li><a href="<%= process.env.URL%>" style="color: #6c5dd4">Home</a></li>
@@ -31,6 +36,7 @@
     if(user!=='undefined') {%>
       <section class="registration">
         <h3>infomation account</h3>
+        <h5 style="color : red" id="error"></h5>
         <form action="<%= process.env.URL%>/user/updateUser?_method=put" method="post" style="display: inline;" class="registration-form">
           <div class="input-form">
             <div class="input-field">
@@ -43,11 +49,11 @@
             </div>
             <div class="input-field">
               <label for="email">Email *</label>
-              <input type="email" name="email" id="email" placeholder="Your Email" value="<%=user.email%>">
+              <input type="email" name="email" id="email" placeholder="Your Email" value="<%=user.email%>" onkeyup="checkEmail()">
             </div>
             <div class="input-field">
               <label for="mobile">mobile *</label>
-              <input type="mobile" name="mobile" id="mobile" placeholder="Your mobile" value="<%=user.mobile%>">
+              <input type="mobile" name="mobile" id="mobile" placeholder="Your mobile" value="<%=user.mobile%>" onkeyup="checkPhone()">
             </div>
             <button>update</button>
           </div>
@@ -55,4 +61,34 @@
       </section>
     <%}%>
   </body>
+  <script>
+        function checkEmail() {
+            var email = document.getElementById('email').value;
+            var regex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            
+            if (regex.test(email)) {
+                document.getElementById('email').style.border = '2px solid green';
+                document.getElementById('error').textContent = ''; 
+                return true;
+            } else {
+                document.getElementById('email').style.border = '2px solid red';
+                document.getElementById('error').textContent = 'Email không hợp lệ. Vui lòng nhập lại.';
+                return false;
+            }
+        }
+        function checkPhone() {
+            var mobile = document.getElementById('mobile').value;
+            var regex = /^[0-9]{9,12}$/; 
+            
+            if (regex.test(mobile)) {
+                document.getElementById('mobile').style.border = '2px solid green';
+                document.getElementById('error').textContent = ''; 
+                return true;
+            } else {
+                document.getElementById('mobile').style.border = '2px solid red';
+                document.getElementById('error').textContent = 'mobile không hợp lệ';
+                return false;
+            }
+        }
+  </script>
 </html>

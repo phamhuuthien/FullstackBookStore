@@ -82,9 +82,15 @@ router.get("/service", verifyToken, async (req, res) => {
   res.render("Pages/service", { user });
 });
 
+router.get("/getUser", verifyToken, async (req, res) => {
+  const { _id } = req.user;
+  const user = await User.findById(_id);
+  res.render("Pages/infoAccount", { user });
+});
+
 router.get("/user/author", verifyToken, async (req, res) => {
   const { _id } = req.user;
-  const user = await User.findById(_id).select("lastname");
+  const user = await User.findById(_id).select("cart lastname");
   const response = await author.find();
   res.render("Pages/author", { user, response });
 });
@@ -96,7 +102,7 @@ router.get("/book/book-filter", verifyToken, async (req, res) => {
 
 router.get("/user/category", verifyToken, async (req, res) => {
   const { _id } = req.user;
-  const user = await User.findById(_id).select("lastname");
+  const user = await User.findById(_id).select("cart lastname");
   const response = await category.find();
   res.render("Pages/category", { user, response });
 });
@@ -120,7 +126,7 @@ router.get("/orderSuccess", verifyToken, async (req, res) => {
 
 router.get("/getAllOrderByUser", verifyToken, async (req, res) => {
   const { _id } = req.user;
-  const user = User.findById(_id).select("lastname");
+  const user = await User.findById(_id).select("cart lastname");
   const orders = await Order.find({ userId: _id }).populate(
     "listBooks.bookId",
     "name image"
