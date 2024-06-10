@@ -31,16 +31,22 @@
       <div class="book-collections">
         <h4>Books</h4>
         <div class="search-container">
-          <form action="/book/search" method="GET">
-            <input type="text" placeholder="Search books..." name="key">
-            <select style="height: 40px; margin: 20px;" name="category">
-              <option  value="">Categories</option>
-              <% categories.forEach(category => { %>
-                <option value="<%= category._id %>"><%= category.name %></option>
-              <% }); %>
-            </select>
-            <button type="submit"><i class="fa fa-search"></i></button>
-          </form>
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <form action="/book/search" method="GET" style="display: flex; align-items: center;">
+              <input type="text" placeholder="Search books..." name="key" style="margin-right: 15px;">
+              <button type="submit" style="height: 100%;"><i class="fa fa-search"></i></button>
+            </form>
+            <form action="/book/category" method="GET" style="display: flex; align-items: center; margin-left: 100px;">
+              <select style="width: 150px; height: 40px; font: 1em sans-serif;" name="categoryId">
+                <option value="" >Thể Loại Sách</option>
+                <% categories.forEach(category => { %>
+                  <option name="categoryId" value="<%= category._id %>"><%= category.name %></option>
+                <% }); %>
+              </select>
+              <button type="submit" style="height: 40px; margin-left: 20px;">Lọc</i></button>
+            </form>
+          </div>
+          
         </div>
         <div class="category">
           <div class="category-list">
@@ -72,17 +78,24 @@
           </div>
           <div class="pagination">
             <button <% if (currentPage <= 1) { %>disabled<% } %>>
-              <a href="?page=<%= currentPage - 1 %>&limit=<%= limit %>"><i class="fa fa-chevron-left"></i>Previous</a>
+                <a href="?<%= categoryId !=='undefined' ? 'categoryId=' + categoryId + '&' : '' %>page=<%= currentPage - 1 %>&limit=<%= limit %>">
+                    <i class="fa fa-chevron-left"></i> Previous
+                </a>
             </button>
             <div class="number">
-              <% for (let i = 1; i <= totalPages; i++) { %>
-                <a href="?page=<%= i %>&limit=<%= limit %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a>
-              <% } %>
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                    <a href="?<%= categoryId !=='undefined' ? 'categoryId=' + categoryId + '&' : '' %>page=<%= i %>&limit=<%= limit %>" class="<%= i === currentPage ? 'active' : '' %>">
+                        <%= i %>
+                    </a>
+                <% } %>
             </div>
             <button <% if (currentPage >= totalPages) { %>disabled<% } %>>
-              <a href="?page=<%= currentPage + 1 %>&limit=<%= limit %>">Next<i class="fa fa-chevron-right"></i></a>
+                <a href="?<%= categoryId !=='undefined' ? 'categoryId=' + categoryId + '&' : '' %>page=<%= currentPage + 1 %>&limit=<%= limit %>">
+                    Next <i class="fa fa-chevron-right"></i>
+                </a>
             </button>
-          </div>
+        </div>
+        
         </div>
         
       </div>
