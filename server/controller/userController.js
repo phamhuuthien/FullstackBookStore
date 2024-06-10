@@ -42,20 +42,24 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   if (!password || !email) {
-    return res.status(400).json({
-      success: false,
-      mes: "missing inputs",
-    });
+    // return res.status(400).json({
+    //   success: false,
+    //   mes: "missing inputs",
+    // });
+    return res.render("Pages/login", { message: "missing inputs" });
   }
 
   const dataUser = await User.findOne({ email });
-  if (dataUser.isBlocked) {
-    return res.status(400).json({
-      success: false,
-      mes: "login falied : account is blocked",
-    });
-  }
   if (dataUser && (await dataUser.isCorrectPassword(password))) {
+    if (dataUser && dataUser.isBlocked) {
+      // return res.status(400).json({
+      //   success: false,
+      //   mes: "login falied : account is blocked",
+      // });
+      return res.render("Pages/login", {
+        message: "login falied : account is blocked",
+      });
+    }
     const { _id, password, role, refreshToken, ...user } = dataUser.toObject();
 
     const newAccessToken = genderateAccessToken(dataUser._id, role);
@@ -87,10 +91,13 @@ const login = async (req, res) => {
     // });
     // res.render("index", { user: user });
   } else {
-    return res.status(400).json({
-      success: false,
-      mes: "login falied",
+    return res.render("Pages/login", {
+      message: "login falied : password is corrrect or account does not exist",
     });
+    // return res.status(400).json({
+    //   success: false,
+    //   mes: "password is corrrect or account does not exist",
+    // });
   }
 };
 
@@ -120,7 +127,8 @@ const getUser = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-  const response = await User.find({ role: "65f9145d3a4d4b70e60b67db" }).select(
+  const role = await Role.findOne({ roleName: "user" });
+  const response = await User.find({ role: role._id }).select(
     "-refreshToken -password -role"
   );
   res.render("admin/customer", { response });
@@ -128,6 +136,7 @@ const getAllUsers = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const { _id } = req.user;
+  const user = User.findById(_id);
   const data = req.body;
   const email = data.email;
   if (email) {
@@ -136,17 +145,19 @@ const updateUser = async (req, res) => {
       _id: { $ne: _id },
     });
     if (emailSearch) {
-      return res.status(400).json({
-        success: false,
-        message: "email already exist",
-      });
+      // return res.status(400).json({
+      //   success: false,
+      //   message: "email already exist",
+      // });
+      return res.redirect("getUser");
     }
   }
   if (Object.keys(data).length === 0) {
-    return res.status(400).json({
-      success: false,
-      message: "missing input",
-    });
+    // return res.status(400).json({
+    //   success: false,
+    //   message: "missing input",
+    // });
+    return res.redirect("getUser");
   } else {
     await User.findByIdAndUpdate(_id, data, {
       new: true,
