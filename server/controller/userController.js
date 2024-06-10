@@ -1,5 +1,6 @@
 const User = require("../model/user");
 const Role = require("../model/role");
+const Book = require("../model/book");
 const jwt = require("jsonwebtoken");
 const {
   genderateAccessToken,
@@ -400,6 +401,7 @@ const addQuantity = async (req, res) => {
   const { quantity } = req.query;
   const user = await User.findById(_id).select("cart");
   const { bid } = req.params;
+  const book = await Book.findById(bid);
   if (user) {
     if (!bid) {
       return res.status(400).json({
@@ -415,7 +417,11 @@ const addQuantity = async (req, res) => {
       if (quantity === "desc") {
         currentQuantity = checkBookInCart.quantity - 1;
       } else {
-        currentQuantity = checkBookInCart.quantity + 1;
+        if (book.quantity > checkBookInCart.quantity) {
+          currentQuantity = checkBookInCart.quantity + 1;
+        } else {
+          currentQuantity = checkBookInCart.quantity;
+        }
       }
       const response = await User.updateOne(
         { cart: { $elemMatch: checkBookInCart } },

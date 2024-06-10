@@ -20,6 +20,10 @@ var orderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    deliveryDate: {
+      type: Date,
+      required: true,
+    },
     listBooks: [
       {
         bookId: {
