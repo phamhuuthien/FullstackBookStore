@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        .order-container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .order-details {
+            margin-bottom: 20px;
+        }
+
+        .order-details p {
+            margin-bottom: 5px;
+        }
+
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .products-table th,
+        .products-table td {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .order-summary {
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="order-container">
+        <h1>info order</h1>
+        <%if(orders){%>
+            <div class="order-details">
+                <p>Code orders: <span id="order-id"><%=orders._id%></span></p>
+                <p>Created date: <span id="order-date"><%=orders.createdAt%></span></p>
+                <p>Delivery Date: <span id="delivery-date"><%=orders.deliveryDate%></span></p>
+                <p>nName: <span id="customer-name"><%=orders.userId.lastname%></span></p>
+                <p>Address: <span id="shipping-address"><%=orders.address%></span></p>
+                <p>Mobile: <span id="phone-number"><%=orders.userId.mobile%></span></p>
+                <p>Email: <span id="email"><%=orders.userId.email%></span></p>
+            </div>
+    
+            <h2>Book order</h2>
+    
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>name</th>
+                        <th>quantity</th>
+                        <th>price</th>
+                        <th>total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% orders.listBooks.forEach((item) =>{%>
+                        <tr>
+                            <td><%=item.bookId.name%></td>
+                            <td><%=item.quantity%></td>
+                            <td><%=item.bookId.price%></td>
+                            <td><%=item.quantity*item.bookId.price%></td>
+                        </tr>
+                    <%})%>
+                </tbody>
+            </table>
+
+            <div class="order-summary">
+                <h3>Transport fee: <span id="shipping-fee">free shipping</span></h3>
+                <h3>Total order: <span id="order-total"><%=orders.total%></span></h3>
+                <a style="padding : 10px 20px;background-color: aqua;color : black;border-radius: 8px; text-decoration: none" href="/getAllOrderByUser">Return to order management page</a>
+            </div>
+        <%}%>
+    </div>
+</body>
+</html>

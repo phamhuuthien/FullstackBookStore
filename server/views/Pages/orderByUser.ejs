@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>author</title>
+    <title>order list</title>
     <link rel="stylesheet" href="<%= process.env.URL%>/css/pagination.css">    
     <style>
       .main{
@@ -81,7 +81,10 @@
                                 <td><%=item.total%></td>
                                 <td><%=item.status%></td>
                                 <%if(item.status=='pending'){%>
-                                  <td><a href="<%= process.env.URL%>/order/cancleOrder/<%=item._id%>">hủy</a></td>
+                                  <td>
+                                    <a href="<%= process.env.URL%>/order/cancleOrder/<%=item._id%>">hủy</a>
+                                    <a href="<%= process.env.URL%>/order/<%=item._id%>">detail</a>
+                                  </td>
                                 <%}else{%>
                                   <td><a href="<%= process.env.URL%>/order/<%=item._id%>">detail</a></td>
                                 <%}%>

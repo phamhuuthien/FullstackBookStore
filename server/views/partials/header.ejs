@@ -111,11 +111,8 @@
           </div>
         </a>
         <div class="nav-end">
-          <button class="likebtn">
-            <i class="fa-regular fa-heart"></i> <span>35</span>
-          </button>
           <button class="cart">
-            <a href="<%= process.env.URL%>/cart-item"><i class="fa-solid fa-cart-shopping"></i> <span>4</span></a>
+            <a href="<%= process.env.URL%>/cart-item"><i class="fa-solid fa-cart-shopping"></i> <span><%=user?.cart.length%></span></a>
           </button>
           <!-- <div class="profile-img">
               <span><%=user.firstname%></span>
@@ -125,7 +122,7 @@
               <%=user.lastname%>
             </button>
             <div class="dropdown-content">
-              <a href="<%= process.env.URL%>/user/getUser">infoAccount</a>
+              <a href="<%= process.env.URL%>/getUser">infoAccount</a>
               <a href="<%= process.env.URL%>/getAllOrderByUser">My order</a>
               <a href="<%= process.env.URL%>/user/logout">Logout</a>
             </div>
