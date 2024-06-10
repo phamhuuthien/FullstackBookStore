@@ -1,275 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bookoe - Cart Item List Page</title>
-    <link rel="stylesheet" href="<%= process.env.URL%>/css/style.css" />
-    <link rel="stylesheet" href="<%= process.env.URL%>/css/book-filter.css" />
-    <!-- Fontawesome Link for Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <!--- google font link-->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <%- include("../partials/header") -%>
-    <div class="breadcrumb-container">
-        <ul class="breadcrumb">
-          <li><a href="/" style="color: #6c5dd4">Shop</a></li>
-          <li><a href="#">Cart</a></li>
-        </ul>
-      </div>
 
-    <% if (user !== 'null') { 
-      let orderSubTotal = 0;
-      if(user.cart[0] !==null) {
-        %>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bookoe - Cart Item List Page</title>
+  <link rel="stylesheet" href="<%= process.env.URL%>/css/style.css" />
+  <link rel="stylesheet" href="<%= process.env.URL%>/css/book-filter.css" />
+  <!-- Fontawesome Link for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!--- google font link-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <%- include("../partials/header") -%>
+    <div class="breadcrumb-container">
+      <ul class="breadcrumb">
+        <li><a href="/" style="color: #6c5dd4">Shop</a></li>
+        <li><a href="#">Cart</a></li>
+      </ul>
+    </div>
+
+    <% if (user !=='null' ) { let orderSubTotal=0; if(user.cart[0] !==null) { %>
       <section class="cart-item page">
-          <h2>Book Cart</h2>
-          <div class="product-table">
-                <% if (user.cart && user.cart.length > 0) { %>
-                  <table cellspacing=0>
-                      <tr class="heading">
-                          <th>Product Img</th>
-                          <th>Product Name</th>
-                          <th>Unit Price</th>
-                          <th>Quantity</th>
-                          <th>Total</th>
-                          <th>Delete</th>
-                      </tr>
-                      <% user.cart.forEach((item, index) => { orderSubTotal += item.quantity * item.book.price%>
-                        <tr class="data">
-                          <td>
-                              <img src="<%= item.book.image %>" alt="">
-                          </td>
-                          <td><%= item.book.name %></td>
-                          <td>$<%= item.book.price %></td>
-                          <td>
-                              <div class="input-group">
-                                  <div class="quantity">
-                                    <% if(item.quantity === 1){ %>
-                                        <a href="<%= process.env.URL%>/user/removeCart/<%=item.book._id%>">
-                                          <i class="fas fa-minus"></i>
-                                        </a>
-                                    <%}else{%>
-                                      <a href="<%= process.env.URL%>/user/quantity/<%=item.book._id%>?quantity=desc">
-                                        <i class="fas fa-minus"></i>
-                                      </a>
-                                    <%}%>
-                                      <input
-                                        type="text"
-                                        step="1"
-                                        min="1"
-                                        value="<%= item.quantity%>"
-                                        name="quantity"
-                                        class="quantity-field"
-                                        style="width: 4.5rem"
-                                      />
-                                      <a href="<%= process.env.URL%>/user/quantity/<%=item.book._id%>?quantity=asc">
-                                        <i class="fas fa-plus"></i>
-                                      </a>
-                                    </div>
-                                  </div>
-                              </td>
-                              <td><%= item.book.price * item.quantity%></td>
-                              <td>
-                                <a href="<%= process.env.URL%>/user/removeCart/<%=item.book._id%>" >
-                                  <i class="fa-solid fa-trash"></i>
-                                </a>
-                              </td>
-                          </tr>
-                          <% }); %>
-                        </table>
-                    <% } else { %>
-                      <div>
-                        <h1>No items in cart.</h1>
+        <h2>Book Cart</h2>
+        <div class="product-table">
+          <% if (user.cart && user.cart.length> 0) { %>
+            <table cellspacing=0>
+              <tr class="heading">
+                <th>Product Img</th>
+                <th>Product Name</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Delete</th>
+              </tr>
+              <% user.cart.forEach((item, index)=> { orderSubTotal += item.quantity * item.book.price%>
+                <tr class="data">
+                  <td>
+                    <img src="<%= item.book.image %>" alt="">
+                  </td>
+                  <td>
+                    <%= item.book.name %>
+                  </td>
+                  <td>$<%= item.book.price %>
+                  </td>
+                  <td>
+                    <div class="input-group">
+                      <div class="quantity">
+                        <% if(item.quantity===1){ %>
+                          <a href="<%= process.env.URL%>/user/removeCart/<%=item.book._id%>">
+                            <i class="fas fa-minus"></i>
+                          </a>
+                          <%}else{%>
+                            <a href="<%= process.env.URL%>/user/quantity/<%=item.book._id%>?quantity=desc">
+                              <i class="fas fa-minus"></i>
+                            </a>
+                            <%}%>
+                              <input type="text" step="1" min="1" value="<%= item.quantity%>" name="quantity"
+                                class="quantity-field" style="width: 4.5rem" />
+                              <a href="<%= process.env.URL%>/user/quantity/<%=item.book._id%>?quantity=asc">
+                                <i class="fas fa-plus"></i>
+                              </a>
                       </div>
-                    <% } %>
                     </div>
-                  </section>
-                  <section class="discount-summary">
-                    <!-- <div class="discount-section">
+                  </td>
+                  <td>
+                    <%= item.book.price * item.quantity%>
+                  </td>
+                  <td>
+                    <a href="<%= process.env.URL%>/user/removeCart/<%=item.book._id%>">
+                      <i class="fa-solid fa-trash"></i>
+                    </a>
+                  </td>
+                </tr>
+                <% }); %>
+            </table>
+            <% } else { %>
+              <div>
+                <h1>No items in cart.</h1>
+              </div>
+              <% } %>
+        </div>
+      </section>
+      <section class="discount-summary">
+        <!-- <div class="discount-section">
                       <h4>Discount Coupon</h4>
                       <div class="discount-form">
                         <input type="text" placeholder="Enter Coupon Code" style="text-transform: uppercase;">
                         <button>Apply Coupon</button>
                       </div>
                     </div> -->
-                    <div class="summary-section">
-                      <h4>Cart Subtotal</h4>
-                      <div class="order-detail-table">
-                        <table>
-                          <tr>
-                            <td>total</td>
-                            <td>$<%=orderSubTotal%></td>
-                          </tr>
-                          <tr>
-                            <td>Shipping</td>
-                            <td>Free Shipping</td>
-                          </tr>
-                        </table>
-                        <button><a href="checkout">Proceed To Checkout</a></button>
-                      </div>
+        <%if(user.cart.length>0){%>
+          <div class="summary-section">
+            <h4>Cart Subtotal</h4>
+            <div class="order-detail-table">
+              <table>
+                <tr>
+                  <td>total</td>
+                  <td>$<%=orderSubTotal%>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Shipping</td>
+                  <td>Free Shipping</td>
+                </tr>
+              </table>
+              <button><a href="checkout">Proceed To Checkout</a></button>
+            </div>
+          </div>
+          <%}%>
+      </section>
+      <% }} %>
+
+
+        <section class="book-sale">
+          <div class="heading">
+            <h4>Books On Sale</h4>
+            <div class="arrowbtn">
+              <i id="left" class="fa-solid fa-angle-left"></i>
+              <i id="right" class="fa-solid fa-angle-right"></i>
+            </div>
+          </div>
+          <div class="book-container">
+            <div class="wrapper">
+              <ul class="carousel">
+                <li class="card">
+                  <div class="img">
+                    <img src="../images/book-1.jpg" alt="" />
+                    <span class="badge">50%</span>
+                  </div>
+                  <h5>The Giver</h5>
+                  <div class="genre">
+                    <span>adventure,</span><span>survival</span>
+                  </div>
+                  <div class="footer">
+                    <span class="star"><i class="fa fa-star"></i> 4.7</span>
+                    <div class="price">
+                      <span>$45.4</span>
+                      <span><strike>$90.4</strike></span>
                     </div>
-                  </section>
-    <% }} %>
+                  </div>
+                </li>
+                <li class="card">
+                  <div class="img">
+                    <img src="../images/book-2.jpg" alt="" />
+                    <span class="badge">50%</span>
+                  </div>
+                  <h5>The Wright ...</h5>
+                  <div class="genre">
+                    <span>adventure,</span><span>survival</span>
+                  </div>
+                  <div class="footer">
+                    <span class="star"><i class="fa fa-star"></i> 4.7</span>
+                    <div class="price">
+                      <span>$45.4</span>
+                      <span><strike>$90.4</strike></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="card">
+                  <div class="img">
+                    <img src="../images/book-9.jpg" alt="" />
+                    <span class="badge">50%</span>
+                  </div>
+                  <h5>The Ruins Of...</h5>
+                  <div class="genre">
+                    <span>adventure,</span><span>survival</span>
+                  </div>
+                  <div class="footer">
+                    <span class="star"><i class="fa fa-star"></i> 4.7</span>
+                    <div class="price">
+                      <span>$45.4</span>
+                      <span><strike>$90.4</strike></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="card">
+                  <div class="img">
+                    <img src="../images/book-10.jpg" alt="" />
+                    <span class="badge">50%</span>
+                  </div>
+                  <h5>Percy Jackson</h5>
+                  <div class="genre">
+                    <span>adventure,</span><span>survival</span>
+                  </div>
+                  <div class="footer">
+                    <span class="star"><i class="fa fa-star"></i> 4.7</span>
+                    <div class="price">
+                      <span>$45.4</span>
+                      <span><strike>$90.4</strike></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="card">
+                  <div class="img">
+                    <img src="../images/book-5.jpg" alt="" />
+                    <span class="badge">50%</span>
+                  </div>
+                  <h5>To kill a...</h5>
+                  <div class="genre">
+                    <span>adventure,</span><span>survival</span>
+                  </div>
+                  <div class="footer">
+                    <span class="star"><i class="fa fa-star"></i> 4.7</span>
+                    <div class="price">
+                      <span>$45.4</span>
+                      <span><strike>$90.4</strike></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="card">
+                  <div class="img">
+                    <img src="../images/book-6.jpg" alt="" />
+                    <span class="badge">50%</span>
+                  </div>
+                  <h5>Horry Potter</h5>
+                  <div class="genre">
+                    <span>adventure,</span><span>survival</span>
+                  </div>
+                  <div class="footer">
+                    <span class="star"><i class="fa fa-star"></i> 4.7</span>
+                    <div class="price">
+                      <span>$45.4</span>
+                      <span><strike>$90.4</strike></span>
+                    </div>
+                  </div>
+                </li>
+                <li class="card">
+                  <div class="img">
+                    <img src="../images/book-7.jpg" alt="" />
+                    <span class="badge">50%</span>
+                  </div>
+                  <h5>Heroes of ...</h5>
+                  <div class="genre">
+                    <span>adventure,</span><span>survival</span>
+                  </div>
+                  <div class="footer">
+                    <span class="star"><i class="fa fa-star"></i> 4.7</span>
+                    <div class="price">
+                      <span>$45.4</span>
+                      <span><strike>$90.4</strike></span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <%- include("../partials/footer") -%>
+          <%- include("../components/backToTop") -%>
 
 
-    <section class="book-sale">
-      <div class="heading">
-        <h4>Books On Sale</h4>
-        <div class="arrowbtn">
-          <i id="left" class="fa-solid fa-angle-left"></i>
-          <i id="right" class="fa-solid fa-angle-right"></i>
-        </div>
-      </div>
-      <div class="book-container">
-        <div class="wrapper">
-          <ul class="carousel">
-            <li class="card">
-              <div class="img">
-                <img src="../images/book-1.jpg" alt="" />
-                <span class="badge">50%</span>
-              </div>
-              <h5>The Giver</h5>
-              <div class="genre">
-                <span>adventure,</span><span>survival</span>
-              </div>
-              <div class="footer">
-                <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                <div class="price">
-                  <span>$45.4</span>
-                  <span><strike>$90.4</strike></span>
-                </div>
-              </div>
-            </li>
-            <li class="card">
-              <div class="img">
-                <img src="../images/book-2.jpg" alt="" />
-                <span class="badge">50%</span>
-              </div>
-              <h5>The Wright ...</h5>
-              <div class="genre">
-                <span>adventure,</span><span>survival</span>
-              </div>
-              <div class="footer">
-                <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                <div class="price">
-                  <span>$45.4</span>
-                  <span><strike>$90.4</strike></span>
-                </div>
-              </div>
-            </li>
-            <li class="card">
-              <div class="img">
-                <img src="../images/book-9.jpg" alt="" />
-                <span class="badge">50%</span>
-              </div>
-              <h5>The Ruins Of...</h5>
-              <div class="genre">
-                <span>adventure,</span><span>survival</span>
-              </div>
-              <div class="footer">
-                <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                <div class="price">
-                  <span>$45.4</span>
-                  <span><strike>$90.4</strike></span>
-                </div>
-              </div>
-            </li>
-            <li class="card">
-              <div class="img">
-                <img src="../images/book-10.jpg" alt="" />
-                <span class="badge">50%</span>
-              </div>
-              <h5>Percy Jackson</h5>
-              <div class="genre">
-                <span>adventure,</span><span>survival</span>
-              </div>
-              <div class="footer">
-                <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                <div class="price">
-                  <span>$45.4</span>
-                  <span><strike>$90.4</strike></span>
-                </div>
-              </div>
-            </li>
-            <li class="card">
-              <div class="img">
-                <img src="../images/book-5.jpg" alt="" />
-                <span class="badge">50%</span>
-              </div>
-              <h5>To kill a...</h5>
-              <div class="genre">
-                <span>adventure,</span><span>survival</span>
-              </div>
-              <div class="footer">
-                <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                <div class="price">
-                  <span>$45.4</span>
-                  <span><strike>$90.4</strike></span>
-                </div>
-              </div>
-            </li>
-            <li class="card">
-              <div class="img">
-                <img src="../images/book-6.jpg" alt="" />
-                <span class="badge">50%</span>
-              </div>
-              <h5>Horry Potter</h5>
-              <div class="genre">
-                <span>adventure,</span><span>survival</span>
-              </div>
-              <div class="footer">
-                <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                <div class="price">
-                  <span>$45.4</span>
-                  <span><strike>$90.4</strike></span>
-                </div>
-              </div>
-            </li>
-            <li class="card">
-              <div class="img">
-                <img src="../images/book-7.jpg" alt="" />
-                <span class="badge">50%</span>
-              </div>
-              <h5>Heroes of ...</h5>
-              <div class="genre">
-                <span>adventure,</span><span>survival</span>
-              </div>
-              <div class="footer">
-                <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                <div class="price">
-                  <span>$45.4</span>
-                  <span><strike>$90.4</strike></span>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+              integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="../js/repeat-js.js"></script>
+            <script src="../js/increment-decrement.js"></script>
+</body>
 
-    <%- include("../partials/footer") -%>
-    <%- include("../components/backToTop") -%>
-
-
-    <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
-    integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  ></script>
-    <script src="../js/repeat-js.js"></script>
-    <script src="../js/increment-decrement.js"></script>
-  </body>
 </html>
