@@ -67,14 +67,6 @@ exports.addRatingUI = async (req, res) => {
         const { content, stars } = req.body;
         const userId = req.user._id;
 
-        if (!userId) {
-            const book = await Book.findById(bookId);
-            return res.render('Pages/book-detail', {
-                book: book,
-                error: "Bạn chưa đăng nhập"
-            });
-        }
-
         const book = await Book.findById(bookId);
         if (!book) {
             return res.render('Pages/book-detail', {

@@ -6,6 +6,7 @@ const { verifyToken, isAdmin } = require('../middlewares/verifyToken')
 router.use(express.json());
 
 // Routes cho việc xử lý sách
+
 router.get("/book-filter", controller.getAllBooks);
 router.get("/book-detail/:id", controller.getBookById);
 router.get("/category", controller.getBooksByIdCategory);

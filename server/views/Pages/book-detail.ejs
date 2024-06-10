@@ -17,7 +17,7 @@
   <!-- Fontawesome Link for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
-
+    
 <body>
   <%- include("../partials/header") -%>
 
@@ -92,9 +92,10 @@
         </div>
         <div class="book-price">
           <div class="price">
-            <strong>$<%= book.price %></strong>
-            <strike>$16.99</strike>
-            <span>2%</span>
+            <strong>$<%= (book.price).toFixed(2) %></strong>
+            <strike>$<%= (book.price*1.2).toFixed(2) %></strike>
+            <span><%= (((book.price * 1.2) - book.price) / (book.price * 1.2) * 100).toFixed(2) %>% off</span>
+
           </div>
           <div class="input-group">
             <div class="offer-bottom">
@@ -252,7 +253,7 @@
             <i class="fa-solid fa-shield"></i>
           </div>
           <div class="service-content">
-            <h5>Secure Payment</h5>a
+            <h5>Secure Payment</h5>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
               exercitationem.

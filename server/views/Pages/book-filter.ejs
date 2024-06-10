@@ -16,7 +16,12 @@
   <!-- Fontawesome Link for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
-
+    <% 
+      let booksOnSale = [];
+      for(var i=5; i < 11; i++){
+          booksOnSale.push(allBook[i]);
+      }
+    %>
 <body>
   <%- include("../partials/header") -%>
   
@@ -79,19 +84,46 @@
           </div>
           <div class="pagination">
             <button <% if (currentPage <= 1) { %>disabled<% } %>>
-                <a href="?<%= categoryId !=='undefined' ? 'categoryId=' + categoryId + '&' : '' %>page=<%= currentPage - 1 %>&limit=<%= limit %>">
+                <a href="?<%= categoryId ? 'categoryId=' + categoryId + '&' : '' %><%= key ? 'key=' + key + '&' : '' %>page=<%= currentPage - 1 %>&limit=<%= limit %>">
                     <i class="fa fa-chevron-left"></i> Previous
                 </a>
             </button>
             <div class="number">
-                <% for (let i = 1; i <= totalPages; i++) { %>
-                    <a href="?<%= categoryId !=='undefined' ? 'categoryId=' + categoryId + '&' : '' %>page=<%= i %>&limit=<%= limit %>" class="<%= i === currentPage ? 'active' : '' %>">
-                        <%= i %>
-                    </a>
-                <% } %>
-            </div>
+              <% let numPagesToShow = 10; %>
+              <% let startPage = Math.max(1, currentPage - Math.floor(numPagesToShow / 2)); %>
+              <% let endPage = Math.min(totalPages, startPage + numPagesToShow - 1); %>
+          
+              <% if (startPage > 1) { %>
+                  <a href="?<%= categoryId ? 'categoryId=' + categoryId + '&' : '' %><%= key ? 'key=' + key + '&' : '' %>page=1&limit=<%= limit %>"
+                     style="<%= currentPage === 1 ? 'background-color: #007bff; color: white; padding: 5px 10px; border-radius: 5px; margin-right: 5px;' : 'margin-right: 5px;' %>">
+                      1
+                  </a>
+                  <% if (startPage > 2) { %>
+                      <span>...</span>
+                  <% } %>
+              <% } %>
+          
+              <% for (let i = startPage; i <= endPage; i++) { %>
+                  <a href="?<%= categoryId ? 'categoryId=' + categoryId + '&' : '' %><%= key ? 'key=' + key + '&' : '' %>page=<%= i %>&limit=<%= limit %>"
+                     class="<%= i === currentPage ? 'active' : '' %>"
+                     style="<%= i === currentPage ? 'background-color: #6c5dd4; color: white; padding: 5px 10px; border-radius: 5px; margin-right: 5px;' : 'margin-right: 5px;' %>">
+                      <%= i %>
+                  </a>
+              <% } %>
+          
+              <% if (endPage < totalPages) { %>
+                  <% if (endPage < totalPages - 1) { %>
+                      <span>...</span>
+                  <% } %>
+                  <a href="?<%= categoryId ? 'categoryId=' + categoryId + '&' : '' %><%= key ? 'key=' + key + '&' : '' %>page=<%= totalPages %>&limit=<%= limit %>"
+                     style="<%= currentPage === totalPages ? 'background-color: #007bff; color: white; padding: 5px 10px; border-radius: 5px; margin-right: 5px;' : 'margin-right: 5px;' %>">
+                      <%= totalPages %>
+                  </a>
+              <% } %>
+          </div>
+          
             <button <% if (currentPage >= totalPages) { %>disabled<% } %>>
-                <a href="?<%= categoryId !=='undefined' ? 'categoryId=' + categoryId + '&' : '' %>page=<%= currentPage + 1 %>&limit=<%= limit %>">
+                <a href="?<%= categoryId  ? 'categoryId=' + categoryId + '&' : '' %><%= key ? 'key=' + key + '&' : '' %>page=<%= currentPage + 1 %>&limit=<%= limit %>">
                     Next <i class="fa fa-chevron-right"></i>
                 </a>
             </button>
@@ -105,8 +137,8 @@
 
   <section class="book-sale">
     <div class="heading">
-      <h4>Books On Sale</h4>
-      <div class="arrowbtn">
+      <h1 style="margin-left: 180px;">Books On Sale</h1>
+      <div style="margin-right: 180px;" class="arrowbtn">
         <i id="left" class="fa-solid fa-angle-left"></i>
         <i id="right" class="fa-solid fa-angle-right"></i>
       </div>
@@ -114,125 +146,27 @@
     <div class="book-container">
       <div class="wrapper">
         <ul class="carousel">
-          <li class="card">
-            <div class="img">
-              <a href="book-detail"><img src="../images/book-1.jpg" alt="" /></a>
-              <span class="badge">50%</span>
-            </div>
-            <h5>The Giver</h5>
-            <div class="genre">
-              <span>adventure,</span><span>survival</span>
-            </div>
-            <div class="footer">
-              <span class="star"><i class="fa fa-star"></i> 4.7</span>
-              <div class="price">
-                <span>$45.4</span>
-                <span><strike>$90.4</strike></span>
+          <% for (let i = 0; i < booksOnSale.length; i++) { %>
+            <li class="card">
+              <div class="img">
+                <a href="/book/book-detail/<%= booksOnSale[i]._id %>">
+                  <img src="<%= booksOnSale[i].image %>" alt="" />
+                </a>
+                <span class="badge">50%</span>
               </div>
-            </div>
-          </li>
-          <li class="card">
-            <div class="img">
-              <a href="book-detail"><img src="../images/book-2.jpg" alt="" /></a>
-              <span class="badge">50%</span>
-            </div>
-            <h5>The Wright ...</h5>
-            <div class="genre">
-              <span>adventure,</span><span>survival</span>
-            </div>
-            <div class="footer">
-              <span class="star"><i class="fa fa-star"></i> 4.7</span>
-              <div class="price">
-                <span>$45.4</span>
-                <span><strike>$90.4</strike></span>
+              <h5 style="font-size: 16px; font-weight: bold; margin: 10px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: block;">
+                <%= booksOnSale[i].name %>
+              </h5>
+
+              <div class="footer" style="font-size: 14px; color: #555;">
+                <span class="star"><i class="fa fa-star"></i> <%= booksOnSale[i].totalRating %></span>
+                <div class="price">
+                  <span style="margin-right: 5px;">$<%= booksOnSale[i].price.toFixed(2) %></span>
+                  <span><strike style="color: #999;">$<%= (booksOnSale[i].price * 2).toFixed(2) %></strike></span>
+                </div>
               </div>
-            </div>
-          </li>
-          <li class="card">
-            <div class="img">
-              <a href="book-detail"><img src="../images/book-9.jpg" alt="" /></a>
-              <span class="badge">50%</span>
-            </div>
-            <h5>The Ruins Of...</h5>
-            <div class="genre">
-              <span>adventure,</span><span>survival</span>
-            </div>
-            <div class="footer">
-              <span class="star"><i class="fa fa-star"></i> 4.7</span>
-              <div class="price">
-                <span>$45.4</span>
-                <span><strike>$90.4</strike></span>
-              </div>
-            </div>
-          </li>
-          <li class="card">
-            <div class="img">
-              <a href="book-detail"><img src="../images/book-10.jpg" alt="" /></a>
-              <span class="badge">50%</span>
-            </div>
-            <h5>Percy Jackson</h5>
-            <div class="genre">
-              <span>adventure,</span><span>survival</span>
-            </div>
-            <div class="footer">
-              <span class="star"><i class="fa fa-star"></i> 4.7</span>
-              <div class="price">
-                <span>$45.4</span>
-                <span><strike>$90.4</strike></span>
-              </div>
-            </div>
-          </li>
-          <li class="card">
-            <div class="img">
-              <a href="book-detail"><img src="../images/book-5.jpg" alt="" /></a>
-              <span class="badge">50%</span>
-            </div>
-            <h5>To kill a...</h5>
-            <div class="genre">
-              <span>adventure,</span><span>survival</span>
-            </div>
-            <div class="footer">
-              <span class="star"><i class="fa fa-star"></i> 4.7</span>
-              <div class="price">
-                <span>$45.4</span>
-                <span><strike>$90.4</strike></span>
-              </div>
-            </div>
-          </li>
-          <li class="card">
-            <div class="img">
-              <a href="book-detail"><img src="../images/book-6.jpg" alt="" /></a>
-              <span class="badge">50%</span>
-            </div>
-            <h5>Horry Potter</h5>
-            <div class="genre">
-              <span>adventure,</span><span>survival</span>
-            </div>
-            <div class="footer">
-              <span class="star"><i class="fa fa-star"></i> 4.7</span>
-              <div class="price">
-                <span>$45.4</span>
-                <span><strike>$90.4</strike></span>
-              </div>
-            </div>
-          </li>
-          <li class="card">
-            <div class="img">
-              <a href="book-detail"><img src="../images/book-7.jpg" alt="" /></a>
-              <span class="badge">50%</span>
-            </div>
-            <h5>Heroes of ...</h5>
-            <div class="genre">
-              <span>adventure,</span><span>survival</span>
-            </div>
-            <div class="footer">
-              <span class="star"><i class="fa fa-star"></i> 4.7</span>
-              <div class="price">
-                <span>$45.4</span>
-                <span><strike>$90.4</strike></span>
-              </div>
-            </div>
-          </li>
+            </li>
+          <% } %>
         </ul>
       </div>
     </div>
@@ -313,10 +247,6 @@
         filterdiv.classList.toggle("active-div");
         iconbtn.classList.toggle("active-btn");
       })
-
-
-
-
 
       let editorpick = document.getElementsByClassName("select-box");
       let icon = document.querySelectorAll(".select-box .opt-title i");
@@ -401,10 +331,14 @@
         });
       });
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
     <script src="../js/repeat-js.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="<%= process.env.URL %>/js/book-filter.js"></script>
+    <script src="<%= process.env.URL%>/js/back-to-top.js"></script>
+
   </body>
   
   </html>

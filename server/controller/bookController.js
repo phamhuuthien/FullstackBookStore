@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Book = require("../model/book");
 const Category = require("../model/category")
 const Order = require('../model/order');
+const User = require('../model/user')
 //upload file
 const cloudinary = require("../configs/cloudinary");
 const slugify = require('slugify');
@@ -26,18 +27,22 @@ exports.getAllBooks = async (req, res) => {
         const totalBooks = await Book.countDocuments();
 
         const books = await Book.find().skip(skip).limit(limit);
+        const allBook = await Book.find();
         const categories = await Category.find();
         // Tính toán số lượng trang
         const totalPages = Math.ceil(totalBooks / limit);
 
         const categoryId = "";
+        const key = "";
         res.render('Pages/book-filter', {
             books,
+            allBook,
             categories,
             currentPage: page,
             totalPages,
             totalBooks,
             categoryId,
+            key,
             limit
         });
     } catch (error) {
@@ -57,6 +62,7 @@ exports.getAllBooksByAdmin = async (req, res) => {
 };
 
 exports.getBookById = async (req, res) => {
+
     const { id } = req.params;
     try {
         const book = await Book.findById(id).populate(['authorId', 'categoryId']);
@@ -183,7 +189,7 @@ exports.getBooksByIdCategory = async (req, res) => {
         const page = parseInt(req.query.page) || 1; 
         const limit = parseInt(req.query.limit) || 8; 
         const skip = (page - 1) * limit;
-
+        const allBook = await Book.find();
         const books = await Book.find({ categoryId }).skip(skip).limit(limit);
  
         const totalBooks = await Book.countDocuments({ categoryId: categoryId });
@@ -192,6 +198,7 @@ exports.getBooksByIdCategory = async (req, res) => {
             const categories = await Category.find();
             return res.render('Pages/book-filter', {
                 books: [],
+                allBook,
                 categories,
                 key: "",
                 categoryId, 
@@ -208,6 +215,7 @@ exports.getBooksByIdCategory = async (req, res) => {
 
         res.render('Pages/book-filter', {
             books,
+            allBook,
             categories,
             key: "",
             categoryId, 
@@ -241,9 +249,11 @@ exports.searchBookByName = async (req, res) => {
             $and: regexTerms.map(term => ({ name: { $regex: term } }))
         });
         const categories = await Category.find();
+        const allBook = await Book.find();
         if (totalBooks === 0) {
             return res.render('Pages/book-filter', {
                 books: [],
+                allBook,
                 categories,
                 key,
                 currentPage: 1,
@@ -262,6 +272,7 @@ exports.searchBookByName = async (req, res) => {
 
         res.render('Pages/book-filter', {
             books,
+            allBook,
             categories,
             key,
             currentPage: page,
