@@ -59,12 +59,17 @@ const addOrder = async (req, res) => {
   if (!coupon) {
     coupon = null;
   }
+
+  let deliveryDate = new Date();
+  deliveryDate.setDate(deliveryDate.getDate() + 4);
+
   const dataOrder = {
     userId: _id,
     listBooks: books,
     couponId: coupon,
     total: total,
     address: address,
+    deliveryDate,
   };
 
   const saveOrder = await Order.create(dataOrder);
