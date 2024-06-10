@@ -17,24 +17,20 @@ const upload = multer({ storage: storage });
 
 exports.getAllBooks = async (req, res) => {
     try {
-        // Lấy các tham số phân trang từ yêu cầu
-        const page = parseInt(req.query.page) || 1; // Trang hiện tại (mặc định là trang 1)
-        const limit = parseInt(req.query.limit) || 8; // Số sách mỗi trang (mặc định là 8)
+        const page = parseInt(req.query.page) || 1; 
+        const limit = parseInt(req.query.limit) || 8; 
 
         // Tính toán số lượng sách cần bỏ qua để lấy trang hiện tại
         const skip = (page - 1) * limit;
 
-        // Lấy tổng số lượng sách
         const totalBooks = await Book.countDocuments();
 
-        // Lấy danh sách sách với phân trang
         const books = await Book.find().skip(skip).limit(limit);
         const categories = await Category.find();
         // Tính toán số lượng trang
         const totalPages = Math.ceil(totalBooks / limit);
 
         const categoryId = "";
-        // Chuyển thông tin sách và phân trang vào trang ejs
         res.render('Pages/book-filter', {
             books,
             categories,
@@ -53,7 +49,6 @@ exports.getAllBooks = async (req, res) => {
 exports.getAllBooksByAdmin = async (req, res) => {
     try {
         const response = (await Book.find()).reverse();
-        console.log(response); // Kiểm tra xem books có chứa dữ liệu không
         res.render('admin/book', { response });
     } catch (error) {
         console.error(error);
@@ -106,10 +101,9 @@ exports.addBook = async (req, res) => {
                 });
             }
 
-            // Sinh ra slug từ tên sách
             const slug = slugify(name, {
-                replacement: '-',  // Ký tự thay thế cho các khoảng trắng
-                lower: true        // Chuyển đổi tất cả các ký tự sang chữ thường
+                replacement: '-', 
+                lower: true   
             });
 
             const book = await Book.findOne({ slug });
@@ -127,8 +121,8 @@ exports.addBook = async (req, res) => {
                     quantity,
                     categoryId,
                     authorId,
-                    slug,  // Lưu slug vào trường slug của đối tượng sách
-                    ratings: [] // Khởi tạo ratings là một mảng trống khi thêm sách mới
+                    slug,  
+                    ratings: [] 
                 });
                 res.redirect("/admin/book");
             }
@@ -186,24 +180,21 @@ exports.getBooksByIdCategory = async (req, res) => {
             return res.status(400).json({ success: false, message: "Invalid category ID" });
         }
 
-        const page = parseInt(req.query.page) || 1; // Trang hiện tại (mặc định là trang 1)
-        const limit = parseInt(req.query.limit) || 8; // Số sách mỗi trang (mặc định là 8)
+        const page = parseInt(req.query.page) || 1; 
+        const limit = parseInt(req.query.limit) || 8; 
         const skip = (page - 1) * limit;
 
         const books = await Book.find({ categoryId }).skip(skip).limit(limit);
-        console.log(books)
-        // Tìm kiếm sách theo categoryId và tính tổng số lượng sách tìm thấy
+ 
         const totalBooks = await Book.countDocuments({ categoryId: categoryId });
-        // const totalBooks = await Book.countDocuments({ categoryId });
-        console.log(totalBooks)
-        
+
         if (totalBooks === 0) {
             const categories = await Category.find();
             return res.render('Pages/book-filter', {
                 books: [],
                 categories,
                 key: "",
-                categoryId, // Sửa đổi từ category thành categoryId
+                categoryId, 
                 currentPage: 1,
                 totalPages: 1,
                 totalBooks: 0,
@@ -211,9 +202,6 @@ exports.getBooksByIdCategory = async (req, res) => {
             });
         }
 
-        
-
-        // Tính toán số lượng trang
         const totalPages = Math.ceil(totalBooks / limit);
 
         const categories = await Category.find();
@@ -222,7 +210,7 @@ exports.getBooksByIdCategory = async (req, res) => {
             books,
             categories,
             key: "",
-            categoryId, // Sửa đổi từ category thành categoryId
+            categoryId, 
             currentPage: page,
             totalPages,
             totalBooks,
@@ -234,8 +222,6 @@ exports.getBooksByIdCategory = async (req, res) => {
     }
 };
 
-
-
 exports.searchBookByName = async (req, res) => {
     try {
         const { key } = req.query;
@@ -244,14 +230,13 @@ exports.searchBookByName = async (req, res) => {
             return res.status(400).json({ success: false, message: "Search key is required" });
         }
 
-        const page = parseInt(req.query.page) || 1; // Trang hiện tại (mặc định là trang 1)
-        const limit = parseInt(req.query.limit) || 8; // Số sách mỗi trang (mặc định là 8)
+        const page = parseInt(req.query.page) || 1; 
+        const limit = parseInt(req.query.limit) || 8; 
         const skip = (page - 1) * limit;
 
         const searchTerms = key.split(" ").filter(term => term.trim() !== "");
         const regexTerms = searchTerms.map(term => new RegExp(term, "i"));
 
-        // Tìm kiếm sách theo từ khóa và tính tổng số lượng sách tìm thấy
         const totalBooks = await Book.countDocuments({
             $and: regexTerms.map(term => ({ name: { $regex: term } }))
         });
@@ -273,7 +258,6 @@ exports.searchBookByName = async (req, res) => {
             $and: regexTerms.map(term => ({ name: { $regex: term } }))
         }).skip(skip).limit(limit);
 
-        // Tính toán số lượng trang
         const totalPages = Math.ceil(totalBooks / limit);
 
         res.render('Pages/book-filter', {
@@ -292,21 +276,6 @@ exports.searchBookByName = async (req, res) => {
     }
 };
 
-// exports.getBooksByIdCategory = async (req, res) => {
-//     try {
-//         const { categoryId } = req.params;
-
-//         const books = await Book.find({ categoryId: categoryId });
-
-//         res.status(200).json({
-//             success: true,
-//             data: books
-//         });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: "Internal Server Error" });
-//     }
-// };
 
 
 
