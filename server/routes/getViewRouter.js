@@ -51,8 +51,17 @@ router.get("/admin/coupon", verifyToken, isAdmin, (req, res) => {
   couponController.getListCoupon(req, res);
 });
 
-router.get("/admin/order", verifyToken, isAdmin, (req, res) => {
-  orderController.getAllOrder(req, res);
+router.get("/admin/order", verifyToken, isAdmin, async (req, res) => {
+  try {
+    const response = await Order.find().populate(
+      "listBooks.bookId",
+      "name image price"
+    );
+    // res.status(200).json(response);
+    return res.render("admin/order", { response });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.get("/admin/category", verifyToken, isAdmin, (req, res) => {

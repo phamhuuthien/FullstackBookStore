@@ -154,33 +154,30 @@
                     `;
                 if(item.status == 'pending'){
                   content+=`<td>
-                      <select id="mySelect">
-                        <option selected>pending</option>
-                        <option data-url="#">delivering</option>
-                        <option data-url="#">delivered</option>
-                      </select>
+                      ${item.status}
                     </td>
-                    <td><a href="#">hủy</a></td>
+                    <td>
+                      <a href="http://localhost:8000/order/status/${item._id}?status=delivering">delivering</a>
+                      <a href="http://localhost:8000/order/status/${item._id}?status=cancle">cancle</a>
+                      <a href="#">detail</a>
+                    </td>
                   </tr>`
                 }else if(item.status == 'delivering'){
                   content+=`<td>
-                      <select id="mySelect">
-                        <option>pending</option>
-                        <option selected>delivering</option>
-                        <option>delivered</option>
-                      </select>
+                      ${item.status}
                     </td>
-                    <td><a href="#">hủy</a></td>
+                    <td>
+                      <a href="http://localhost:8000/order/status/${item._id}?status=delivered">delivered</a>
+                      <a href="#">detail</a>
+                    </td>
                   </tr>`
                 }else{
                   content+=`<td>
-                      <select id="mySelect">
-                        <option>pending</option>
-                        <option>delivering</option>
-                        <option selected>delivered</option>
-                      </select>
+                      ${item.status}
                     </td>
-                    <td><a href="#">hủy</a></td>
+                    <td>
+                      <a href="#">detail</a>
+                    </td>
                   </tr>`
                 }
               });
