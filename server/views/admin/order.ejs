@@ -151,7 +151,7 @@
                     <td>
                       <a href="http://localhost:8000/order/status/${item._id}?status=delivering">delivering</a>
                       <a href="http://localhost:8000/order/status/${item._id}?status=cancle">cancle</a>
-                      <a href="#">detail</a>
+                      <a href="http://localhost:8000/order/${item._id}">detail</a>
                     </td>
                   </tr>`
                 }else if(item.status == 'delivering'){
@@ -160,7 +160,7 @@
                     </td>
                     <td>
                       <a href="http://localhost:8000/order/status/${item._id}?status=delivered">delivered</a>
-                      <a href="#">detail</a>
+                      <a href="http://localhost:8000/order/${item._id}">detail</a>
                     </td>
                   </tr>`
                 }else{
@@ -168,7 +168,7 @@
                       ${item.status}
                     </td>
                     <td>
-                      <a href="#">detail</a>
+                      <a href="http://localhost:8000/order/${item._id}">detail</a>
                     </td>
                   </tr>`
                 }

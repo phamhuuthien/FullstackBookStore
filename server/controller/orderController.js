@@ -1,43 +1,16 @@
 const Order = require('../model/order');
 const User = require("../model/user");
-const Coupon = require("../model/coupon");
 const getOrder = async (req, res) => {
   try {
     const { oid } = req.params;
-    const orders = await Order.findOne({ _id: oid });
-    res.status(200).json(orders);
+    const orders = await Order.findOne({ _id: oid })
+      .populate("userId", "lastname mobile email")
+      .populate("listBooks.bookId", "name image price");
+    res.render("Pages/detailOrder", { orders });
   } catch (err) {
     res.status(500).json(err);
   }
 };
-
-// const getAllOrder = async (req, res) => {
-//   try {
-//     const response = await Order.find().populate(
-//       "listBooks.bookId",
-//       "name image price"
-//     );
-//     // res.status(200).json(response);
-//     return res.render("admin/order", { response });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// };
-
-// const getAllOrderByUser = async (req, res) => {
-//   try {
-//     const { _id } = req.user;
-//     const user = User.findById(_id);
-//     const orders = await Order.find({ userId: _id }).populate(
-//       "listBooks.bookId",
-//       "name image"
-//     );
-//     // res.status(200).json(orders);
-//     return res.render("Pages/orderByUser", { orders, user });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// };
 
 const addOrder = async (req, res) => {
   const { _id } = req.user;

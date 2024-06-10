@@ -80,7 +80,7 @@
                                     </div>
                                   </div>
                               </td>
-                              <td><%= item.book.price * item.quantity%></td>
+                              <td><%= (item.book.price * item.quantity).toFixed(2)%></td>
                               <td>
                                 <a href="<%= process.env.URL%>/user/removeCart/<%=item.book._id%>" >
                                   <i class="fa-solid fa-trash"></i>
@@ -110,7 +110,7 @@
                         <table>
                           <tr>
                             <td>total</td>
-                            <td>$<%=orderSubTotal%></td>
+                            <td>$<%=orderSubTotal.toFixed(2)%></td>
                           </tr>
                           <tr>
                             <td>Shipping</td>
