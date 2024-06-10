@@ -69,6 +69,18 @@
       font-weight: 700;
       border-radius: 8px;
     }
+
+    .card-count-number {
+
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      padding: 5px;
+      font-size: 12px;
+    }
   </style>
 </head>
 
@@ -112,11 +124,15 @@
         </a>
         <div class="nav-end">
           <button class="cart">
-            <a href="<%= process.env.URL%>/cart-item"><i class="fa-solid fa-cart-shopping"></i> <span><%=user?.cart.length%></span></a>
+            <a href="<%= process.env.URL%>/cart-item">
+              <i class="fa-solid fa-cart-shopping"></i>
+              <% if(user.cart.length>0){%>
+                <span class="card-count-number">
+                  <%=user?.cart.length%>
+                </span>
+                <%}%>
+            </a>
           </button>
-          <!-- <div class="profile-img">
-              <span><%=user.firstname%></span>
-            </div> -->
           <div class="dropdown">
             <button class="dropbtn">
               <%=user.lastname%>

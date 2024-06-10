@@ -1,5 +1,6 @@
 const Order = require('../model/order');
 const User = require("../model/user");
+
 const getOrder = async (req, res) => {
   try {
     const { oid } = req.params;
@@ -47,7 +48,6 @@ const addOrder = async (req, res) => {
 
   const saveOrder = await Order.create(dataOrder);
   await User.findByIdAndUpdate(_id, { $set: { cart: [] } });
-  // res.status(200).json({ success: saveOrder ? true : false });
   if (saveOrder) {
     res.redirect("/orderSuccess");
   }
@@ -57,16 +57,8 @@ const cancelOrder = async (req, res) => {
   const { oid } = req.params;
   const order = await Order.findById(oid);
   if (order.status == "pending") {
-    await Order.findByIdAndUpdate(oid, { $set: { status: "cancle" } });
+    await Order.findByIdAndUpdate(oid, { $set: { status: "cancel" } });
   }
-  // const { _id } = req.user;
-  // const user = User.findById(_id);
-  // const orders = await Order.find({ userId: _id }).populate(
-  //   "listBooks.bookId",
-  //   "name image"
-  // );
-  // // res.status(200).json(orders);
-  // return res.render("Pages/orderByUser", { orders, user });
   res.redirect("/getAllOrderByUser");
 };
 
@@ -79,6 +71,7 @@ const statusOrder = async (req, res) => {
   }
   return res.redirect("/admin/order")
 };
+
 const updateOrder = async (req, res) => {
   try {
     const updatedOrder = await Order.findByIdAndUpdate(
@@ -96,10 +89,8 @@ const updateOrder = async (req, res) => {
 
 module.exports = {
   getOrder,
-  // getAllOrder,
   addOrder,
   updateOrder,
-  // getAllOrderByUser,
   cancelOrder,
   statusOrder,
 };
