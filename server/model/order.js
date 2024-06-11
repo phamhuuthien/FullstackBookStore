@@ -10,7 +10,7 @@ var orderSchema = new mongoose.Schema(
       type: String,
       required: true,
       default: "pending",
-      data: ["unpaid", "pending", "delivering", "delivered"],
+      data: ["cancel", "unpaid", "pending", "delivering", "delivered"],
     },
     address: {
       type: String,
