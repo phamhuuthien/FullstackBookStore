@@ -1,5 +1,6 @@
 const User = require("../model/user");
 const Role = require("../model/role");
+const Book = require("../model/book");
 const jwt = require("jsonwebtoken");
 const {
   genderateAccessToken,
@@ -8,16 +9,16 @@ const {
 
 const crypto = require("crypto");
 const sendMail = require("../until/sendMail");
-const { captureRejectionSymbol } = require("nodemailer/lib/xoauth2");
 
 const register = async (req, res) => {
-  const { firstname, lastname, password, email, mobile, role } = req.body;
-  if (!firstname || !lastname || !password || !email || !mobile || !role) {
+  const { firstname, lastname, password, email, mobile } = req.body;
+  if (!firstname || !lastname || !password || !email || !mobile) {
     return res.status(400).json({
       success: false,
       mes: "missing inputs",
     });
   }
+  const role = await Role.findOne({ roleName: "user" });
   const user = await User.findOne({ email: email });
   const mobileUser = await User.findOne({ mobile: mobile });
   if (user) {
@@ -25,15 +26,15 @@ const register = async (req, res) => {
       message: "Email already exists",
       user: req.body,
     };
-    res.render("Pages/registration", { responeMessage });
+    return res.render("Pages/registration", { responeMessage });
   } else if (mobileUser) {
     var responeMessage = {
       message: "Mobile already exists",
       user: req.body,
     };
-    res.render("Pages/registration", { responeMessage });
+    return res.render("Pages/registration", { responeMessage });
   } else {
-    await User.create(req.body);
+    await User.create({ ...req.body, role: role._id });
     res.redirect(`/user/sendOtp?email=${email}`);
     // res.redirect("/");
   }
@@ -42,20 +43,24 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   if (!password || !email) {
-    return res.status(400).json({
-      success: false,
-      mes: "missing inputs",
-    });
+    // return res.status(400).json({
+    //   success: false,
+    //   mes: "missing inputs",
+    // });
+    return res.render("Pages/login", { message: "missing inputs" });
   }
 
   const dataUser = await User.findOne({ email });
-  if (dataUser.isBlocked) {
-    return res.status(400).json({
-      success: false,
-      mes: "login falied : account is blocked",
-    });
-  }
   if (dataUser && (await dataUser.isCorrectPassword(password))) {
+    if (dataUser && dataUser.isBlocked) {
+      // return res.status(400).json({
+      //   success: false,
+      //   mes: "login falied : account is blocked",
+      // });
+      return res.render("Pages/login", {
+        message: "login falied : account is blocked",
+      });
+    }
     const { _id, password, role, refreshToken, ...user } = dataUser.toObject();
 
     const newAccessToken = genderateAccessToken(dataUser._id, role);
@@ -87,10 +92,13 @@ const login = async (req, res) => {
     // });
     // res.render("index", { user: user });
   } else {
-    return res.status(400).json({
-      success: false,
-      mes: "login falied",
+    return res.render("Pages/login", {
+      message: "login falied : password is corrrect or account does not exist",
     });
+    // return res.status(400).json({
+    //   success: false,
+    //   mes: "password is corrrect or account does not exist",
+    // });
   }
 };
 
@@ -120,7 +128,8 @@ const getUser = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-  const response = await User.find({ role: "65f9145d3a4d4b70e60b67db" }).select(
+  const role = await Role.findOne({ roleName: "user" });
+  const response = await User.find({ role: role._id }).select(
     "-refreshToken -password -role"
   );
   res.render("admin/customer", { response });
@@ -128,6 +137,7 @@ const getAllUsers = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const { _id } = req.user;
+  const user = User.findById(_id);
   const data = req.body;
   const email = data.email;
   if (email) {
@@ -136,17 +146,19 @@ const updateUser = async (req, res) => {
       _id: { $ne: _id },
     });
     if (emailSearch) {
-      return res.status(400).json({
-        success: false,
-        message: "email already exist",
-      });
+      // return res.status(400).json({
+      //   success: false,
+      //   message: "email already exist",
+      // });
+      return res.redirect("getUser");
     }
   }
   if (Object.keys(data).length === 0) {
-    return res.status(400).json({
-      success: false,
-      message: "missing input",
-    });
+    // return res.status(400).json({
+    //   success: false,
+    //   message: "missing input",
+    // });
+    return res.redirect("getUser");
   } else {
     await User.findByIdAndUpdate(_id, data, {
       new: true,
@@ -365,8 +377,18 @@ const addCart = async (req, res) => {
       //   sucess: response ? true : false,
       //   rs: response,
       // });
+
       res.redirect("/");
     } else {
+      // const book = await Book.findById(bid);
+      // if(book.quantity > 0){
+      //   await Book.findByIdAndUpdate(bid, { $inc: { quantity: -1 } }, { new: true })
+      // }else{
+      //   return res.status(401).json({
+      //     success : false,
+      //     message : "quantity is not enough"
+      //   })
+      // }
       // thêm khi chưa có trong giỏ hàng
       const response = await User.findByIdAndUpdate(
         _id,
@@ -389,6 +411,7 @@ const addQuantity = async (req, res) => {
   const { quantity } = req.query;
   const user = await User.findById(_id).select("cart");
   const { bid } = req.params;
+  const book = await Book.findById(bid);
   if (user) {
     if (!bid) {
       return res.status(400).json({
@@ -404,13 +427,18 @@ const addQuantity = async (req, res) => {
       if (quantity === "desc") {
         currentQuantity = checkBookInCart.quantity - 1;
       } else {
-        currentQuantity = checkBookInCart.quantity + 1;
+        if (book.quantity > checkBookInCart.quantity) {
+          currentQuantity = checkBookInCart.quantity + 1;
+        } else {
+          currentQuantity = checkBookInCart.quantity;
+        }
       }
       const response = await User.updateOne(
         { cart: { $elemMatch: checkBookInCart } },
         { $set: { "cart.$.quantity": currentQuantity } },
         { new: true }
       );
+      // await Book.findByIdAndUpdate(bid, { $set: { quantity: currentQuantity } }, { new: true })
       res.redirect("/cart-item");
     }
   }

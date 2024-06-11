@@ -16,6 +16,7 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage: storage });
 
 exports.getAllBooks = async (req, res) => {
+
     try {
         const page = parseInt(req.query.page) || 1; 
         const limit = parseInt(req.query.limit) || 8; 
@@ -58,6 +59,7 @@ exports.getAllBooksByAdmin = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Lỗi Server Nội Bộ" });
     }
+
 };
 
 exports.getBookById = async (req, res) => {

@@ -2,10 +2,13 @@ const express = require("express");
 const userController = require("../controller/userController");
 const authorController = require("../controller/authorController");
 const categoryController = require("../controller/categoryController");
+const orderController = require("../controller/orderController");
 const bookController = require("../controller/bookController");
+const couponController = require("../controller/couponController");
 const router = express.Router();
 const User = require("../model/user");
 const Role = require("../model/role");
+const Order = require("../model/order");
 const jwt = require("jsonwebtoken");
 const { verifyToken, isAdmin } = require("../middlewares/verifyToken");
 const author = require("../model/author");
@@ -46,6 +49,23 @@ router.get("/admin/author", verifyToken, isAdmin, (req, res) => {
   authorController.getListAuthor(req, res);
 });
 
+router.get("/admin/coupon", verifyToken, isAdmin, (req, res) => {
+  couponController.getListCoupon(req, res);
+});
+
+router.get("/admin/order", verifyToken, isAdmin, async (req, res) => {
+  try {
+    const response = await Order.find().populate(
+      "listBooks.bookId",
+      "name image price"
+    );
+    // res.status(200).json(response);
+    return res.render("admin/order", { response });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 router.get("/admin/category", verifyToken, isAdmin, (req, res) => {
   categoryController.getListCategory(req, res);
 });
@@ -64,9 +84,15 @@ router.get("/service", verifyToken, async (req, res) => {
   res.render("Pages/service", { user });
 });
 
-router.get("/user/author", verifyToken, async (req, res) => {
+router.get("/getUser", verifyToken, async (req, res) => {
   const { _id } = req.user;
   const user = await User.findById(_id);
+  res.render("Pages/infoAccount", { user });
+});
+
+router.get("/user/author", verifyToken, async (req, res) => {
+  const { _id } = req.user;
+  const user = await User.findById(_id).select("cart lastname");
   const response = await author.find();
   res.render("Pages/author", { user, response });
 });
@@ -79,7 +105,7 @@ router.get("/book/book-filter", verifyToken, async (req, res) => {
 
 router.get("/user/category", verifyToken, async (req, res) => {
   const { _id } = req.user;
-  const user = await User.findById(_id);
+  const user = await User.findById(_id).select("cart lastname");
   const response = await category.find();
   res.render("Pages/category", { user, response });
 });
@@ -97,6 +123,21 @@ router.get("/book-detail", async (req, res) => {
   res.render("Pages/book-detail");
 });
 
+router.get("/orderSuccess", verifyToken, async (req, res) => {
+  res.render("Pages/orderSuccess");
+});
+
+router.get("/getAllOrderByUser", verifyToken, async (req, res) => {
+  const { _id } = req.user;
+  const user = await User.findById(_id).select("cart lastname");
+  const orders = await Order.find({ userId: _id }).populate(
+    "listBooks.bookId",
+    "name image"
+  );
+  // res.status(200).json(orders);
+  return res.render("Pages/orderByUser", { orders, user });
+  // res.render("Pages/orderByUser");
+});
 
 
 
@@ -111,8 +152,14 @@ router.get("/cart-item", verifyToken, async (req, res) => {
   }
 });
 
-router.get("/checkout", async (req, res) => {
-  res.render("Pages/checkout");
+router.get("/checkout", verifyToken, async (req, res) => {
+  const { _id } = req.user;
+  const user = await User.findById(_id)
+    .select("cart lastname")
+    .populate({ path: "cart.book", select: "_id name image price" });
+  if (user) {
+    res.render("Pages/checkout", { user });
+  }
 });
 
 router.get("/login", async (req, res) => {
