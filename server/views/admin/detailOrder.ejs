@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        .order-container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .order-details {
+            margin-bottom: 20px;
+        }
+
+        .order-details p {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .products-table th,
+        .products-table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .products-table th {
+            background-color: #f2f2f2;
+        }
+
+        .order-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .order-summary h3 {
+            margin-bottom: 0;
+        }
+
+        a {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            /* Green color */
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        a:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="order-container">
+        <h1>Order Details</h1>
+        <%if(orders){%>
+            <div class="order-details">
+                <p>Name: <span id="customer-name" style="float: right;">
+                        <%=orders.userId.lastname%>
+                    </span></p>
+                <hr>
+                <p>Code orders: <span id=" order-id" style="float: right;">
+                        <%=orders._id%>
+                    </span></p>
+                <hr>
+                <p>Created date: <span id="order-date" style="float: right;">
+                        <%=orders.createdAt%>
+                    </span></p>
+                <hr>
+                <p>Delivery Date: <span id="delivery-date" style="float: right;">
+                        <%=orders.deliveryDate%>
+                    </span></p>
+                <hr>
+                <p>Address: <span id="shipping-address" style="float: right;">
+                        <%=orders.address%>
+                    </span></p>
+                <hr>
+                <p>Mobile: <span id="phone-number" style="float: right;">
+                        <%=orders.userId.mobile%>
+                    </span></p>
+                <hr>
+                <p>Email: <span id="email" style="float: right;">
+                        <%=orders.userId.email%>
+                    </span></p>
+            </div>
+
+            <h2>Book Order</h2>
+
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% orders.listBooks.forEach((item)=>{%>
+                        <tr>
+                            <td>
+                                <%=item.bookId.name%>
+                            </td>
+                            <td>
+                                <%=item.quantity%>
+                            </td>
+                            <td>
+                                <%=item.bookId.price%>
+                            </td>
+                            <td>
+                                <%=item.quantity*item.bookId.price%>
+                            </td>
+                        </tr>
+                        <%})%>
+                </tbody>
+            </table>
+
+            <div class="order-summary">
+                <h3>Shipping fee: <span id="shipping-fee">Free</span></h3>
+                <h3>Order value: <span id="order-total">
+                        <%=orders.total%>
+                    </span></h3>
+                <a href="/admin/order">Back</a>
+            </div>
+            <%}%>
+    </div>
+</body>
+
+</html>

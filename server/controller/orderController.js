@@ -13,6 +13,18 @@ const getOrder = async (req, res) => {
   }
 };
 
+const getOrderAdmin = async (req, res) => {
+  try {
+    const { oid } = req.params;
+    const orders = await Order.findOne({ _id: oid })
+      .populate("userId", "lastname mobile email")
+      .populate("listBooks.bookId", "name image price");
+    res.render("admin/detailOrder", { orders });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
 const addOrder = async (req, res) => {
   const { _id } = req.user;
   var { coupon, total, address } = req.body;
@@ -69,7 +81,7 @@ const statusOrder = async (req, res) => {
   if (order) {
     await Order.findByIdAndUpdate(oid, { $set: { status } });
   }
-  return res.redirect("/admin/order")
+  return res.redirect("/admin/order");
 };
 
 const updateOrder = async (req, res) => {
@@ -87,10 +99,18 @@ const updateOrder = async (req, res) => {
   }
 };
 
+const deleteOrder = async (req, res) => {
+  const { oid } = req.params;
+  await Order.findByIdAndDelete(oid);
+  return res.redirect("/admin/order");
+};
+
 module.exports = {
   getOrder,
   addOrder,
   updateOrder,
   cancelOrder,
   statusOrder,
+  deleteOrder,
+  getOrderAdmin,
 };

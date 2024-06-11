@@ -163,12 +163,22 @@
                       <a href="http://localhost:8000/order/${item._id}">detail</a>
                     </td>
                   </tr>`
-                }else{
+                }
+                // else if(item.status == 'cancle'){
+                //   content+=`<td>
+                //       ${item.status}
+                //     </td>
+                //     <td>
+                //       <a href="http://localhost:8000/order/${item._id}?_method=delete">delete</a>
+                //     </td>
+                //   </tr>`
+                // }
+                else{
                   content+=`<td>
                       ${item.status}
                     </td>
                     <td>
-                      <a href="http://localhost:8000/order/${item._id}">detail</a>
+                      <a href="http://localhost:8000/order/admin/${item._id}">detail</a>
                     </td>
                   </tr>`
                 }
