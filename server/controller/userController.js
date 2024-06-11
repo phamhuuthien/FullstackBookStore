@@ -377,8 +377,18 @@ const addCart = async (req, res) => {
       //   sucess: response ? true : false,
       //   rs: response,
       // });
+
       res.redirect("/");
     } else {
+      // const book = await Book.findById(bid);
+      // if(book.quantity > 0){
+      //   await Book.findByIdAndUpdate(bid, { $inc: { quantity: -1 } }, { new: true })
+      // }else{
+      //   return res.status(401).json({
+      //     success : false,
+      //     message : "quantity is not enough"
+      //   })
+      // }
       // thêm khi chưa có trong giỏ hàng
       const response = await User.findByIdAndUpdate(
         _id,
@@ -428,6 +438,7 @@ const addQuantity = async (req, res) => {
         { $set: { "cart.$.quantity": currentQuantity } },
         { new: true }
       );
+      // await Book.findByIdAndUpdate(bid, { $set: { quantity: currentQuantity } }, { new: true })
       res.redirect("/cart-item");
     }
   }
