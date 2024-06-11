@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const Book = require("../model/book");
 const Category = require("../model/category")
-const Order = require('../model/order');
-const User = require('../model/user')
+const User = require("../model/user")
 //upload file
 const cloudinary = require("../configs/cloudinary");
 const slugify = require('slugify');
@@ -67,13 +66,13 @@ exports.getBookById = async (req, res) => {
     try {
         const book = await Book.findById(id).populate(['authorId', 'categoryId']);
         if (!book) {
-            return res.status(404).json({ success: false, message: "Book not found" });
+            return res.status(404).json({ success: false, message: "Sách không tồn tại" });
         }
 
         res.render('Pages/book-detail', { book });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: "Lỗi Server Nội Bộ" });
     }
 };
 
@@ -84,13 +83,13 @@ exports.addBook = async (req, res) => {
             if (err instanceof multer.MulterError) {
                 return res.status(500).json({
                     success: false,
-                    message: "Error uploading image",
+                    message: "Lỗi tải ảnh",
                     error: err.message
                 });
             } else if (err) {
                 return res.status(500).json({
                     success: false,
-                    message: "Unexpected error uploading image",
+                    message: "Lỗi tải ảnh",
                     error: err.message
                 });
             }
@@ -103,7 +102,7 @@ exports.addBook = async (req, res) => {
             if (!name || !description || !price || !quantity || !categoryId || !authorId) {
                 return res.status(400).json({
                     success: false,
-                    message: "Missing inputs",
+                    message: "Thiếu fields đầu vào",
                 });
             }
 
@@ -116,7 +115,7 @@ exports.addBook = async (req, res) => {
             if (book) {
                 return res.status(401).json({
                     success: false,
-                    message: "Book already exists",
+                    message: "Sách đã tồn tại",
                 });
             } else {
                 const newBook = await Book.create({
@@ -134,10 +133,10 @@ exports.addBook = async (req, res) => {
             }
         });
     } catch (error) {
-        console.error("Error adding book:", error);
+        console.error("Lỗi thêm sách:", error);
         return res.status(500).json({
             success: false,
-            message: "Something went wrong",
+            message: "Lỗi",
             error: error.message
         });
     }
@@ -149,12 +148,12 @@ exports.deleteBook = async (req, res) => {
     try {
         const deletedBook = await Book.findByIdAndDelete(id);
         if (!deletedBook) {
-            return res.status(404).json({ success: false, message: "Book not found" });
+            return res.status(404).json({ success: false, message: "Sách không tồn tại" });
         }
         res.redirect("/admin/book");
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: "Lỗi Server Nội Bộ" });
     }
 };
 
@@ -164,12 +163,12 @@ exports.updateBook = async (req, res) => {
     try {
         const updatedBook = await Book.findByIdAndUpdate(id, data, { new: true });
         if (!updatedBook) {
-            return res.status(404).json({ success: false, message: "Book not found" });
+            return res.status(404).json({ success: false, message: "Sách không tồn tại" });
         }
         res.redirect("/admin/book");
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: "Lỗi Server Nội Bộ" });
     }
 };
 
@@ -178,14 +177,10 @@ exports.getBooksByIdCategory = async (req, res) => {
         const { categoryId } = req.query;
         console.log(categoryId)
 
-        if (!categoryId || categoryId.trim() === "") {
-            return res.status(400).json({ success: false, message: "Category ID is required" });
-        }
-
-        if (!mongoose.Types.ObjectId.isValid(categoryId)) {
-            return res.status(400).json({ success: false, message: "Invalid category ID" });
-        }
-
+        if (!categoryId) {
+            return res.redirect('/book/book-filter');
+        } 
+        
         const page = parseInt(req.query.page) || 1; 
         const limit = parseInt(req.query.limit) || 8; 
         const skip = (page - 1) * limit;
@@ -226,7 +221,7 @@ exports.getBooksByIdCategory = async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: "Lỗi Server Nội Bộ" });
     }
 };
 
@@ -235,7 +230,7 @@ exports.searchBookByName = async (req, res) => {
         const { key } = req.query;
         const categoryId = "";
         if (!key || key.trim() === "") {
-            return res.status(400).json({ success: false, message: "Search key is required" });
+            return res.redirect('/book/book-filter');
         }
 
         const page = parseInt(req.query.page) || 1; 
@@ -283,7 +278,7 @@ exports.searchBookByName = async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: "Lỗi Seerver nội bộ" });
     }
 };
 

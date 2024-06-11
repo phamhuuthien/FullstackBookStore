@@ -197,7 +197,7 @@
                         var price = button.getAttribute("data-price");
                         var quantity = button.getAttribute("data-quantity");
                         var description = button.getAttribute("data-description");
-                        modalForm.setAttribute("action", `http://localhost:8000/book/${id}?_method=put`)
+                        modalForm.setAttribute("action", `http://localhost:8000/book/update/${id}?_method=post`)
                         document.getElementById("name").value = name;
                         document.getElementById("price").value = price;
                         document.getElementById("quantity").value = quantity;

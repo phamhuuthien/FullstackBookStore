@@ -271,12 +271,18 @@
               
               <small><%= bookSpecial[i].authorId.name %></small>
               <div class="offer-bottom">
-                <a href="/user/addCart/<%= books[i]._id %>" class="cartbtn">
-                  <i class="fa-solid fa-cart-shopping"></i>Add to cart
-                </a>
-                <div class="price">
-                  <strong><span>$</span><%= bookSpecial[i].price.toFixed(2) %></strong>
-                </div>
+                <% if(typeof user !== 'undefined' ){ %>
+                  <a href="/user/addCart/<%= books[i]._id %>" class="cartbtn">
+                    <i class="fa-solid fa-cart-shopping"></i>Add to cart
+                  </a>
+                  <%}else{ %>
+                    <a href="/login" class="cartbtn">
+                      <i class="fa-solid fa-cart-shopping"></i>Add to cart
+                    </a>
+                    <% } %>
+                  <div class="price">
+                    <strong><span>$</span><%= bookSpecial[i].price.toFixed(2) %></strong>
+                  </div>
               </div>
             </div>
           </div>
@@ -370,199 +376,6 @@
       </div>
     </section>
     
-
-    <section class="feature">
-      <div class="main">
-        <div class="content">
-          <h4>Featured Books</h4>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. <br />
-            Molestias, illum? Doloremque eius quis officiis rerum pariatur.
-          </p>
-          <div class="featured-book-card">
-            <div class="img">
-              <a href="pages/book-detail.html"
-                ><img src="<%= process.env.URL%>/images/book-2.jpg" alt=""
-              /></a>
-            </div>
-            <div class="card-description">
-              <div class="card-header">
-                <div class="icon">
-                  <i class="fa-regular fa-bookmark"></i>
-                  <i class="fa fa-star"></i>
-                </div>
-                <div class="title">
-                  <h5>The Wright Brothers</h5>
-                  <small>biography, adventure</small>
-                </div>
-              </div>
-              <div class="card-body">
-                <h6>Synopsis</h6>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Suscipit, aperiam magnam! Eius voluptas nihil repellendus quam
-                  velit harum vel alias mollitia veritatis omnis. Ut vel, fugiat
-                  obcaecati odio minus molestiae?
-                </p>
-                <div class="author-year">
-                  <div class="author">
-                    <small>Written by</small>
-                    <strong>Kevin Smiley</strong>
-                  </div>
-                  <div class="year">
-                    <small>Year</small>
-                    <strong>2019</strong>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer">
-                <div class="price">
-                  <span>$84.78</span>
-                  <strike>$90.00</strike>
-                </div>
-                <div class="cartbtn">
-                  <button><i class="fa-solid fa-cart-shopping"></i>Add</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="book-section">
-          <div class="container">
-            <div class="img">
-              <a href="pages/book-detail.html"
-                ><img src="<%= process.env.URL%>/images/book-2.jpg" alt=""
-              /></a>
-            </div>
-            <div class="img">
-              <a href="pages/book-detail.html"
-                ><img src="<%= process.env.URL%>/images/book-1.jpg" alt=""
-              /></a>
-            </div>
-            <div class="img">
-              <a href="pages/book-detail.html"
-                ><img src="<%= process.env.URL%>/images/book-3.jpg" alt=""
-              /></a>
-            </div>
-            <div class="img">
-              <a href="pages/book-detail.html"
-                ><img src="<%= process.env.URL%>/images/book-4.jpg" alt=""
-              /></a>
-            </div>
-            <div class="img">
-              <a href="pages/book-detail.html"
-                ><img src="<%= process.env.URL%>/images/book-5.jpg" alt=""
-              /></a>
-            </div>
-            <div class="img">
-              <a href="pages/book-detail.html"
-                ><img src="<%= process.env.URL%>/images/book-6.jpg" alt=""
-              /></a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="circle-1"></div>
-      <div class="circle-2"></div>
-    </section>
-
-    <section class="news">
-      <div class="heading">
-        <div class="title">
-          <h4>Latest News</h4>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. <br />
-            Quia, laborum ad perspiciatis ab, sequi.
-          </p>
-        </div>
-        <div class="btn">
-          <button>View More <i class="fa-solid fa-arrow-right"></i></button>
-        </div>
-      </div>
-      <div class="news-container">
-        <div class="post">
-          <div class="img">
-            <img src="<%= process.env.URL%>/images/news-1.avif" alt="" />
-          </div>
-          <h5>Why reading is important for our children?</h5>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Aspernatur, quo temporibus! Tenetur...
-            <a href="">Continue reading</a>
-          </p>
-          <div class="post-footer">
-            <div class="img">
-              <img src="<%= process.env.URL%>/images/man1.png" alt="" />
-            </div>
-            <div class="details">
-              <strong>James Bond</strong>
-              <small>5 August 2020</small>
-            </div>
-          </div>
-        </div>
-        <div class="post">
-          <div class="img">
-            <img src="<%= process.env.URL%>/images/news-2.webp" alt="" />
-          </div>
-          <h5>Why reading is important for our children?</h5>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Aspernatur, quo temporibus! Tenetur...
-            <a href="">Continue reading</a>
-          </p>
-          <div class="post-footer">
-            <div class="img">
-              <img src="<%= process.env.URL%>/images/man1.png" alt="" />
-            </div>
-            <div class="details">
-              <strong>James Bond</strong>
-              <small>5 August 2020</small>
-            </div>
-          </div>
-        </div>
-        <div class="post">
-          <div class="img">
-            <img src="<%= process.env.URL%>/images/news-3.jpg" alt="" />
-          </div>
-          <h5>Why reading is important for our children?</h5>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Aspernatur, quo temporibus! Tenetur...
-            <a href="">Continue reading</a>
-          </p>
-          <div class="post-footer">
-            <div class="img">
-              <img src="<%= process.env.URL%>/images/man1.png" alt="" />
-            </div>
-            <div class="details">
-              <strong>James Bond</strong>
-              <small>5 August 2020</small>
-            </div>
-          </div>
-        </div>
-        <div class="post">
-          <div class="img">
-            <img src="<%= process.env.URL%>/images/news-4.jpg" alt="" />
-          </div>
-          <h5>Why reading is important for our children?</h5>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Aspernatur, quo temporibus! Tenetur...
-            <a href="">Continue reading</a>
-          </p>
-          <div class="post-footer">
-            <div class="img">
-              <img src="<%= process.env.URL%>/images/man1.png" alt="" />
-            </div>
-            <div class="details">
-              <strong>James Bond</strong>
-              <small>5 August 2020</small>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="countdown">
       <div class="container">
         <div class="customer counter">
