@@ -44,7 +44,7 @@
             </form>
             <form action="/book/category" method="GET" style="display: flex; align-items: center; margin-left: 100px;">
               <select style="width: 150px; height: 40px; font: 1em sans-serif;" name="categoryId">
-                <option value="">Thể Loại Sách</option>
+                <option value="">Tất Cả Sách</option>
                 <% categories.forEach(category => { %>
                   <option value="<%= category._id %>" 
                           <% if (category._id.toString() === categoryId.toString()) { %> selected <% } %> >
