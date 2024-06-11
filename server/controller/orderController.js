@@ -1,30 +1,13 @@
 const Order = require('../model/order');
 const User = require("../model/user");
-const Coupon = require("../model/coupon");
+
 const getOrder = async (req, res) => {
   try {
     const { oid } = req.params;
-    const orders = await Order.findOne({ _id: oid });
-    res.status(200).json(orders);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-};
-
-const getAllOrder = async (req, res) => {
-  try {
-    const orders = await Order.find();
-    res.status(200).json(orders);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-};
-
-const getAllOrderByUser = async (req, res) => {
-  try {
-    const { _id } = req.user;
-    const orders = await Order.find({ userId: _id });
-    res.status(200).json(orders);
+    const orders = await Order.findOne({ _id: oid })
+      .populate("userId", "lastname mobile email")
+      .populate("listBooks.bookId", "name image price");
+    res.render("Pages/detailOrder", { orders });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -32,7 +15,8 @@ const getAllOrderByUser = async (req, res) => {
 
 const addOrder = async (req, res) => {
   const { _id } = req.user;
-  const { coupon } = req.body;
+  var { coupon, total, address } = req.body;
+
   const userCart = await User.findById(_id)
     .select("cart")
     .populate("cart.book", "name price");
@@ -46,17 +30,46 @@ const addOrder = async (req, res) => {
     quantity: el.quantity,
   }));
 
-  if (Coupon.findById(coupon) == null) {
-    return res.status(203).json({
-      success: false,
-      message: "coupon khong ton tai",
-    });
+  if (!coupon) {
+    coupon = null;
   }
-  const dataOrder = { userId: _id, listBooks: books, couponId: coupon };
+
+  let deliveryDate = new Date();
+  deliveryDate.setDate(deliveryDate.getDate() + 4);
+
+  const dataOrder = {
+    userId: _id,
+    listBooks: books,
+    couponId: coupon,
+    total: total,
+    address: address,
+    deliveryDate,
+  };
 
   const saveOrder = await Order.create(dataOrder);
   await User.findByIdAndUpdate(_id, { $set: { cart: [] } });
-  res.status(200).json({ success: saveOrder ? true : false });
+  if (saveOrder) {
+    res.redirect("/orderSuccess");
+  }
+};
+
+const cancelOrder = async (req, res) => {
+  const { oid } = req.params;
+  const order = await Order.findById(oid);
+  if (order.status == "pending") {
+    await Order.findByIdAndUpdate(oid, { $set: { status: "cancel" } });
+  }
+  res.redirect("/getAllOrderByUser");
+};
+
+const statusOrder = async (req, res) => {
+  const { oid } = req.params;
+  const { status } = req.query;
+  const order = await Order.findById(oid);
+  if (order) {
+    await Order.findByIdAndUpdate(oid, { $set: { status } });
+  }
+  return res.redirect("/admin/order")
 };
 
 const updateOrder = async (req, res) => {
@@ -76,8 +89,8 @@ const updateOrder = async (req, res) => {
 
 module.exports = {
   getOrder,
-  getAllOrder,
   addOrder,
   updateOrder,
-  getAllOrderByUser,
+  cancelOrder,
+  statusOrder,
 };

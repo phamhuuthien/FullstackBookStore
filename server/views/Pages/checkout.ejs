@@ -19,100 +19,78 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
+    <style>
+      .checkout-form a {
+        background-color: #6c5dd4;
+        color: #fff;
+        padding: 12px 15px;
+        border: none;
+        width: 160px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    </style>
 </head>
 <body>
     <%- include("../partials/header") -%>
       <div class="breadcrumb-container">
         <ul class="breadcrumb">
-          <li><a href="#" style="color: #6c5dd4">Shop</a></li>
+          <li><a href="/" style="color: #6c5dd4">Shop</a></li>
           <li><a href="#">Checkout</a></li>
         </ul>
       </div>
+      <%if(typeof message !== 'undefined'){%>
+        <script>
+          alert("<%=message%>")
+        </script>
+      <%}%>
+
+      <% if(user !== 'null'){
+        let orderSubTotal = 0;  
+      %>
 
       <section class="checkout-section page">
         <h2>Checkout</h2>
         <div class="main">
           <div class="checkout-form">
-            <h4>Billing & Shipping Address</h4>
+            <h4>coupon order</h4>
             <div class="form-container">
-              <div class="form-control Country-field">
-                <select class="select-box" style="border: 1px solid #f0f0f0;padding: 5px 10px;height: 45px;border-radius: 5px;width: 100%;    appearance: none;
-                background-image: url(../images/chevron-down.svg);
-                background-repeat: no-repeat;
-                background-size: 16px 20px;
-                background-position: right 0.75rem center;font-size: 15px;outline: none;">
-                  <option>USA</option>
-                  <option>India</option>
-                  <option>Australia</option>
-                  <option>New Zealand</option>
-                  <option>russia</option>
-                  <option>United Kingdom</option>
-                  <option>Africa</option>
-                  <option>Sri Lanka</option>
-                  <option>Pakistan</option>
-                  <option>USA</option>
-                  <option>USA</option>
-                </select>
-              </div>
-              <div class="name-field input-field">
-                <input type="text" placeholder="First Name">
-                <input type="text" placeholder="Last Name">
-              </div>
-              <div class="address-field">
-                <textarea rows="3" placeholder="Address"></textarea>
-              </div>
-              <div class="input-field">
-                <input type="text" placeholder="City / Town">
-                <input type="text" placeholder="State">
-              </div>
-              <div class="input-field">
-                <input type="text" placeholder="Company Name">
-                <input type="email" placeholder="Email">
-              </div>
-              <div class="input-field">
-                <input type="text" placeholder="Phone no." maxlength="10">
-                <input type="text" placeholder="Postcode/Zip">
-              </div>
-              <button>Add Address</button>
+              <form action="/coupon/checkCoupon" method="post">
+                <div class="input-field">
+                  <label for="">couponCode</label>
+                  <% if (typeof coupon !== 'undefined') { %>
+                    <input type="text" placeholder="please enter coupon" value="<%= coupon.discount %> %" name="code" readonly>
+                    <a href="/checkout">reset</a>
+                    <% } else { %>
+                    <input type="text" placeholder="please enter coupon" name="code">
+                    <button>coupon</button>
+                  <% } %>
+                </div>
+              </form>
             </div>
           </div>
           <div class="your-order">
             <h4>Your Order</h4>
             <div class="order-table">
               <table cellspacing="0">
-                <tr class="heading">
-                  <th>Image</th>
-                  <th>Product Name</th>
-                  <th>Total</th>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="../images/book-4.jpg" alt="">
-                  </td>
-                  <td>Red Queen</td>
-                  <td>$25</td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="../images/book-7.jpg" alt="">
-                  </td>
-                  <td>Heroes Of Olympus</td>
-                  <td>$20</td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="../images/book-9.jpg" alt="">
-                  </td>
-                  <td>The Ruins Of Gorlan</td>
-                  <td>$15</td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="../images/book-10.jpg" alt="">
-                  </td>
-                  <td>Percy Jackson</td>
-                  <td>$30</td>
-                </tr>
+                  <%
+                    user.cart.forEach((item,index)=>{
+                      orderSubTotal+= item.book.price * item.quantity
+                  %>
+                  <tr class="heading">
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Total</th>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img src="<%= item.book.image %>" alt="">
+                    </td>
+                    <td><%= item.book.name %></td>
+                    <td>$<%= item.book.price * item.quantity %></td>
+                  </tr>
+                <%})%>
               </table>
             </div>
           </div>
@@ -122,27 +100,43 @@
         <div class="summary-section">
           <h4>Order Total</h4>
           <div class="order-detail-table">
-            <table>
-              <tr>
-                <td>Order Subtotal</td>
-                <td>$125</td>
-              </tr>
-              <tr>
-                <td>Shipping</td>
-                <td>Free Shipping</td>
-              </tr>
-              <tr>
-                <td>Coupon</td>
-                <td>$5</td>
-              </tr>
-              <tr>
-                <td>Total</td>
-                <td>$506</td>
-              </tr>
-            </table>
+            <form action="/order" method="post">
+              <table>
+                <tr>
+                  <td>Order Subtotal</td>
+                  <td>$<%=orderSubTotal%></td>
+                </tr>
+                <tr>
+                  <td>Order Subtotal</td>
+                  <td>
+                      <textarea rows="3" placeholder="Address" style="width: 100%" name="address" required></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Shipping</td>
+                  <td>Free Shipping</td>
+                </tr>
+                <tr>
+                  <td>Coupon</td>
+                  <% if (typeof coupon !== 'undefined') { 
+                    orderSubTotal =orderSubTotal - (orderSubTotal*coupon.discount)/100
+                    %>
+                    <td><input type="text" value="<%=coupon._id%>" name="coupon" hidden><%=coupon.discount%>%</td>
+                  <% } else { %>
+                    <td>0%</td>
+                  <% } %>
+                </tr>
+                <tr>
+                  <td>Total</td>
+                  <td><input type="text" value="<%=orderSubTotal%>" name="total" hidden>$<%=orderSubTotal%></td>
+                </tr>
+              </table>
+              <button>Place Order Now</button>
+            </form>
           </div>
         </div>
-        <div class="payment-section">
+        <%}%>
+        <!-- <div class="payment-section">
           <h4>Payment Method</h4>
           <div class="payment-form">
             <div class="payment-option">
@@ -166,7 +160,7 @@
             </div>
             <button>Place Order Now</button>
           </div>
-        </div>
+        </div> -->
       </section>
       <%- include("../partials/footer") -%>
     <%- include("../components/backToTop") -%>

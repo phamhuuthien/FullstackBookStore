@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>customer</title>
+    <link rel="stylesheet" href="<%= process.env.URL%>/css/admin.css">
+    <link rel="stylesheet" href="<%= process.env.URL%>/css/pagination.css">    
+    <link rel="stylesheet" href="<%= process.env.URL%>/css/modal.css">    
+    <style>
+        .details {
+            display: block;
+        }
+        .link-btn{
+            text-decoration: none;
+        }
+        .btn-create-item{
+          display: inline-block !important;
+        }
+        td{
+          text-align: center !important;
+        }
+        td  a{
+          text-decoration: none;
+          padding :10px 20px;
+          background-color : #8DE02C;
+          color : black;
+          border-radius :8px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="<%= process.env.URL%>/js/pagination.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <%- include("../partials/navigation") -%>
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder="Search here">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+
+                <div class="user">
+                    <img src="<%= process.env.URL%>/images/customer01.jpg" alt="">
+                </div>
+            </div>
+            <div class="details">
+              <% if(typeof message !== 'undefined') {%>
+                <h6><%=message%></h6>
+              <%}%>
+                <div class="recentOrders">
+                    <table>
+                        <thead>
+                            <tr>
+                              <td>index</td>
+                              <td>info</td>
+                              <td>address</td>
+                              <td>total</td>
+                              <td>status</td>
+                              <td>action</td>
+                            </tr>
+                        </thead>
+                        <tbody id="content">
+                            <!-- content table -->
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="paging"></div>
+        </div>
+    </div>
+    <% if (response) { %>
+        <script>
+
+            const response = <%- JSON.stringify(response) %>;
+            $(document).ready(function() {
+
+              const pageSize = 2;
+              $('#paging').pagination({
+                dataSource: response,
+                pageSize: pageSize,
+                afterPageOnClick: function(event, pageNumber) {
+                  loadPage(pageNumber, pageSize, response);
+                },
+                afterPreviousOnClick: function(event, pageNumber) {
+                  loadPage(pageNumber, pageSize, response);
+                },
+                afterNextOnClick: function(event, pageNumber) {
+                  loadPage(pageNumber, pageSize, response);
+                }
+              });
+              loadPage(1, pageSize, response);
+            });
+          
+            function loadPage(pageNumber, pageSize, dataSource) {
+              const startIndex = (pageNumber - 1) * pageSize;
+              const endIndex = Math.min(startIndex + pageSize, dataSource.length);
+              const pageData = dataSource.slice(startIndex, endIndex);
+              const contentDiv = document.getElementById('content');
+              let index = 0
+              let content = '';
+              pageData.forEach(function(item,index) {
+                content += `
+                  <tr>
+                    <td>${startIndex + index + 1}</td>
+                    <td>`;
+
+                // Build HTML for each book in item.listBooks
+                item.listBooks.forEach(book => {
+                  content += `
+                    <div class="info" style="display: flex; margin: 10px;">
+                      <img style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;" src="${book.bookId.image}" alt="">
+                      <div style="text-align: left;">
+                        <div class="name">
+                          <span>name :</span>
+                          <span>${book.bookId.name}</span> 
+                        </div>
+                         <div class="name">
+                          <span>price :</span>
+                          <span>${book.bookId.price}</span> 
+                        </div>
+                        <div class="quantity">
+                          <span>quantity :</span>
+                          <span>${book.quantity}</span>
+                        </div>
+                      </div>
+                    </div>
+                  `;
+                });
+
+                content += `
+                    </td>
+                    <td>${item.address}</td>
+                    <td>${item.total}</td>
+                    `;
+                if(item.status == 'pending'){
+                  content+=`<td>
+                      ${item.status}
+                    </td>
+                    <td>
+                      <a href="http://localhost:8000/order/status/${item._id}?status=delivering">delivering</a>
+                      <a href="http://localhost:8000/order/status/${item._id}?status=cancle">cancle</a>
+                      <a href="http://localhost:8000/order/${item._id}">detail</a>
+                    </td>
+                  </tr>`
+                }else if(item.status == 'delivering'){
+                  content+=`<td>
+                      ${item.status}
+                    </td>
+                    <td>
+                      <a href="http://localhost:8000/order/status/${item._id}?status=delivered">delivered</a>
+                      <a href="http://localhost:8000/order/${item._id}">detail</a>
+                    </td>
+                  </tr>`
+                }else{
+                  content+=`<td>
+                      ${item.status}
+                    </td>
+                    <td>
+                      <a href="http://localhost:8000/order/${item._id}">detail</a>
+                    </td>
+                  </tr>`
+                }
+              });
+
+              contentDiv.innerHTML = content;
+            }
+          </script>
+          
+    <% } %>
+  <script src="<%= process.env.URL%>/js/admin.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

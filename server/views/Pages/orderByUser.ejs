@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order List</title>
+  <link rel="stylesheet" href="<%= process.env.URL%>/css/pagination.css">
+  <style>
+    /* Base styles */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header (replace with your header component/CSS) */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    /* Main content area */
+    .main {
+      padding: 20px;
+    }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Order table */
+    .recentOrders table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    /* Order details */
+    .info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .info img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .name,
+    .quantity {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    /* Button styles */
+    .btn {
+      display: inline-block;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .btn-cancel {
+      background-color: #ff4d4d;
+      color: #fff;
+    }
+
+    .btn-cancel:hover {
+      background-color: #d9534f;
+    }
+
+    .btn-detail {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .btn-detail:hover {
+      background-color: #0069d9;
+    }
+
+    /* Responsive adjustments (optional) */
+    @media (max-width: 768px) {
+      .recentOrders table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      th,
+      td {
+        white-space: nowrap;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="<%= process.env.URL%>/js/pagination.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <%- include("../partials/header") -%>
+      <div class="main">
+        <div class="details">
+          <div class="recentOrders">
+            <table>
+              <thead>
+                <tr>
+                  <th>Index</th>
+                  <th>Books</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="content">
+                <%if(orders!=null){ orders.forEach((item, index)=>{ %>
+                  <tr>
+                    <td>
+                      <%=index+1%>
+                    </td>
+                    <td>
+                      <%item.listBooks.forEach((book, index)=>{%>
+                        <div class="info">
+                          <img style="width: 50px; height: 50px; object-fit: cover;" src="<%=book.bookId.image%>"
+                            alt="">
+                          <div>
+                            <div class="name">
+                              <span>Name:</span>
+                              <span>
+                                <%=book.bookId.name%>
+                              </span>
+                            </div>
+                            <div class="quantity">
+                              <span>Quantity:</span>
+                              <span>
+                                <%=book.quantity%>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <%})%>
+                    </td>
+                    <td>
+                      <%=item.total%>
+                    </td>
+                    <td>
+                      <%=item.status%>
+                    </td>
+                    <td>
+                      <%if(item.status=='pending'){%>
+                        <a href="<%= process.env.URL%>/order/cancelOrder/<%=item._id%>" class="btn btn-cancel"
+                          onclick="return confirm('Are you sure you want to cancel this order?')">Cancel</a>
+                        <a href="<%= process.env.URL%>/order/<%=item._id%>" class=" btn btn-detail">Detail</a>
+                        <%}else{%>
+                          <a href="<%= process.env.URL%>/order/<%=item._id%>" class=" btn btn-detail">Detail</a>
+                          <%}%>
+                    </td>
+                  </tr>
+                  <%})}%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+  </div>
+  <script src="<%= process.env.URL%>/js/admin.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>
