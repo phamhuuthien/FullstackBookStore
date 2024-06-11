@@ -18,16 +18,18 @@ const book = require("../model/book");
 router.get("/", async (req, res) => {
   // autoLogin // chuyển hướng tránh vào r f5 lại nó sẽ mất dữ liệu do chưa định nghĩa router get/user/login
   const accessToken = req.cookies.accessToken;
+  const books = await book.find();
   if (accessToken) {
     try {
       const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
       const { _id } = decoded;
       const user = await User.findById(_id).select("-refreshToken -password");
+      
       const role = await Role.findById(user.role);
       if (role.roleName == "admin") {
         return res.render("admin/index", { user });
       }
-      return res.render("index", { user });
+      return res.render("index", { user, books });
     } catch (err) {
       return res.status(401).json({
         success: false,
@@ -36,7 +38,7 @@ router.get("/", async (req, res) => {
     }
   } else {
   }
-  return res.render("index");
+  return res.render("index", { books });
 });
 
 router.get("/admin/customer", verifyToken, isAdmin, (req, res) => {
@@ -97,7 +99,8 @@ router.get("/user/author", verifyToken, async (req, res) => {
 
 router.get("/book/book-filter", verifyToken, async (req, res) => {
   const books = await book.find();
-  res.render("Pages/book-filter", { books });
+  const categories = await category.find();
+  res.render("Pages/book-filter", { books, categories });
 });
 
 router.get("/user/category", verifyToken, async (req, res) => {

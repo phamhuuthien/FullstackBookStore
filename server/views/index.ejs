@@ -1,540 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookoe - Book Store Website</title>
+    <link rel="stylesheet" href="<%= process.env.URL%>/css/style.css" />
+    <!--- google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Fontawesome Link for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <% 
+      let booksOnSale = [];
+      let booksFlashSale = [];
+      let bookSpecial = [];
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bookoe - Book Store Website</title>
-  <link rel="stylesheet" href="<%= process.env.URL%>/css/style.css" />
-  <!--- google font link-->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet" />
-  <!-- Fontawesome Link for Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-</head>
+      for(var i=0; i < books.length; i++){
+        if(i < 5){
+          booksFlashSale.push(books[i]);
+        }else if(i<11){
+          booksOnSale.push(books[i]);
+        }else if(i<14){
+          bookSpecial.push(books[i]);
+        }
+        else{
+          break;
+        }
+      }
+    %>
+  <body>
+    <% if(typeof user !== 'undefined'){%>
+      <%- include("partials/header") -%>
+    <%}else{%>
+      <%- include("partials/headerHome") -%>
+    <%}%>
+    <section class="hero">
+      <div class="main">
+        <div class="content">
+          <small>back to school</small>
+          <h2>Special 50% Off</h2>
+          <h5>for our student community</h5>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus,
+            maiores? Eius culpa molestias expedita magni incidunt necessitatibus
+            .
+          </p>
+          <div class="btns">
+            <button>Get The Deal<i class="fa-solid fa-arrow-right"></i></button>
+            <button>See other Promos</button>
+          </div>
+        </div>
+        <div class="img">
+          <img
+            src="<%= process.env.URL%>/images/teenager-student-girl-yellow-pointing-finger-side-copy.png"
+            alt=""
+          />
+        </div>
+      </div>
+      <div class="square-dot">
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-square"></i>
+      </div>
+      <div class="orange-circle"></div>
+      <div class="blue-circle"></div>
+    </section>
+    <section class="suggestion">
+      <div class="container">
+        <div class="recommend">
+          <h4>Recommended For You</h4>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+            exercitationem.Lorem ipsum dolor sit amet.
+          </p>
+          <div class="book-container">
+            <div class="book">
+              <figure>
+                <a 
+                  ><img src="<%= process.env.URL%>/images/book-1.jpg" alt=""
+                /></a>
+              </figure>
+            </div>
+            <div class="book">
+              <figure>
+                <a 
+                  ><img src="<%= process.env.URL%>/images/book-2.jpg" alt=""
+                /></a>
+              </figure>
+            </div>
+            <div class="book">
+              <figure>
+                <a 
+                  ><img src="<%= process.env.URL%>/images/book-3.jpg" alt=""
+                /></a>
+              </figure>
+            </div>
+            <div class="book">
+              <figure>
+                <a 
+                  ><img src="<%= process.env.URL%>/images/book-4.jpg" alt=""
+                /></a>
+              </figure>
+            </div>
+          </div>
+          <div class="circle-1"></div>
+          <div class="circle-2"></div>
+          <div class="square-dot">
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+          </div>
+        </div>
+        <div class="popular">
+          <h4>Popular in 2020</h4>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+            exercitationem.
+          </p>
+          <div class="book-container">
+            <div class="book">
+              <figure>
+                <a 
+                  ><img src="<%= process.env.URL%>/images/book-5.jpg" alt=""
+                /></a>
+              </figure>
+            </div>
+            <div class="book">
+              <figure>
+                <a 
+                  ><img src="<%= process.env.URL%>/images/book-6.jpg" alt=""
+                /></a>
+              </figure>
+            </div>
+            <div class="book">
+              <figure>
+                <a 
+                  ><img src="<%= process.env.URL%>/images/book-7.jpg" alt=""
+                /></a>
+              </figure>
+            </div>
+            <div class="book">
+              <figure>
+                <a 
+                  ><img src="<%= process.env.URL%>/images/book-8.jpg" alt=""
+                /></a>
+              </figure>
+            </div>
+          </div>
+          <div class="circle-1"></div>
+          <div class="circle-2"></div>
+          <div class="square-dot">
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+            <i class="fa-solid fa-square"></i>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<body>
-  <% if(typeof user !=='undefined' ){%>
-    <%- include("partials/header") -%>
-      <%}else{%>
-        <%- include("partials/headerHome") -%>
-          <%}%>
-            <section class="hero">
-              <div class="main">
-                <div class="content">
-                  <small>back to school</small>
-                  <h2>Special 50% Off</h2>
-                  <h5>for our student community</h5>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus,
-                    maiores? Eius culpa molestias expedita magni incidunt necessitatibus
-                    .
-                  </p>
-                  <div class="btns">
-                    <button>Get The Deal<i class="fa-solid fa-arrow-right"></i></button>
-                    <button>See other Promos</button>
-                  </div>
+    <section class="offer">
+      <div class="header">
+        <h4>Special Offers</h4>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, exercitationem.
+        </p>
+      </div>
+      <div class="offer-container">
+        <% for (let i = 0; i < bookSpecial.length; i++) { %>
+          <div class="offer">
+            <div class="img">
+              <a href="/book/book-detail/<%= bookSpecial[i]._id %>">
+                <img style="min-height: 160px;" src="<%= bookSpecial[i].image %>" alt="" />
+              </a>
+            </div>
+            <div class="offer-content">
+              <h5><%= bookSpecial[i].name %></h5>
+              <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px;">
+                <%= bookSpecial[i].description %>
+              </p>
+              
+              <small><%= bookSpecial[i].authorId.name %></small>
+              <div class="offer-bottom">
+                <a href="/user/addCart/<%= books[i]._id %>" class="cartbtn">
+                  <i class="fa-solid fa-cart-shopping"></i>Add to cart
+                </a>
+                <div class="price">
+                  <strong><span>$</span><%= bookSpecial[i].price.toFixed(2) %></strong>
                 </div>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    </section>
+    
+
+    <section class="sale">
+      <div class="header">
+        <h4>Flash Sale</h4>
+        <p>
+          Explore thrilling adventures and captivating stories with our exclusive book sale event.
+          <br>
+          Enjoy up to 30% off on a curated selection of novels, from timeless classics to contemporary bestsellers.
+          <br>
+          Whether you're into gripping thrillers, heartwarming tales, or epic adventures, there's something for everyone.
+          <br>
+          Don't miss out—shop now and elevate your reading experience with our enticing offers!
+        </p>
+      </div>
+      <div class="timer">
+        <div class="hours">
+          <span id="hour"></span>
+          <small>Hours</small>
+        </div>
+        <div class="minutes">
+          <span id="minute"></span>
+          <small for="minute">Minutes</small>
+        </div>
+        <div class="seconds">
+          <span id="second"></span>
+          <small for="second">Seconds</small>
+        </div>
+      </div>
+      <!-- views/index.ejs -->
+      <div class="book-container">
+        <% for (let i = 0; i < 5 && i < booksFlashSale.length; i++) { %>
+          <div class="book" style="width: 200px; border: 1px solid #ddd; padding: 10px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);">
+            <div class="img">
+              <a href="/book/book-detail/<%= booksFlashSale[i]._id %>">
+                <img src="<%= booksFlashSale[i].image %>" alt="" style="width: 100%; height: auto;" />
+              </a>
+            </div>
+            <h5 style="font-size: 16px; font-weight: bold; margin: 10px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: block;">
+              <%= booksFlashSale[i].name %>
+            </h5>
+            <div class="price" style="font-size: 14px; color: #555;">
+              <span style="margin-right: 5px;">$<%= booksFlashSale[i].price.toFixed(2) %></span>
+              <span><strike style="color: #999;">$<%= (booksFlashSale[i].price * 1.4).toFixed(2) %></strike></span>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    </section>
+
+    <section class="book-sale">
+      <div class="heading">
+        <h1 style="margin-left: 180px;">Books On Sale</h1>
+        <div style="margin-right: 180px;" class="arrowbtn">
+          <i id="left" class="fa-solid fa-angle-left"></i>
+          <i id="right" class="fa-solid fa-angle-right"></i>
+        </div>
+      </div>
+      <div class="book-container">
+        <div class="wrapper">
+          <ul class="carousel">
+            <% for (let i = 0; i < booksOnSale.length; i++) { %>
+              <li class="card">
                 <div class="img">
-                  <img src="<%= process.env.URL%>/images/teenager-student-girl-yellow-pointing-finger-side-copy.png"
-                    alt="" />
+                  <a href="/book/book-detail/<%= booksOnSale[i]._id %>">
+                    <img src="<%= booksOnSale[i].image %>" alt="" />
+                  </a>
+                  <span class="badge">50%</span>
                 </div>
+                <h5 style="font-size: 16px; font-weight: bold; margin: 10px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: block;">
+                  <%= booksOnSale[i].name %>
+                </h5>
 
-              </div>
-              <div class="square-dot">
-                <i class="fa-solid fa-square"></i>
-                <i class="fa-solid fa-square"></i>
-                <i class="fa-solid fa-square"></i>
-                <i class="fa-solid fa-square"></i>
-                <i class="fa-solid fa-square"></i>
-                <i class="fa-solid fa-square"></i>
-                <i class="fa-solid fa-square"></i>
-                <i class="fa-solid fa-square"></i>
-                <i class="fa-solid fa-square"></i>
-                <i class="fa-solid fa-square"></i>
-                <i class="fa-solid fa-square"></i>
-                <i class="fa-solid fa-square"></i>
-              </div>
-              <div class="orange-circle"></div>
-              <div class="blue-circle"></div>
-            </section>
-
-            <section class="service">
-              <div class="service-container">
-                <div class="service-card">
-                  <div class="icon">
-                    <i class="fa-solid fa-bolt-lightning"></i>
-                  </div>
-                  <div class="service-content">
-                    <h5>Quick Delivery</h5>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-                      exercitationem.
-                    </p>
-                  </div>
-                </div>
-                <div class="service-card">
-                  <div class="icon">
-                    <i class="fa-solid fa-shield"></i>
-                  </div>
-                  <div class="service-content">
-                    <h5>Secure Payment</h5>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-                      exercitationem.
-                    </p>
-                  </div>
-                </div>
-                <div class="service-card">
-                  <div class="icon">
-                    <i class="fa-solid fa-thumbs-up"></i>
-                  </div>
-                  <div class="service-content">
-                    <h5>Best Quality</h5>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-                      exercitationem.
-                    </p>
-                  </div>
-                </div>
-                <div class="service-card">
-                  <div class="icon">
-                    <i class="fa-solid fa-star"></i>
-                  </div>
-                  <div class="service-content">
-                    <h5>Return Guarantee</h5>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-                      exercitationem.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section class="suggestion">
-              <div class="container">
-                <div class="recommend">
-                  <h4>Recommended For You</h4>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-                    exercitationem.Lorem ipsum dolor sit amet.
-                  </p>
-                  <div class="book-container">
-                    <div class="book">
-                      <figure>
-                        <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-1.jpg"
-                            alt="" /></a>
-                      </figure>
-                    </div>
-                    <div class="book">
-                      <figure>
-                        <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-2.jpg"
-                            alt="" /></a>
-                      </figure>
-                    </div>
-                    <div class="book">
-                      <figure>
-                        <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-3.jpg"
-                            alt="" /></a>
-                      </figure>
-                    </div>
-                    <div class="book">
-                      <figure>
-                        <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-4.jpg"
-                            alt="" /></a>
-                      </figure>
-                    </div>
-                  </div>
-                  <div class="circle-1"></div>
-                  <div class="circle-2"></div>
-                  <div class="square-dot">
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                  </div>
-                </div>
-                <div class="popular">
-                  <h4>Popular in 2020</h4>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-                    exercitationem.
-                  </p>
-                  <div class="book-container">
-                    <div class="book">
-                      <figure>
-                        <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-5.jpg"
-                            alt="" /></a>
-                      </figure>
-                    </div>
-                    <div class="book">
-                      <figure>
-                        <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-6.jpg"
-                            alt="" /></a>
-                      </figure>
-                    </div>
-                    <div class="book">
-                      <figure>
-                        <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-7.jpg"
-                            alt="" /></a>
-                      </figure>
-                    </div>
-                    <div class="book">
-                      <figure>
-                        <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-8.jpg"
-                            alt="" /></a>
-                      </figure>
-                    </div>
-                  </div>
-                  <div class="circle-1"></div>
-                  <div class="circle-2"></div>
-                  <div class="square-dot">
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                    <i class="fa-solid fa-square"></i>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section class="offer">
-              <div class="header">
-                <h4>Special Offers</h4>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-                  exercitationem.
-                </p>
-              </div>
-              <div class="offer-container">
-                <div class="offer">
-                  <div class="img">
-                    <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-1.jpg" alt="" /></a>
-                  </div>
-                  <div class="offer-content">
-                    <h5>The Giver</h5>
-                    <div class="genre">
-                      <span>biography</span>
-                      <span>thriller</span>
-                      <span>horror</span>
-                    </div>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing
-                      elit.Consequatur esse laboriosam nihil sint molestias sit iste
-                      laboru
-                    </p>
-                    <small>Kevin Smiley</small>
-                    <div class="offer-bottom">
-                      <a href="http://localhost:8000/user/addCart/665ed3bd12b91d9f6ef27767" class="cartbtn">
-                        <i class="fa-solid fa-cart-shopping"></i>Add to cart
-                      </a>
-                      <div class="price">
-                        <strong><span>$</span>18.7</strong>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="offer">
-                  <div class="img">
-                    <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-3.jpg" alt="" /></a>
-                  </div>
-                  <div class="offer-content">
-                    <h5>Radical Gardening</h5>
-                    <div class="genre">
-                      <span>biography</span>
-                      <span>thriller</span>
-                      <span>horror</span>
-                    </div>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing
-                      elit.Consequatur esse laboriosam nihil sint molestias sit iste
-                      laboru
-                    </p>
-                    <small>Kevin Smiley</small>
-                    <div class="offer-bottom">
-                      <a href="http://localhost:8000/user/addCart/665ed3bd12b91d9f6ef27768" class="cartbtn">
-                        <i class="fa-solid fa-cart-shopping"></i>Add to cart
-                      </a>
-                      <div class="price">
-                        <strong><span>$</span>18.7</strong>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="offer">
-                  <div class="img">
-                    <a href="pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-2.jpg" alt="" /></a>
-                  </div>
-                  <div class="offer-content">
-                    <h5>The Bright Brothers</h5>
-                    <div class="genre">
-                      <span>biography</span>
-                      <span>thriller</span>
-                      <span>horror</span>
-                    </div>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing
-                      elit.Consequatur esse laboriosam nihil sint molestias sit iste
-                      laboru
-                    </p>
-                    <small>Kevin Smiley</small>
-                    <div class="offer-bottom">
-                      <a href="http://localhost:8000/user/addCart/665ed3bd12b91d9f6ef27769" class="cartbtn">
-                        <i class="fa-solid fa-cart-shopping"></i>Add to cart
-                      </a>
-                      <div class="price">
-                        <strong><span>$</span>18.7</strong>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section class="sale">
-              <div class="header">
-                <h4>Flash Sale</h4>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. <br />
-                  Ipsum dignissimos quasi aliquid numquam.
-                </p>
-              </div>
-              <div class="timer">
-                <div class="hours">
-                  <span id="hour"></span>
-                  <small>Hours</small>
-                </div>
-                <div class="minutes">
-                  <span id="minute"></span>
-                  <small for="minute">Minutes</small>
-                </div>
-                <div class="seconds">
-                  <span id="second"></span>
-                  <small for="second">Seconds</small>
-                </div>
-              </div>
-              <div class="book-container">
-                <div class="book">
-                  <div class="img">
-                    <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-9.jpg" alt="" />
-                    </a>
-                  </div>
-                  <h5>The Ruins Of Gorlan</h5>
-                  <small>Thriller</small>
+                <div class="footer" style="font-size: 14px; color: #555;">
+                  <span class="star"><i class="fa fa-star"></i> <%= booksOnSale[i].totalRating %></span>
                   <div class="price">
-                    <span>$54.6</span>
-                    <span><strike>$70.00</strike></span>
+                    <span style="margin-right: 5px;">$<%= booksOnSale[i].price.toFixed(2) %></span>
+                    <span><strike style="color: #999;">$<%= (booksOnSale[i].price * 2).toFixed(2) %></strike></span>
                   </div>
                 </div>
-                <div class="book">
-                  <div class="img">
-                    <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-10.jpg" alt="" /></a>
-                  </div>
-                  <h5>Percy Jackson</h5>
-                  <small>Thriller</small>
-                  <div class="price">
-                    <span>$54.6</span>
-                    <span><strike>$70.00</strike></span>
-                  </div>
-                </div>
-                <div class="book">
-                  <div class="img">
-                    <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-11.jpg" alt="" /></a>
-                  </div>
-                  <h5>Clever Lands</h5>
-                  <small>Thriller</small>
-                  <div class="price">
-                    <span>$54.6</span>
-                    <span><strike>$70.00</strike></span>
-                  </div>
-                </div>
-                <div class="book">
-                  <div class="img">
-                    <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-12.jpg" alt="" /></a>
-                  </div>
-                  <h5>Dick Francis</h5>
-                  <small>Thriller</small>
-                  <div class="price">
-                    <span>$54.6</span>
-                    <span><strike>$70.00</strike></span>
-                  </div>
-                </div>
-                <div class="book">
-                  <div class="img">
-                    <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-1.jpg" alt="" />
-                    </a>
-                  </div>
-                  <h5>The Giver</h5>
-                  <small>Thriller</small>
-                  <div class="price">
-                    <span>$54.6</span>
-                    <span><strike>$70.00</strike></span>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section class="book-sale">
-              <div class="heading">
-                <h4>Books On Sale</h4>
-                <div class="arrowbtn">
-                  <i id="left" class="fa-solid fa-angle-left"></i>
-                  <i id="right" class="fa-solid fa-angle-right"></i>
-                </div>
-              </div>
-              <div class="book-container">
-                <div class="wrapper">
-                  <ul class="carousel">
-                    <li class="card">
-                      <div class="img">
-                        <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-1.jpg"
-                            alt="" /></a>
-                        <span class="badge">50%</span>
-                      </div>
-                      <h5>The Giver</h5>
-                      <div class="genre">
-                        <span>adventure,</span><span>survival</span>
-                      </div>
-                      <div class="footer">
-                        <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                        <div class="price">
-                          <span>$45.4</span>
-                          <span><strike>$90.4</strike></span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="card">
-                      <div class="img">
-                        <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-2.jpg"
-                            alt="" /></a>
-                        <span class="badge">50%</span>
-                      </div>
-                      <h5>The Wright ...</h5>
-                      <div class="genre">
-                        <span>adventure,</span><span>survival</span>
-                      </div>
-                      <div class="footer">
-                        <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                        <div class="price">
-                          <span>$45.4</span>
-                          <span><strike>$90.4</strike></span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="card">
-                      <div class="img">
-                        <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-9.jpg"
-                            alt="" /></a>
-                        <span class="badge">50%</span>
-                      </div>
-                      <h5>The Ruins Of...</h5>
-                      <div class="genre">
-                        <span>adventure,</span><span>survival</span>
-                      </div>
-                      <div class="footer">
-                        <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                        <div class="price">
-                          <span>$45.4</span>
-                          <span><strike>$90.4</strike></span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="card">
-                      <div class="img">
-                        <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-10.jpg"
-                            alt="" /></a>
-                        <span class="badge">50%</span>
-                      </div>
-                      <h5>Percy Jackson</h5>
-                      <div class="genre">
-                        <span>adventure,</span><span>survival</span>
-                      </div>
-                      <div class="footer">
-                        <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                        <div class="price">
-                          <span>$45.4</span>
-                          <span><strike>$90.4</strike></span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="card">
-                      <div class="img">
-                        <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-5.jpg"
-                            alt="" /></a>
-                        <span class="badge">50%</span>
-                      </div>
-                      <h5>To kill a...</h5>
-                      <div class="genre">
-                        <span>adventure,</span><span>survival</span>
-                      </div>
-                      <div class="footer">
-                        <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                        <div class="price">
-                          <span>$45.4</span>
-                          <span><strike>$90.4</strike></span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="card">
-                      <div class="img">
-                        <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-6.jpg"
-                            alt="" /></a>
-                        <span class="badge">50%</span>
-                      </div>
-                      <h5>Horry Potter</h5>
-                      <div class="genre">
-                        <span>adventure,</span><span>survival</span>
-                      </div>
-                      <div class="footer">
-                        <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                        <div class="price">
-                          <span>$45.4</span>
-                          <span><strike>$90.4</strike></span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="card">
-                      <div class="img">
-                        <a href="Pages/book-detail.html"><img src="<%= process.env.URL%>/images/book-7.jpg"
-                            alt="" /></a>
-                        <span class="badge">50%</span>
-                      </div>
-                      <h5>Heroes of ...</h5>
-                      <div class="genre">
-                        <span>adventure,</span><span>survival</span>
-                      </div>
-                      <div class="footer">
-                        <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                        <div class="price">
-                          <span>$45.4</span>
-                          <span><strike>$90.4</strike></span>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </section>
+              </li>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+    </section>
 
             <section class="feature">
               <div class="main">

@@ -1,5 +1,8 @@
+const mongoose = require('mongoose');
 const Book = require("../model/book");
+const Category = require("../model/category")
 const Order = require('../model/order');
+const User = require('../model/user')
 //upload file
 const cloudinary = require("../configs/cloudinary");
 const slugify = require('slugify');
@@ -14,26 +17,54 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage: storage });
 
 exports.getAllBooks = async (req, res) => {
-  try {
-    const books = await Book.find();
-    res.render("Pages/book-filter", { books });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Lỗi Server Nội Bộ" });
-  }
+
+    try {
+        const page = parseInt(req.query.page) || 1; 
+        const limit = parseInt(req.query.limit) || 8; 
+
+        // Tính toán số lượng sách cần bỏ qua để lấy trang hiện tại
+        const skip = (page - 1) * limit;
+
+        const totalBooks = await Book.countDocuments();
+
+        const books = await Book.find().skip(skip).limit(limit);
+        const allBook = await Book.find();
+        const categories = await Category.find();
+        // Tính toán số lượng trang
+        const totalPages = Math.ceil(totalBooks / limit);
+
+        const categoryId = "";
+        const key = "";
+        res.render('Pages/book-filter', {
+            books,
+            allBook,
+            categories,
+            currentPage: page,
+            totalPages,
+            totalBooks,
+            categoryId,
+            key,
+            limit
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Lỗi Server Nội Bộ" });
+    }
 };
 
 exports.getAllBooksByAdmin = async (req, res) => {
-  try {
-    const books = await Book.find();
-    res.render("admin/book", { books });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Lỗi Server Nội Bộ" });
-  }
+    try {
+        const response = (await Book.find()).reverse();
+        res.render('admin/book', { response });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Lỗi Server Nội Bộ" });
+    }
+
 };
 
 exports.getBookById = async (req, res) => {
+
     const { id } = req.params;
     try {
         const book = await Book.findById(id).populate(['authorId', 'categoryId']);
@@ -78,10 +109,9 @@ exports.addBook = async (req, res) => {
                 });
             }
 
-            // Sinh ra slug từ tên sách
             const slug = slugify(name, {
-                replacement: '-',  // Ký tự thay thế cho các khoảng trắng
-                lower: true        // Chuyển đổi tất cả các ký tự sang chữ thường
+                replacement: '-', 
+                lower: true   
             });
 
             const book = await Book.findOne({ slug });
@@ -99,8 +129,8 @@ exports.addBook = async (req, res) => {
                     quantity,
                     categoryId,
                     authorId,
-                    slug,  // Lưu slug vào trường slug của đối tượng sách
-                    ratings: [] // Khởi tạo ratings là một mảng trống khi thêm sách mới
+                    slug,  
+                    ratings: [] 
                 });
                 res.redirect("/admin/book");
             }
@@ -123,10 +153,7 @@ exports.deleteBook = async (req, res) => {
         if (!deletedBook) {
             return res.status(404).json({ success: false, message: "Book not found" });
         }
-        res.status(200).json({
-            success: true,
-            message: "Book deleted successfully"
-        });
+        res.redirect("/admin/book");
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
@@ -141,10 +168,7 @@ exports.updateBook = async (req, res) => {
         if (!updatedBook) {
             return res.status(404).json({ success: false, message: "Book not found" });
         }
-        res.status(200).json({
-            success: true,
-            data: updatedBook
-        });
+        res.redirect("/admin/book");
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
@@ -153,13 +177,54 @@ exports.updateBook = async (req, res) => {
 
 exports.getBooksByIdCategory = async (req, res) => {
     try {
-        const { categoryId } = req.params;
+        const { categoryId } = req.query;
+        console.log(categoryId)
 
-        const books = await Book.find({ categoryId: categoryId });
+        if (!categoryId || categoryId.trim() === "") {
+            return res.status(400).json({ success: false, message: "Category ID is required" });
+        }
 
-        res.status(200).json({
-            success: true,
-            data: books
+        if (!mongoose.Types.ObjectId.isValid(categoryId)) {
+            return res.status(400).json({ success: false, message: "Invalid category ID" });
+        }
+
+        const page = parseInt(req.query.page) || 1; 
+        const limit = parseInt(req.query.limit) || 8; 
+        const skip = (page - 1) * limit;
+        const allBook = await Book.find();
+        const books = await Book.find({ categoryId }).skip(skip).limit(limit);
+ 
+        const totalBooks = await Book.countDocuments({ categoryId: categoryId });
+
+        if (totalBooks === 0) {
+            const categories = await Category.find();
+            return res.render('Pages/book-filter', {
+                books: [],
+                allBook,
+                categories,
+                key: "",
+                categoryId, 
+                currentPage: 1,
+                totalPages: 1,
+                totalBooks: 0,
+                limit
+            });
+        }
+
+        const totalPages = Math.ceil(totalBooks / limit);
+
+        const categories = await Category.find();
+
+        res.render('Pages/book-filter', {
+            books,
+            allBook,
+            categories,
+            key: "",
+            categoryId, 
+            currentPage: page,
+            totalPages,
+            totalBooks,
+            limit
         });
     } catch (error) {
         console.error(error);
@@ -170,28 +235,62 @@ exports.getBooksByIdCategory = async (req, res) => {
 exports.searchBookByName = async (req, res) => {
     try {
         const { key } = req.query;
+        const categoryId = "";
+        if (!key || key.trim() === "") {
+            return res.status(400).json({ success: false, message: "Search key is required" });
+        }
+
+        const page = parseInt(req.query.page) || 1; 
+        const limit = parseInt(req.query.limit) || 8; 
+        const skip = (page - 1) * limit;
 
         const searchTerms = key.split(" ").filter(term => term.trim() !== "");
         const regexTerms = searchTerms.map(term => new RegExp(term, "i"));
 
-        const books = await Book.find({
+        const totalBooks = await Book.countDocuments({
             $and: regexTerms.map(term => ({ name: { $regex: term } }))
         });
-
-        if (books.length === 0) {
-            return res.status(404).json({ success: false, message: "No books found matching the search criteria" });
+        const categories = await Category.find();
+        const allBook = await Book.find();
+        if (totalBooks === 0) {
+            return res.render('Pages/book-filter', {
+                books: [],
+                allBook,
+                categories,
+                key,
+                currentPage: 1,
+                totalPages: 1,
+                totalBooks: 0,
+                categoryId,
+                limit
+            });
         }
-        res.render('Pages/book-filter', { books, key });
-        // res.status(200).json({
-        //     success: true,
-        //     data: books
-        // });
 
-        // http://localhost:8000/search/see
-        // http://localhost:8000/?search=see
+        const books = await Book.find({
+            $and: regexTerms.map(term => ({ name: { $regex: term } }))
+        }).skip(skip).limit(limit);
+
+        const totalPages = Math.ceil(totalBooks / limit);
+
+        res.render('Pages/book-filter', {
+            books,
+            allBook,
+            categories,
+            key,
+            currentPage: page,
+            totalPages,
+            totalBooks,
+            categoryId,
+            limit
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
+
+
+
+
+
 

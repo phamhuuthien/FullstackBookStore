@@ -836,7 +836,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .book-info .detail-customer {
-    width: 70%;
+    width: 100%;
 }
 
 .book-info .detail-customer .tabbtns {

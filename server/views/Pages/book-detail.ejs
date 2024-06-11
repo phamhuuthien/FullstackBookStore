@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Harry Potter - Book Detail Page</title>
+  
   <link rel="stylesheet" href="<%= process.env.URL%>/css/style.css" />
   <link rel="stylesheet" href="<%= process.env.URL%>/css/book-filter.css" />
   <!--- google font link-->
@@ -16,17 +17,16 @@
   <!-- Fontawesome Link for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
-
+    
 <body>
   <%- include("../partials/header") -%>
 
     <div class="breadcrumb-container">
       <ul class="breadcrumb">
         <li><a href="/">Home</a></li>
-        <li><a href="../book-filter" style="color: #6c5dd4">Books</a></li>
-        <li><a href="#">
-            <%= book.name%>
-          </a></li>
+        <li><a href="http://localhost:8000/book/book-filter" style="color: #6c5dd4">Books</a></li>
+        <li><a href="#"><%= book.name%></a></li>
+        
       </ul>
     </div>
 
@@ -92,19 +92,17 @@
         </div>
         <div class="book-price">
           <div class="price">
-            <strong>$<%= book.price %></strong>
-            <strike>$16.99</strike>
-            <span>2%</span>
+            <strong>$<%= (book.price).toFixed(2) %></strong>
+            <strike>$<%= (book.price*1.2).toFixed(2) %></strike>
+            <span><%= (((book.price * 1.2) - book.price) / (book.price * 1.2) * 100).toFixed(2) %>% off</span>
+
           </div>
           <div class="input-group">
-            <div class="quantity">
-              <input type="button" value="-" class="button-minus" data-field="quantity" />
-              <input type="text" step="1" min="1" value="1" name="quantity" class="quantity-field"
-                style="width: 4.5rem" />
-              <input type="button" value="+" class="button-plus" data-field="quantity" />
+            <div class="offer-bottom">
+              <a href ="http://localhost:8000/user/addCart/<%= book._id %>" class="cartbtn">
+                <i class="fa-solid fa-cart-shopping"></i>Add to cart
+              </a>
             </div>
-            <button class="cartbtn"><i class="fa-solid fa-cart-shopping"></i>Add to Cart</button>
-            <button class="like"><i class="fa-regular fa-heart"></i></button>
           </div>
         </div>
       </div>
@@ -170,7 +168,7 @@
             </div>
           </div>
 
-          <h3>Bình luận:</h3>
+          <h2 style="color: #6c5dd4;">Bình luận:</h2>
           <% if (typeof error !=='undefined' && error) { %>
             <div style="color: red;">
               <%= error %>
@@ -182,11 +180,12 @@
                 </div>
                 <% } %>
                   <form method="post" action="/rating/<%= book._id%>">
-                    <input type="text" id="content" name="content">
-                    <br>
-                    <h5>Đánh giá sao:</h5>
-                    <input type="number" id="stars" name="stars" min="1" max="5">
-                    <input type="submit" value="Submit">
+                    
+                    <input style="min-height: 60px; min-width: 70%; margin-right: 20px;" type="text" id="content" name="content">
+              
+                    
+                    Đánh giá sao:<input style="height: 30px; width: 50px; margin-left: 10px;" type="number" id="stars" name="stars" min="1" max="5">
+                    <input style="height: 50px; width: 100px; margin-left: 20px;" type="submit" value="Submit">
                   </form>
 
                   <strong>Showing <%=book.ratings.length %> of <%=book.ratings.length %> reviews></strong>
@@ -232,195 +231,9 @@
                     <% }) %>
         </div>
       </div>
-      <div class="related-book">
-        <h4>Related Books</h4>
-        <div class="book-container">
-          <div class="book">
-            <div class="img">
-              <img src="../images/book-1.jpg" alt="">
-            </div>
-            <div class="content">
-              <h5>The Giver</h5>
-              <div class="badge">
-                <span>thriller,</span><span>drama,</span><span>horror</span>
-              </div>
-              <div class="rating-review">
-                <span><i class="fa-solid fa-star"></i>4.7</span>
-                <span>244 Reviews</span>
-              </div>
-              <div class="price">
-                <strong>$45.5</strong>
-                <strike>$98.4</strike>
-              </div>
-              <div class="btn">
-                <button class="cartbtn"><i class="fa-solid fa-cart-shopping"></i>Add to cart</button>
-              </div>
-            </div>
-          </div>
-          <div class="book">
-            <div class="img">
-              <img src="../images/book-2.jpg" alt="">
-            </div>
-            <div class="content">
-              <h5>The Right Brothers</h5>
-              <div class="badge">
-                <span>thriller,</span><span>drama,</span><span>horror</span>
-              </div>
-              <div class="rating-review">
-                <span><i class="fa-solid fa-star"></i>4.7</span>
-                <span>244 Reviews</span>
-              </div>
-              <div class="price">
-                <strong>$45.5</strong>
-                <strike>$98.4</strike>
-              </div>
-              <div class="btn">
-                <button class="cartbtn"><i class="fa-solid fa-cart-shopping"></i>Add to cart</button>
-              </div>
-            </div>
-          </div>
-          <div class="morebtn">
-            <button class="view-more">View More</button>
-          </div>
-        </div>
-      </div>
     </section>
 
-    <section class="book-sale">
-      <div class="heading">
-        <h4>Books On Sale</h4>
-        <div class="arrowbtn">
-          <i id="left" class="fa-solid fa-angle-left"></i>
-          <i id="right" class="fa-solid fa-angle-right"></i>
-        </div>
-      </div>
-      <div class="book-container">
-        <div class="wrapper">
-          <ul class="carousel">
-            <li class="card">
-              <div class="img">
-                <img src="../images/book-1.jpg" alt="" />
-                <span class="badge">50%</span>
-              </div>
-              <h5>The Giver</h5>
-              <div class="genre">
-                <span>adventure,</span><span>survival</span>
-              </div>
-              <div class="footer">
-                <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                <div class="price">
-                  <span>$45.4</span>
-                  <span><strike>$90.4</strike></span>
-                </div>
-              </div>
-            </li>
-            <li class="card">
-              <div class="img">
-                <img src="../images/book-2.jpg" alt="" />
-                <span class="badge">50%</span>
-              </div>
-              <h5>The Wright ...</h5>
-              <div class="genre">
-                <span>adventure,</span><span>survival</span>
-              </div>
-              <div class="footer">
-                <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                <div class="price">
-                  <span>$45.4</span>
-                  <span><strike>$90.4</strike></span>
-                </div>
-              </div>
-            </li>
-            <li class="card">
-              <div class="img">
-                <img src="../images/book-9.jpg" alt="" />
-                <span class="badge">50%</span>
-              </div>
-              <h5>The Ruins Of...</h5>
-              <div class="genre">
-                <span>adventure,</span><span>survival</span>
-              </div>
-              <div class="footer">
-                <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                <div class="price">
-                  <span>$45.4</span>
-                  <span><strike>$90.4</strike></span>
-                </div>
-              </div>
-            </li>
-            <li class="card">
-              <div class="img">
-                <img src="../images/book-10.jpg" alt="" />
-                <span class="badge">50%</span>
-              </div>
-              <h5>Percy Jackson</h5>
-              <div class="genre">
-                <span>adventure,</span><span>survival</span>
-              </div>
-              <div class="footer">
-                <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                <div class="price">
-                  <span>$45.4</span>
-                  <span><strike>$90.4</strike></span>
-                </div>
-              </div>
-            </li>
-            <li class="card">
-              <div class="img">
-                <img src="../images/book-5.jpg" alt="" />
-                <span class="badge">50%</span>
-              </div>
-              <h5>To kill a...</h5>
-              <div class="genre">
-                <span>adventure,</span><span>survival</span>
-              </div>
-              <div class="footer">
-                <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                <div class="price">
-                  <span>$45.4</span>
-                  <span><strike>$90.4</strike></span>
-                </div>
-              </div>
-            </li>
-            <li class="card">
-              <div class="img">
-                <img src="../images/book-6.jpg" alt="" />
-                <span class="badge">50%</span>
-              </div>
-              <h5>Horry Potter</h5>
-              <div class="genre">
-                <span>adventure,</span><span>survival</span>
-              </div>
-              <div class="footer">
-                <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                <div class="price">
-                  <span>$45.4</span>
-                  <span><strike>$90.4</strike></span>
-                </div>
-              </div>
-            </li>
-            <li class="card">
-              <div class="img">
-                <img src="../images/book-7.jpg" alt="" />
-                <span class="badge">50%</span>
-              </div>
-              <h5>Heroes of ...</h5>
-              <div class="genre">
-                <span>adventure,</span><span>survival</span>
-              </div>
-              <div class="footer">
-                <span class="star"><i class="fa fa-star"></i> 4.7</span>
-                <div class="price">
-                  <span>$45.4</span>
-                  <span><strike>$90.4</strike></span>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
+    
     <section class="service">
       <div class="service-container">
         <div class="service-card">
@@ -514,6 +327,7 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="../js/repeat-js.js"></script>
         <script src="../js/increment-decrement.js"></script>
+        
 </body>
 
 </html>
