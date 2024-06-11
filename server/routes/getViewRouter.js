@@ -16,7 +16,6 @@ const category = require("../model/category");
 const book = require("../model/book");
 
 router.get("/", async (req, res) => {
-  // autoLogin // chuyển hướng tránh vào r f5 lại nó sẽ mất dữ liệu do chưa định nghĩa router get/user/login
   const accessToken = req.cookies.accessToken;
   const books = await book.find();
   if (accessToken) {
@@ -24,7 +23,7 @@ router.get("/", async (req, res) => {
       const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
       const { _id } = decoded;
       const user = await User.findById(_id).select("-refreshToken -password");
-      
+
       const role = await Role.findById(user.role);
       if (role.roleName == "admin") {
         return res.render("admin/index", { user });
@@ -36,7 +35,6 @@ router.get("/", async (req, res) => {
         message: "Invalid access token",
       });
     }
-  } else {
   }
   return res.render("index", { books });
 });
