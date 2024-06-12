@@ -57,7 +57,6 @@ exports.addRatingUI = async (req, res) => {
 
         book.ratings.push(newRating);
 
-        // Tính toán lại tổng số sao và số lượng đánh giá để cập nhật stars và totalRating
         let totalStars = 0;
 
         book.ratings.forEach(rating => {
@@ -66,7 +65,6 @@ exports.addRatingUI = async (req, res) => {
             });
         });
 
-        // Cập nhật stars với giá trị trung bình cộng được làm tròn
         book.stars = Math.round(totalStars / book.ratings.length);
 
         await book.save();
@@ -115,7 +113,6 @@ exports.deleteRatingUI = async (req, res) => {
 
         book.ratings.splice(ratingIndex, 1);
 
-        // Tính toán lại tổng số sao và số lượng đánh giá để cập nhật stars và totalRating
         let totalStars = 0;
 
         book.ratings.forEach(rating => {
@@ -124,7 +121,6 @@ exports.deleteRatingUI = async (req, res) => {
             });
         });
 
-        // Cập nhật stars với giá trị trung bình cộng được làm tròn
         book.stars = Math.round(totalStars / book.ratings.length);
 
         await book.save();
