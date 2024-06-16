@@ -27,7 +27,7 @@ const bookSchema = new mongoose.Schema({
     slug: {
         type: String,
     },
-    totalRating: {
+    stars: {
         type: Number,
     },
     ratings: [{

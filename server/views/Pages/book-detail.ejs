@@ -42,11 +42,11 @@
         <div class="meta">
           <div class="review">
             <div class="rating">
-              <% for (let i=0; i < book.totalRating; i++) { %>
+              <% for (let i=0; i < book.stars; i++) { %>
                 <i class="fa-solid fa-star"></i>
                 <% } %>
                   <span>
-                    <%= book.totalRating%>.0
+                    <%= book.stars%>.0
                   </span>
             </div>
 
@@ -158,10 +158,10 @@
 
             <div class="star">
               <small><span>
-                  <%= book.totalRating%>.0
+                  <%= book.stars %>.0
                 </span>out of 5</small>
               <div class="stars">
-                <% for (let i=0; i < book.totalRating; i++) { %>
+                <% for (let i=0; i < book.stars; i++) { %>
                   <i class="fa-solid fa-star"></i>
                   <% } %>
               </div>

@@ -100,7 +100,7 @@ exports.addBook = async (req, res) => {
             const imageUrl = req.file.path;
 
             const { name, description, price, quantity, categoryId, authorId } = req.body;
-
+            const stars = 0;
             if (!name || !description || !price || !quantity || !categoryId || !authorId) {
                 return res.status(400).json({
                     success: false,
@@ -125,6 +125,7 @@ exports.addBook = async (req, res) => {
                     description,
                     image: imageUrl,
                     price,
+                    stars,
                     quantity,
                     categoryId,
                     authorId,
